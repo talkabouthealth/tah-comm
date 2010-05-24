@@ -1,7 +1,7 @@
-package org.robotlegs.examples.helloworld.model
+package com.tah.comm.model
 {
 	import org.robotlegs.mvcs.Actor;
-	import org.robotlegs.examples.helloworld.controller.GreetingEvent;
+	import com.tah.comm.controller.GreetingEvent;
 	
 	public class SimpleModel extends Actor
 	{
@@ -9,7 +9,7 @@ package org.robotlegs.examples.helloworld.model
 		
 		public function SimpleModel()
 		{
-			message = "Hello RobotLegs!";
+			message = "tah-comm";
 			
 		}
 		

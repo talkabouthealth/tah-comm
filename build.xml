@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="HelloRobotLegs" basedir="." default="swf">
+<project name="tah-comm" basedir="." default="swf">
 
   <property name="FLEX_HOME" location="/base/sdks/flex_sdk_4.0.0.14159"/>
   

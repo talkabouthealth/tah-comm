@@ -1,7 +1,7 @@
-package org.robotlegs.examples.helloworld.view
+package com.tah.comm.view
 {
-	import org.robotlegs.examples.helloworld.controller.GreetingEvent;
-	import org.robotlegs.examples.helloworld.view.SimpleView;
+	import com.tah.comm.controller.GreetingEvent;
+	import com.tah.comm.view.SimpleView;
 	import org.robotlegs.mvcs.Mediator;
 	
 	public class SimpleViewMediator extends Mediator

@@ -1,8 +1,7 @@
-package
+package com.tah.comm
 {
 	import flash.display.Sprite;
 	
-	import org.robotlegs.examples.helloworld.MainContext;
 	
 	public class Main extends Sprite
 	{

@@ -1,6 +1,6 @@
-package org.robotlegs.examples.helloworld.controller
+package com.tah.comm.controller
 {
-	import org.robotlegs.examples.helloworld.model.SimpleModel;
+	import com.tah.comm.model.SimpleModel;
 	import org.robotlegs.mvcs.Command;
 	
 	public class RequestGreetingCommand extends Command
