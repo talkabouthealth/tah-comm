@@ -7,7 +7,7 @@ package com.tah.comm.view
 	public class SimpleViewMediator extends Mediator
 	{
 		[Inject]
-		public var simpleView:SimpleView;
+		public var simpleView2:SimpleView2;
 		
 		override public function onRegister():void
 		{
@@ -18,7 +18,7 @@ package com.tah.comm.view
 		
 		private function onGreet(event:GreetingEvent):void
 		{
-			simpleView.updateGreating(event.message);
+			simpleView2.updateGreating(event.message);
 		}
 	}
 }
