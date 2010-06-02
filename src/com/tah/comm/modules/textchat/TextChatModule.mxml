@@ -6,11 +6,12 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="400" height="500">
 	<fx:Script>
 		<![CDATA[
+			import com.tah.comm.modules.logger.*;
+			
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
 			import org.robotlegs.utilities.modular.core.IModule;
 			import org.robotlegs.utilities.modular.core.IModuleContext;
-			import com.tah.comm.modules.logger.*;
 			
 			protected var context:IModuleContext;
 			
@@ -28,8 +29,16 @@
 			
 			public function updateGreating(message:String):void
 			{
-				greetingDisplay.text = message + '!!!';
+				//topicTitle.text = message + '!!!';
+				topicTitle.text = "topicTitle";
 			}
+
+			protected function btn_send_clickHandler(event:MouseEvent):void
+			{
+				txt_history.text += txt_msg.text + '\n';
+				txt_msg.text = "";
+			}
+
 		]]>
 	</fx:Script>
 	<fx:Declarations>
@@ -37,11 +46,11 @@
 		
 	</fx:Declarations>
 	<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-		<s:Label text="Chat" id="greetingDisplay"/>
-		<s:TextArea width="100%" height="410" id="history"/>
+		<s:Label text="topicTitle" id="topicTitle"/>
+		<s:TextArea width="100%" height="410" id="txt_history"/>
 		<s:HGroup width="100%">
-			<s:TextArea width="303" height="53" id="msg"/>
-			<s:Button label="Send" id="btn_send"/>
+			<s:TextArea width="303" height="53" id="txt_msg"/>
+			<s:Button label="Send" id="btn_send" click="btn_send_clickHandler(event)"/>
 		</s:HGroup>
 	</s:VGroup>
 	

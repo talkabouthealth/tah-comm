@@ -2,10 +2,10 @@ package com.tah.comm
 {
 	import flash.display.DisplayObjectContainer;
 	
-	import com.tah.comm.view.SimpleView;
-	import com.tah.comm.view.SimpleViewMediator;
-	import com.tah.comm.model.SimpleModel;
-	import com.tah.comm.controller.*;
+	import com.tah.comm.modules.textchat.TextChatModule;
+	import com.tah.comm.modules.textchat.view.TextChatModuleMediator;
+	import com.tah.comm.modules.textchat.model.TextChatModel;
+	import com.tah.comm.modules.textchat.controller.*;
 	import com.tah.comm.modules.logger.LoggerModule;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
@@ -22,9 +22,9 @@ package com.tah.comm
 		{
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
-			mediatorMap.mapView(SimpleView, SimpleViewMediator);
-			injector.mapSingleton(SimpleModel);
-			commandMap.mapEvent(GreetingEvent.REQUEST_GREETING, RequestGreetingCommand);
+			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
+			injector.mapSingleton(TextChatModel);
+			commandMap.mapEvent(SendingEvent.REQUEST_GREETING, RequestGreetingCommand);
 			
 		}
 	}
