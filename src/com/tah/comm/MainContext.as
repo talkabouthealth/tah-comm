@@ -6,10 +6,11 @@ package com.tah.comm
 	import com.tah.comm.view.SimpleViewMediator;
 	import com.tah.comm.model.SimpleModel;
 	import com.tah.comm.controller.*;
+	import com.tah.comm.modules.logger.LoggerModule;
 	
-	import org.robotlegs.mvcs.Context;
+	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
-	public class MainContext extends Context
+	public class MainContext extends ModuleContext
 	{
 		public function MainContext(contextView:DisplayObjectContainer=null, autoStartup:Boolean=true)
 		{
@@ -19,6 +20,8 @@ package com.tah.comm
 		
 		override public function startup():void
 		{
+			//map the modules so that instances will be properly supplied (injected) with an injector.
+			viewMap.mapType(LoggerModule);
 			mediatorMap.mapView(SimpleView2, SimpleViewMediator);
 			injector.mapSingleton(SimpleModel);
 			commandMap.mapEvent(GreetingEvent.REQUEST_GREETING, RequestGreetingCommand);

@@ -5,14 +5,19 @@
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
+	<s:layout>
+		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
+	</s:layout>
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:MainContext contextView="{this}" />
 	</fx:Declarations>
 	<s:Label x="500" y="98" text="Label"/>
-	<view:SimpleView2  width="421" x="20" y="23"  height="306"/>
-	<view:Comp x="216" y="125">
-		<s:Button x="10" y="10" label="Button"/>
-	</view:Comp>
+	<s:HGroup width="850" height="200">
+		<view:SimpleView2  width="414" height="46"/>
+		<view:Comp width="425" height="217">
+			<s:Button x="10" y="10" label="Button"/>
+		</view:Comp>
+	</s:HGroup>
 	<logger:LoggerModule/>
 </s:Application>
