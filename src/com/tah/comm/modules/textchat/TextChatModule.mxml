@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
-							  xmlns:view="com.tah.comm.view.*"
-							  implements="org.robotlegs.utilities.modular.core.IModule"
+		implements="org.robotlegs.utilities.modular.core.IModule"
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="400" height="500">
 	<fx:Script>
 		<![CDATA[
+			
 			import com.tah.comm.modules.logger.*;
+			import com.tah.comm.common.events.LoggingEvent;
+			import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 			
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
@@ -15,18 +17,7 @@
 			
 			protected var context:IModuleContext;
 			
-			[Inject]
-			public function set parentInjector(value:IInjector):void
-			{
-				context = new LoggerModuleContext(this, value);
-			}
-			
-			public function dispose():void
-			{
-				context.dispose();
-				context = null;
-			}
-			
+
 			public function updateGreating(message:String):void
 			{
 				//topicTitle.text = message + '!!!';
@@ -35,10 +26,23 @@
 
 			protected function btn_send_clickHandler(event:MouseEvent):void
 			{
-				txt_history.text += txt_msg.text + '\n';
+				txt_history.text += txt_msg.text + '\r';
 				txt_msg.text = "";
+				trace("btn_send_clickHandler");
+				//dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
 			}
 
+			[Inject]
+			public function set parentInjector(value:IInjector):void
+			{
+				context = new TextChatModuleContext(this, value);
+			}
+
+			public function dispose():void
+			{
+				context.dispose();
+				context = null;
+			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>

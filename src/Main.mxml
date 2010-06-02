@@ -4,19 +4,15 @@
 			   xmlns:view="com.tah.comm.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" xmlns:textchat="com.tah.comm.modules.textchat.*">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
+			   xmlns:textchat="com.tah.comm.modules.textchat.*">
 	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 
 	<fx:Script>
 		<![CDATA[
-			protected function button1_clickHandler_Logger(event:MouseEvent):void
-			{
-				trace("logger");
-				
-				
-			}
+
 		]]>
 	</fx:Script>
 

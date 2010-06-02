@@ -22,7 +22,10 @@ package com.tah.comm
 		{
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
+			viewMap.mapType(TextChatModule);
+			
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
+			
 			injector.mapSingleton(TextChatModel);
 			commandMap.mapEvent(SendingEvent.REQUEST_GREETING, RequestGreetingCommand);
 			
