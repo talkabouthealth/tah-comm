@@ -2,12 +2,17 @@
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:comm="com.tah.comm.*"
 			   xmlns:view="com.tah.comm.view.*"
+			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955" minHeight="600">
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:MainContext contextView="{this}" />
 	</fx:Declarations>
-	<s:Label x="142" y="112" text="Label"/>
-	<view:SimpleView2  width="370" x="20" y="23"/>
+	<s:Label x="500" y="98" text="Label"/>
+	<view:SimpleView2  width="421" x="20" y="23"  height="306"/>
+	<view:Comp x="216" y="125">
+		<s:Button x="10" y="10" label="Button"/>
+	</view:Comp>
+	<logger:LoggerModule/>
 </s:Application>

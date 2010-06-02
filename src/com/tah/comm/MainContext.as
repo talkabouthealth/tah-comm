@@ -23,8 +23,6 @@ package com.tah.comm
 			injector.mapSingleton(SimpleModel);
 			commandMap.mapEvent(GreetingEvent.REQUEST_GREETING, RequestGreetingCommand);
 			
-			//mediatorMap.mapView(ModularDoodads, ModuleDoodadsMediator);
-			//contextView.addChild(new SimpleView());
 		}
 	}
 }

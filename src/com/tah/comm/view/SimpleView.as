@@ -2,9 +2,9 @@ package com.tah.comm.view
 {
 	import flash.display.Sprite;
 	import flash.text.TextField;
-	import mx.core.UIComponent;
+	import mx.modules.Module;
 	
-	public class SimpleView extends UIComponent
+	public class SimpleView extends Module
 	{
 		private var greetingDisplay:TextField;
 		
