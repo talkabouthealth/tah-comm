@@ -2,7 +2,7 @@ package com.tah.comm
 {
 	import flash.display.DisplayObjectContainer;
 	
-	import com.tah.comm.view.SimpleView2;
+	import com.tah.comm.view.SimpleView;
 	import com.tah.comm.view.SimpleViewMediator;
 	import com.tah.comm.model.SimpleModel;
 	import com.tah.comm.controller.*;
@@ -22,7 +22,7 @@ package com.tah.comm
 		{
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
-			mediatorMap.mapView(SimpleView2, SimpleViewMediator);
+			mediatorMap.mapView(SimpleView, SimpleViewMediator);
 			injector.mapSingleton(SimpleModel);
 			commandMap.mapEvent(GreetingEvent.REQUEST_GREETING, RequestGreetingCommand);
 			

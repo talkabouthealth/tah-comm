@@ -1,7 +1,6 @@
 package com.tah.comm.view
 {
 	import com.tah.comm.controller.GreetingEvent;
-	import com.tah.comm.view.SimpleView;
 	
 	import flash.text.TextField;
 	
@@ -12,7 +11,7 @@ package com.tah.comm.view
 	public class SimpleViewMediator extends Mediator
 	{
 		[Inject]
-		public var simpleView2:SimpleView2;
+		public var simpleView2:SimpleView;
 		
 		override public function onRegister():void
 		{
