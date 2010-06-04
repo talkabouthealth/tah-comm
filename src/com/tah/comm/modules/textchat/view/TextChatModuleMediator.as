@@ -12,7 +12,7 @@ package com.tah.comm.modules.textchat.view
 	public class TextChatModuleMediator extends Mediator
 	{
 		[Inject]
-		public var textChat:TextChatModule;
+		public var view:TextChatModule;
 		
 		override public function onRegister():void
 		{
@@ -29,7 +29,7 @@ package com.tah.comm.modules.textchat.view
 		
 		private function onGreet(event:SendingEvent):void
 		{
-			textChat.updateGreating(event.message);
+			view.updateGreating(event.message);
 		}
 	}
 }

@@ -18,6 +18,7 @@ package com.tah.comm.modules.textchat
 		override public function startup():void
 		{
 			trace("TextChat startup!!");
+			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChat Added"));
 		} 
 	}

@@ -24,9 +24,9 @@ package com.tah.comm
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
 			
-			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
+			//mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
 			
-			injector.mapSingleton(TextChatModel);
+			//injector.mapSingleton(TextChatModel);
 			commandMap.mapEvent(SendingEvent.REQUEST_GREETING, RequestGreetingCommand);
 			
 		}

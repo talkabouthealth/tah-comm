@@ -8,7 +8,6 @@
 			
 			import com.tah.comm.modules.logger.*;
 			import com.tah.comm.common.events.LoggingEvent;
-			import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 			
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
@@ -29,7 +28,7 @@
 				txt_history.text += txt_msg.text + '\r';
 				txt_msg.text = "";
 				trace("btn_send_clickHandler");
-				//dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
+				dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
 			}
 
 			[Inject]
