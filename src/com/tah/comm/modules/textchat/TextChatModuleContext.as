@@ -6,7 +6,6 @@ package com.tah.comm.modules.textchat
 	import org.robotlegs.core.IInjector;
 	import com.tah.comm.common.events.LoggingEvent;
 	
-	import com.tah.comm.modules.textchat.view.TextChatModuleMediator;
 	
 	public class TextChatModuleContext extends ModuleContext
 	{
@@ -17,9 +16,9 @@ package com.tah.comm.modules.textchat
 		
 		override public function startup():void
 		{
-			trace("TextChat startup!!");
+			trace("TextChatModuleContext startup!!");
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
-			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChat Added"));
+			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleContext startup"));
 		} 
 	}
 }

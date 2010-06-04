@@ -28,7 +28,7 @@
 				txt_history.text += txt_msg.text + '\r';
 				txt_msg.text = "";
 				trace("btn_send_clickHandler");
-				dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
+				//dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
 			}
 
 			[Inject]

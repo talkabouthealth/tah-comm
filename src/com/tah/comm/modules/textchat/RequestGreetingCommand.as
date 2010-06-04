@@ -1,6 +1,5 @@
-package com.tah.comm.modules.textchat.controller
+package com.tah.comm.modules.textchat
 {
-	import com.tah.comm.modules.textchat.model.TextChatModel;
 	import org.robotlegs.mvcs.Command;
 	
 	public class RequestGreetingCommand extends Command

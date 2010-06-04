@@ -3,9 +3,10 @@ package com.tah.comm
 	import flash.display.DisplayObjectContainer;
 	
 	import com.tah.comm.modules.textchat.TextChatModule;
-	import com.tah.comm.modules.textchat.view.TextChatModuleMediator;
-	import com.tah.comm.modules.textchat.model.TextChatModel;
-	import com.tah.comm.modules.textchat.controller.*;
+	import com.tah.comm.modules.textchat.TextChatModuleMediator;
+	import com.tah.comm.modules.textchat.TextChatModel;
+	import com.tah.comm.modules.textchat.events.TextChatEvent;
+	import com.tah.comm.modules.textchat.RequestGreetingCommand;
 	import com.tah.comm.modules.logger.LoggerModule;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
@@ -27,7 +28,7 @@ package com.tah.comm
 			//mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
 			
 			//injector.mapSingleton(TextChatModel);
-			commandMap.mapEvent(SendingEvent.REQUEST_GREETING, RequestGreetingCommand);
+			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, RequestGreetingCommand);
 			
 		}
 	}

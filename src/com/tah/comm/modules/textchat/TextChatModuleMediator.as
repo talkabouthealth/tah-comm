@@ -1,13 +1,12 @@
-package com.tah.comm.modules.textchat.view
+package com.tah.comm.modules.textchat
 {
-	import com.tah.comm.modules.textchat.controller.SendingEvent;
+	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
 	import flash.text.TextField;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
 	import spark.components.Label;
-	import com.tah.comm.modules.textchat.TextChatModule;
 	
 	public class TextChatModuleMediator extends Mediator
 	{
@@ -22,12 +21,12 @@ package com.tah.comm.modules.textchat.view
 			textChat.addChild(greetingDisplay);
 			//*/
 			
-			eventMap.mapListener(eventDispatcher, SendingEvent.SEND, onGreet);
+			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onGreet);
 			
-			dispatch(new SendingEvent(SendingEvent.REQUEST_GREETING));
+			dispatch(new TextChatEvent(TextChatEvent.REQUEST_GREETING));
 		}
 		
-		private function onGreet(event:SendingEvent):void
+		private function onGreet(event:TextChatEvent):void
 		{
 			view.updateGreating(event.message);
 		}

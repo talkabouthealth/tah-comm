@@ -1,7 +1,7 @@
-package com.tah.comm.modules.textchat.model
+package com.tah.comm.modules.textchat
 {
 	import org.robotlegs.mvcs.Actor;
-	import com.tah.comm.modules.textchat.controller.SendingEvent;
+	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
 	public class TextChatModel extends Actor
 	{
@@ -15,7 +15,7 @@ package com.tah.comm.modules.textchat.model
 		
 		public function requestGreeting():void
 		{
-			var greetingEvent:SendingEvent = new SendingEvent(SendingEvent.SEND);
+			var greetingEvent:TextChatEvent = new TextChatEvent(TextChatEvent.SEND);
 			greetingEvent.message = message;
 			
 			dispatch(greetingEvent);
