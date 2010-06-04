@@ -5,9 +5,9 @@
 		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="400" height="500">
 	<fx:Script>
 		<![CDATA[
-			
-			import com.tah.comm.modules.logger.*;
 			import com.tah.comm.common.events.LoggingEvent;
+			import com.tah.comm.modules.logger.*;
+			import com.tah.comm.modules.textchat.events.TextChatEvent;
 			
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
@@ -28,7 +28,7 @@
 				txt_history.text += txt_msg.text + '\r';
 				txt_msg.text = "";
 				trace("btn_send_clickHandler");
-				//dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "btn_send_clickHandler"));
+				dispatchEvent(new TextChatEvent(TextChatEvent.SEND));
 			}
 
 			[Inject]

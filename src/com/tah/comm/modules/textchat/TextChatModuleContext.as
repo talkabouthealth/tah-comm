@@ -18,7 +18,14 @@ package com.tah.comm.modules.textchat
 		{
 			trace("TextChatModuleContext startup!!");
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
+			//moduleCommandMap.mapEvent(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, DoodadModuleCommand);
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleContext startup"));
-		} 
+		}
+		
+		override public function dispose():void
+		{
+			mediatorMap.removeMediatorByView(contextView);
+			super.dispose();
+		}		
 	}
 }

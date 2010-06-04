@@ -24,7 +24,7 @@ package com.tah.comm.modules.logger
         
         override public function startup():void
         {
-            trace("WE HAVE SUB-CONTEXT!!");
+            trace("LoggerModuleContext startup: WE HAVE SUB-CONTEXT!!");
             mediatorMap.mapView(LoggerModule, LoggerModuleMediator);
         }
     }
