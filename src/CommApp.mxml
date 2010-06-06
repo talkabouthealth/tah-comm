@@ -5,23 +5,30 @@
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
-			   xmlns:textchat="com.tah.comm.modules.textchat.*">
-	<s:layout>
-		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
-	</s:layout>
-
+			   xmlns:textchat="com.tah.comm.modules.textchat.*" currentState="Login" creationComplete="changeState('Chat')">
 	<fx:Script>
 		<![CDATA[
-
+			private function changeState(state:String):void
+			{
+				currentState = "Chat";
+			}
+			
 		]]>
 	</fx:Script>
+	<s:states>
+		<s:State name="Chat"/>
+		<s:State name="Login"/>
+	</s:states>
 
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
-		<comm:MainContext contextView="{this}" />
+		<comm:CommAppContext contextView="{this}" />
 	</fx:Declarations>
-	<logger:LoggerModule/>
-	<s:HGroup width="100%" height="100%">
+	<s:layout.Chat>
+		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
+	</s:layout.Chat>
+	<logger:LoggerModule includeIn="Chat"/>
+	<s:HGroup width="100%" height="100%" includeIn="Chat">
 		<view:Cam width="241" height="214">
 		</view:Cam>
 		<textchat:TextChatModule  width="403" height="512" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
@@ -31,5 +38,6 @@
 			</mx:columns>
 		</mx:DataGrid>
 	</s:HGroup>
+	<s:Label includeIn="Login" text="Login required&#xd;" x="388" y="296"/>
 	
 </s:Application>

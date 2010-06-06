@@ -11,9 +11,9 @@ package com.tah.comm
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
-	public class MainContext extends ModuleContext
+	public class CommAppContext extends ModuleContext
 	{
-		public function MainContext(contextView:DisplayObjectContainer=null, autoStartup:Boolean=true)
+		public function CommAppContext(contextView:DisplayObjectContainer=null, autoStartup:Boolean=true)
 		{
 			//TODO: implement function
 			super(contextView, autoStartup);
@@ -25,11 +25,10 @@ package com.tah.comm
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
 			
-			//mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
-			
 			//injector.mapSingleton(TextChatModel);
 			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);
 			
+			mediatorMap.mapView(CommApp, CommAppMediator);
 		}
 	}
 }
