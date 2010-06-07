@@ -17,7 +17,7 @@
             
             protected var context:IModuleContext;
  
-            [Embed(mimeType='application/x-font', source="assets/AnonPro.ttf", fontName="Anon")]
+            //[Embed(mimeType='application/x-font', source="assets/AnonPro.ttf", fontName="Anon")]
             private var anon:Class;
             
             [Bindable]
