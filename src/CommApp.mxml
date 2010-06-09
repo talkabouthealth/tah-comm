@@ -5,7 +5,7 @@
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
-			   xmlns:textchat="com.tah.comm.modules.textchat.*" currentState="Login" creationComplete="changeState('Chat')">
+			   xmlns:textchat="com.tah.comm.modules.textchat.*" currentState="Login" creationComplete="changeState('Chat')" xmlns:bridge="bridge.*">
 	<fx:Script>
 		<![CDATA[
 			private function changeState(state:String):void
@@ -23,6 +23,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:CommAppContext contextView="{this}" />
+		<bridge:FABridge/>
 	</fx:Declarations>
 	<s:layout.Chat>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
