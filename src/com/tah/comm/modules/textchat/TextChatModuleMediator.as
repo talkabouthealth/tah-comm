@@ -4,6 +4,7 @@ package com.tah.comm.modules.textchat
 	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
 	import flash.events.KeyboardEvent;
+	
 	import mx.controls.Alert;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
@@ -36,7 +37,15 @@ package com.tah.comm.modules.textchat
 			//trace("keyHandler");
 			//Alert.show ("Key Down: " + event.keyCode);
 			if(event.keyCode == 13){
-				view.txt_msg.text = "";	
+				var msg:String = view.txt_msg.text;
+				view.txt_msg.text = "";
+				if (msg=="")return;
+				
+				view.txt_history.text += msg + '\r';
+				
+				trace("dispatchEvent");
+				dispatch(new TextChatEvent(TextChatEvent.SEND));
+				trace("dispatchEvent Done");
 			}
 			
 			/*

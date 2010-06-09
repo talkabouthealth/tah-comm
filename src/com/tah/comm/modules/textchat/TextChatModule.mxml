@@ -23,14 +23,6 @@
 				topicTitle.text = "topicTitle";
 			}
 
-			protected function btn_send_clickHandler(event:MouseEvent):void
-			{
-				txt_history.text += txt_msg.text + '\r';
-				txt_msg.text = "";
-				trace("btn_send_clickHandler");
-				dispatchEvent(new TextChatEvent(TextChatEvent.SEND));
-			}
-
 			[Inject]
 			public function set parentInjector(value:IInjector):void
 			{
@@ -50,11 +42,8 @@
 	</fx:Declarations>
 	<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 		<s:Label text="topicTitle" id="topicTitle"/>
-		<s:TextArea width="100%" height="410" id="txt_history"/>
-		<s:HGroup width="100%">
-			<s:TextArea width="303" height="53" id="txt_msg" />
-			<s:Button label="Send" id="btn_send" click="btn_send_clickHandler(event)"/>
-		</s:HGroup>
+		<s:TextArea width="100%" height="421" id="txt_history"/>
+		<s:TextArea width="100%" height="100%" id="txt_msg" />
 	</s:VGroup>
 	
 </mx:Module>
