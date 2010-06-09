@@ -36,27 +36,17 @@ package com.tah.comm.modules.textchat
 		{
 			//trace("keyHandler");
 			//Alert.show ("Key Down: " + event.keyCode);
-			if(event.keyCode == 13){
+			if(event.keyCode == 13){ //code 13 for enter key
 				var msg:String = view.txt_msg.text;
 				view.txt_msg.text = "";
-				if (msg=="")return;
 				
-				view.txt_history.text += msg + '\r';
+				//msg.replace(new RegExp("[\n\r]","g"),"<br>");				
+				if (msg == String.fromCharCode(10)) return;
 				
-				trace("dispatchEvent");
+				msg = msg.substr(0,msg.length-1);
+				view.txt_history.text += msg + '\r';				
 				dispatch(new TextChatEvent(TextChatEvent.SEND));
-				trace("dispatchEvent Done");
 			}
-			
-			/*
-			var msg=_root.Application.msgPublic_txt.text;
-			if (msg=="") return;
-			msg="<font color='"+_root.colorText+"'>"+msg+"</font>";
-			_root.Application.msgPublic_txt.text="";
-			//trace("_root.user.pseudo="+_root.user.pseudo);
-			//trace("_root.pseudo="+_root.pseudo);
-			nc.call("send_public",null,_root.user.pseudo,msg);
-			*/
 		}
 		
 		private function onSend(event:TextChatEvent):void
@@ -66,6 +56,7 @@ package com.tah.comm.modules.textchat
 		
 		private function onGreet(event:TextChatEvent):void
 		{
+			trace("onGreet");
 			view.updateGreating(event.message);
 		}
 	}
