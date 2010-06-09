@@ -52,7 +52,7 @@
 		<s:Label text="topicTitle" id="topicTitle"/>
 		<s:TextArea width="100%" height="410" id="txt_history"/>
 		<s:HGroup width="100%">
-			<s:TextArea width="303" height="53" id="txt_msg"/>
+			<s:TextArea width="303" height="53" id="txt_msg" />
 			<s:Button label="Send" id="btn_send" click="btn_send_clickHandler(event)"/>
 		</s:HGroup>
 	</s:VGroup>
