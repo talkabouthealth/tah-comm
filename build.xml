@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<project name="tah-comm" basedir="." default="swf">
+<project name="tah-comm" basedir="." default="copy">
 
   <property name="FLEX_HOME" location="/base/sdks/flex_sdk_4.0.0.14159"/>
+  <property name="destDir" location="${basedir}/../tah-red5chat-mod/WebContent" />
   
   <target name="clean" description="Clean output directories">
       <!-- Delete the ${build} directory trees -->
@@ -14,7 +15,7 @@
     <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
         <arg value="${basedir}/src/CommApp.mxml"/>
       <arg value="-source-path=${basedir}/src"/>
-      <arg value="-output=${basedir}/bin/Main.swf"/>
+      <arg value="-output=${basedir}/bin/CommApp.swf"/>
       <arg value="-default-background-color=0xFFFFFF"/>
       <arg value="-library-path+=${basedir}/libs"/>
 <!-- So true. -->
@@ -25,5 +26,7 @@
     <echo>[test] Finished swf generation</echo>
   </target>
   
+  <target name="copy" depends="swf">
+      <copy file="${basedir}/bin/CommApp.swf" tofile="${destDir}/CommApp.swf"/>
+  </target>
 </project>
-
