@@ -8,6 +8,9 @@
 			   xmlns:textchat="com.tah.comm.modules.textchat.*" currentState="Login" creationComplete="changeState('Chat')" xmlns:bridge="bridge.*">
 	<fx:Script>
 		<![CDATA[
+			public var userid:String;
+			public var topic:String;
+			
 			private function changeState(state:String):void
 			{
 				currentState = "Chat";
