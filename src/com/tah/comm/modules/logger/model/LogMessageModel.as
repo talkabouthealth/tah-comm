@@ -6,7 +6,9 @@ package com.tah.comm.modules.logger.model
     {
         public function LogMessageModel()
         {
+			trace("LogMessageModel 0");
             super();
+			trace("LogMessageModel 1");
         }
     }
 }

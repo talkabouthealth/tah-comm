@@ -9,8 +9,9 @@ package com.tah.comm.modules.textchat
 		
 		public function TextChatModel()
 		{
+			trace("TextChatModel 0");
 			message = "tah-comm";
-			
+			trace("TextChatModel 1");
 		}
 		
 		public function requestGreeting():void

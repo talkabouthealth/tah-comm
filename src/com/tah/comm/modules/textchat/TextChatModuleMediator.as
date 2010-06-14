@@ -63,7 +63,7 @@ package com.tah.comm.modules.textchat
 		private function onGreet(event:TextChatEvent):void
 		{
 			trace("onGreet");
-			view.updateGreating(event.message);
+			view.updateTitle(event.message);
 
 		}
 	}

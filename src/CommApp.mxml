@@ -15,24 +15,21 @@
 			
 			private function init():void
 			{
+				trace("init 0");
 				currentState = "Chat";
-				
+				trace("init 1");
 				//FLASHVARS CODE
-				var varName:String;
-				var myFlashVar:String;
-				var paraStr:String = ObjectUtil.toString(this.parameters);
 				
 				var paramObj:Object = this.parameters;
 				this.userid = paramObj["userid"];
 				this.topic = paramObj["topic"];
-				for (varName in paramObj) {
-					myFlashVar = String(paramObj[varName]);
-					trace("myFlashVar: "+myFlashVar);
-				}
+				
+				/*
 				tc.txt_history.text += "==\n";
 				tc.txt_history.text += userid + "\n";
 				tc.txt_history.text += topic + "\n";
-				
+				*/
+				trace("init 2");
 			}
 			
 		]]>

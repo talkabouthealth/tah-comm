@@ -11,6 +11,9 @@ package com.tah.comm
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
+	import com.tah.comm.common.events.ContextEvent;
+	import com.tah.comm.controller.StartupCommand;
+	
 	public class CommAppContext extends ModuleContext
 	{
 		
@@ -22,6 +25,7 @@ package com.tah.comm
 		
 		override public function startup():void
 		{
+			trace("CommAppContext startup 0");
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
@@ -33,6 +37,18 @@ package com.tah.comm
 			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
+			
+			
+			//This Context is mapping a single command to the ContextEvent.STARTUP
+			//The StartupCommand will map additional commands, mediators, services,
+			//and models for use in the application.
+			commandMap.mapEvent( ContextEvent.STARTUP, StartupCommand, ContextEvent, true );
+			
+			//Start the Application (triggers the StartupCommand)
+			this.dispatchEvent(new ContextEvent(ContextEvent.STARTUP));
+			
+			trace("CommAppContext startup 1");
+			
 		}
 	}
 }

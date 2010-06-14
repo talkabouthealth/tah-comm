@@ -9,6 +9,7 @@ package com.tah.comm
 		
 		override public function onRegister():void
 		{
+			trace("CommAppMediator onRegister");
 			//addViewListener(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, dispatchToModules);
 			//addModuleListener(DoodadModuleEvent.REMOVE, handleDoodadRemoved);
 			//view.currentState = "Chat";

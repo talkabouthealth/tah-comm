@@ -17,10 +17,9 @@
 			protected var context:IModuleContext;
 			
 
-			public function updateGreating(message:String):void
+			public function updateTitle(txt_title:String):void
 			{
-				//topicTitle.text = message + '!!!';
-				topicTitle.text = "topicTitle";
+				topicTitle.text = txt_title;
 			}
 
 			[Inject]
@@ -41,7 +40,7 @@
 		
 	</fx:Declarations>
 	<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-		<s:Label text="topicTitle" id="topicTitle"/>
+		<s:Label id="topicTitle"/>
 		<s:TextArea width="100%" height="421" id="txt_history" editable="false" enabled="true"/>
 		<s:TextArea width="100%" height="100%" id="txt_msg" />
 	</s:VGroup>
