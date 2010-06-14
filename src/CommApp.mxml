@@ -10,8 +10,8 @@
 		<![CDATA[
 			import mx.utils.ObjectUtil;
 			
-			public var userid:String = "userid";
-			public var topic:String = "topic";
+			public var userid:String;
+			public var topic:String;
 			
 			private function init():void
 			{
@@ -23,8 +23,8 @@
 				var paraStr:String = ObjectUtil.toString(this.parameters);
 				
 				var paramObj:Object = this.parameters;
-				userid = paramObj["userid"];
-				topic = paramObj["topic"];
+				this.userid = paramObj["userid"];
+				this.topic = paramObj["topic"];
 				for (varName in paramObj) {
 					myFlashVar = String(paramObj[varName]);
 					trace("myFlashVar: "+myFlashVar);
