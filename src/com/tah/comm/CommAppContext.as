@@ -13,6 +13,7 @@ package com.tah.comm
 	
 	public class CommAppContext extends ModuleContext
 	{
+		
 		public function CommAppContext(contextView:DisplayObjectContainer=null, autoStartup:Boolean=true)
 		{
 			//TODO: implement function
@@ -24,6 +25,9 @@ package com.tah.comm
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
+			//viewMap.mapType(CommApp);
+			
+			injector.mapSingleton(CommApp);
 			
 			//injector.mapSingleton(TextChatModel);
 			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);

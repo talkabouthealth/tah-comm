@@ -7,6 +7,7 @@ package com.tah.comm.modules.textchat
 	
 	import mx.controls.Alert;
 	
+	import org.robotlegs.mvcs.Command;
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
 	import spark.components.Label;
@@ -15,6 +16,9 @@ package com.tah.comm.modules.textchat
 	{
 		[Inject]
 		public var view:TextChatModule;
+		
+		[Inject]
+		public var app:CommApp;
 		
 		override public function onRegister():void
 		{
@@ -30,6 +34,8 @@ package com.tah.comm.modules.textchat
 			
 			// capture enter event
 			view.txt_msg.addEventListener(KeyboardEvent.KEY_DOWN,keyHandler);
+			
+			view.txt_history.text += app.userid + app.topic;
 		}
 		
 		private function keyHandler(event:KeyboardEvent):void
@@ -58,6 +64,7 @@ package com.tah.comm.modules.textchat
 		{
 			trace("onGreet");
 			view.updateGreating(event.message);
+
 		}
 	}
 }

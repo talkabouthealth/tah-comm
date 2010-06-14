@@ -9,6 +9,7 @@ package com.tah.comm.modules.textchat
 	
 	public class TextChatModuleContext extends ModuleContext
 	{
+		
 		public function TextChatModuleContext(contextView:DisplayObjectContainer,  injector:IInjector)
 		{
 			super(contextView, true, injector);
@@ -18,8 +19,10 @@ package com.tah.comm.modules.textchat
 		{
 			trace("TextChatModuleContext startup!!");
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
+			
 			//moduleCommandMap.mapEvent(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, DoodadModuleCommand);
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleContext startup"));
+			
 		}
 		
 		override public function dispose():void

@@ -64,6 +64,6 @@ function CommAppReady() {
 
 	// Global functions in the "CommApp.mxml" application
     
-    var uid = CommApp.getUserid();
-    uid = "55";
+    //alert("CommAppReady great!");
+
 }

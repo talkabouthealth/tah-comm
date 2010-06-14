@@ -26,7 +26,7 @@ codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
 	<param name="movie" value="../../bin-debug/CommApp.swf" />
 	<param name="flashvars" value="bridgeName=b_CommApp"/>
 	<param name="quality" value="high" />
-	<param name="allowScriptAccess" value="sameDomain" />
+	<param name="allowScriptAccess" value="always" />
 	<embed src="../../bin-debug/CommApp.swf" quality="high"
 		width="700" height="600" name="CommAppTest" 
 		align="middle"
@@ -42,7 +42,11 @@ codebase="http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab">
 
 <h2>Test controls</h2>
 <p>Description text goes here.</p>
-
+<script type="text/javascript">
+    //var uid = CommApp.getUserid();
+    //alert(uid);
+    alert("great!");
+</script>
 </body>
 
 </html>
