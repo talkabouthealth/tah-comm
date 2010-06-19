@@ -5,4 +5,5 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
+	<s:VideoDisplay x="10" y="10" width="380" height="280"/>
 </s:Group>

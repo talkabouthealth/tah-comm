@@ -22,6 +22,7 @@ package com.tah.comm.modules.textchat
 		
 		override public function onRegister():void
 		{
+			trace("TextChatModuleMediator onRegister");
 			/*
 			var greetingDisplay:Label = new Label();
 			greetingDisplay.text = "Spark Label!";
@@ -52,6 +53,10 @@ package com.tah.comm.modules.textchat
 				msg = msg.substr(0,msg.length-1);
 				view.txt_history.text += msg + '\r';				
 				dispatch(new TextChatEvent(TextChatEvent.SEND));
+				
+				// scrollToMax
+				view.txt_history.validateNow();
+				view.txt_history.scroller.verticalScrollBar.value = view.txt_history.scroller.verticalScrollBar.maximum;
 			}
 		}
 		
