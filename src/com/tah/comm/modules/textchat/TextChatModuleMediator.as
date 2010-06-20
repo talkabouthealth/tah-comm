@@ -29,7 +29,7 @@ package com.tah.comm.modules.textchat
 			textChat.addChild(greetingDisplay);
 			//*/
 			addViewListener(TextChatEvent.SEND, onSend, TextChatEvent);
-			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onGreet);
+			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
 			
 			dispatch(new TextChatEvent(TextChatEvent.REQUEST_GREETING));
 			
@@ -62,6 +62,7 @@ package com.tah.comm.modules.textchat
 		
 		private function onSend(event:TextChatEvent):void
 		{
+			trace("onSend");
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleMediator onSend"));
 		}
 		
