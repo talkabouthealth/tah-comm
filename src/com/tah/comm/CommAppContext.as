@@ -13,6 +13,7 @@ package com.tah.comm
 	
 	import com.tah.comm.common.events.ContextEvent;
 	import com.tah.comm.controller.StartupCommand;
+	import com.tah.comm.model.CommAppModel;
 	
 	public class CommAppContext extends ModuleContext
 	{
@@ -26,18 +27,18 @@ package com.tah.comm
 		override public function startup():void
 		{
 			trace("CommAppContext startup 0");
+			
+			injector.mapSingleton(CommApp);
+			injector.mapSingleton(CommAppModel);
+			
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
-			//viewMap.mapType(CommApp);
-			
-			injector.mapSingleton(CommApp);
-			
-			//injector.mapSingleton(TextChatModel);
-			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
+			//injector.mapSingleton(TextChatModel);
+			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);
 			
 			//This Context is mapping a single command to the ContextEvent.STARTUP
 			//The StartupCommand will map additional commands, mediators, services,

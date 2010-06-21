@@ -1,7 +1,8 @@
 package com.tah.comm
 {
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
-
+	import com.tah.comm.common.events.ContextEvent;
+	
 	public class CommAppMediator extends ModuleMediator
 	{
 		[inject]
@@ -9,10 +10,12 @@ package com.tah.comm
 		
 		override public function onRegister():void
 		{
-			trace("CommAppMediator onRegister");
+			trace("CommAppMediator onRegister 0");
 			//addViewListener(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, dispatchToModules);
 			//addModuleListener(DoodadModuleEvent.REMOVE, handleDoodadRemoved);
-			//view.currentState = "Chat";
+			this.dispatch(new ContextEvent(ContextEvent.STARTUP, view));
+			
+			trace("CommAppMediator onRegister 1");
 		}
 		
 	}

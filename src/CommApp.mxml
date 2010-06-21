@@ -24,11 +24,6 @@
 				this.userid = paramObj["userid"];
 				this.topic = paramObj["topic"];
 				
-				/*
-				tc.txt_history.text += "==\n";
-				tc.txt_history.text += userid + "\n";
-				tc.txt_history.text += topic + "\n";
-				*/
 				trace("init 2");
 			}
 			

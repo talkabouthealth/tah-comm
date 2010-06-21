@@ -6,9 +6,17 @@ package com.tah.comm.common.events
 	{
 		public static const STARTUP:String = "ContextEvent.STARTUP";
 		
-		public function ContextEvent(type:String, bubbles:Boolean=false, cancelable:Boolean=false)
+		private var _payload:Object;
+		
+		public function get payload():Object
+		{
+			return _payload;
+		}
+		
+		public function ContextEvent(type:String, payload:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
+			_payload=payload;
 		}
 		
 		override public function clone():Event
