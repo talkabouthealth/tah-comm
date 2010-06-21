@@ -15,9 +15,7 @@
 			
 			private function init():void
 			{
-				trace("init 0");
 				currentState = "Chat";
-				trace("init 1");
 				//FLASHVARS CODE
 				
 				var paramObj:Object = this.parameters;
@@ -25,6 +23,11 @@
 				this.topic = paramObj["topic"];
 				
 				trace("init 2");
+			}
+			
+			public function log():void
+			{
+				trace("CommApp log");
 			}
 			
 		]]>

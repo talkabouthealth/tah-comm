@@ -5,7 +5,7 @@ package com.tah.comm.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class StartupCommand extends Command
+	public class InitCommand extends Command
 	{
 		[inject]
 		public var event:ContextEvent;
@@ -16,14 +16,11 @@ package com.tah.comm.controller
 		override public function execute():void
 		{
 			
-			trace("StartupCommand execute 0");
+			trace("InitCommand execute 0");
+			trace("event: " + event);
 			trace("model: " + model);
-			
-			//var a = event.payload;
-			//trace(a.parameters["topic"]);
-			//model.topic = event.payload.parameters["topic"];
-			//model.userid = event.payload.parameters["userid"];
-			trace("StartupCommand execute 1");
+			this.dispatch(new ContextEvent(ContextEvent.INIT));
+			trace("InitCommand execute 1");
 		}
 	}
 }

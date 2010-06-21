@@ -5,6 +5,8 @@ package com.tah.comm.common.events
 	public class ContextEvent extends Event	
 	{
 		public static const STARTUP:String = "ContextEvent.STARTUP";
+		public static const INIT:String = "ContextEvent.INIT";
+		public static const REQUEST_INIT:String = "ContextEvent.REQUEST_INIT";
 		
 		private var _payload:Object;
 		
@@ -21,7 +23,7 @@ package com.tah.comm.common.events
 		
 		override public function clone():Event
 		{
-			return new ContextEvent(type,bubbles,cancelable);
+			return new ContextEvent(type, payload, bubbles,cancelable);
 		}
 		
 		

@@ -10,10 +10,13 @@ package com.tah.comm
 	import com.tah.comm.modules.logger.LoggerModule;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
+	import org.robotlegs.mvcs.Context;
 	
 	import com.tah.comm.common.events.ContextEvent;
 	import com.tah.comm.controller.StartupCommand;
+	import com.tah.comm.controller.InitCommand;	
 	import com.tah.comm.model.CommAppModel;
+	import com.tah.comm.model.User;
 	
 	public class CommAppContext extends ModuleContext
 	{
@@ -28,8 +31,9 @@ package com.tah.comm
 		{
 			trace("CommAppContext startup 0");
 			
-			injector.mapSingleton(CommApp);
 			injector.mapSingleton(CommAppModel);
+			
+			//injector.mapClass(User,User);
 			
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
@@ -37,16 +41,15 @@ package com.tah.comm
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
-			//injector.mapSingleton(TextChatModel);
-			commandMap.mapEvent(TextChatEvent.REQUEST_GREETING, TextChatCommand);
-			
 			//This Context is mapping a single command to the ContextEvent.STARTUP
 			//The StartupCommand will map additional commands, mediators, services,
 			//and models for use in the application.
 			commandMap.mapEvent( ContextEvent.STARTUP, StartupCommand, ContextEvent, true );
+			commandMap.mapEvent( ContextEvent.REQUEST_INIT, InitCommand, ContextEvent);
 			
-			//Start the Application (triggers the StartupCommand)
-			this.dispatchEvent(new ContextEvent(ContextEvent.STARTUP));
+			//Start the Application (triggers the StartupCommand)			
+			//this.dispatchEvent(new ContextEvent(ContextEvent.STARTUP));
+
 			
 			trace("CommAppContext startup 1");
 			

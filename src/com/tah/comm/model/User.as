@@ -14,7 +14,8 @@ package com.tah.comm.model
 		public var hasWebcam:String =null;
 		
 		
-		public User (id:String , pseudo:String, webcam:String, role:String, sex:String,onlineStatus:String ,room: String,world:String ,isWatching:String ,hasWebcam:String ) {
+		public function User (id:String , pseudo:String, webcam:String, role:String, sex:String,onlineStatus:String ,room: String,world:String ,isWatching:String ,hasWebcam:String ) 
+		{
 			this.id = id;
 			this.pseudo = pseudo;
 			this.webcam = webcam;

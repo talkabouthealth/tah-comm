@@ -17,9 +17,6 @@ package com.tah.comm.modules.textchat
 		[Inject]
 		public var view:TextChatModule;
 		
-		[Inject]
-		public var app:CommApp;
-		
 		override public function onRegister():void
 		{
 			trace("TextChatModuleMediator onRegister");
@@ -31,12 +28,10 @@ package com.tah.comm.modules.textchat
 			addViewListener(TextChatEvent.SEND, onSend, TextChatEvent);
 			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
 			
-			dispatch(new TextChatEvent(TextChatEvent.REQUEST_GREETING));
-			
 			// capture enter event
 			view.txt_msg.addEventListener(KeyboardEvent.KEY_DOWN,keyHandler);
 			
-			view.txt_history.text += app.userid + app.topic;
+			//view.txt_history.text += app.userid + app.topic;
 		}
 		
 		private function keyHandler(event:KeyboardEvent):void
