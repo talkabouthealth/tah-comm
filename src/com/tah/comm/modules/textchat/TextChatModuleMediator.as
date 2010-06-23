@@ -26,7 +26,7 @@ package com.tah.comm.modules.textchat
 			textChat.addChild(greetingDisplay);
 			//*/
 			addViewListener(TextChatEvent.SEND, onSend, TextChatEvent);
-			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
+			//eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
 			
 			// capture enter event
 			view.txt_msg.addEventListener(KeyboardEvent.KEY_DOWN,keyHandler);
@@ -47,7 +47,8 @@ package com.tah.comm.modules.textchat
 				
 				msg = msg.substr(0,msg.length-1);
 				view.txt_history.text += msg + '\r';				
-				dispatch(new TextChatEvent(TextChatEvent.SEND));
+				//dispatch(new TextChatEvent(TextChatEvent.SEND));
+				view.dispatchEvent(new TextChatEvent(TextChatEvent.SEND));
 				
 				// scrollToMax
 				view.txt_history.validateNow();

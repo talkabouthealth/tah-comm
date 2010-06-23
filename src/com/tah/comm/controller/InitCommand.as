@@ -20,6 +20,7 @@ package com.tah.comm.controller
 			trace("event: " + event);
 			trace("model: " + model);
 			this.dispatch(new ContextEvent(ContextEvent.INIT));
+			model.requestInit();
 			trace("InitCommand execute 1");
 		}
 	}

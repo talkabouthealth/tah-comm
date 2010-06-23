@@ -31,8 +31,6 @@ package com.tah.comm
 		{
 			trace("CommAppContext startup 0");
 			
-			injector.mapSingleton(CommAppModel);
-			
 			//injector.mapClass(User,User);
 			
 			//map the modules so that instances will be properly supplied (injected) with an injector.
@@ -40,6 +38,8 @@ package com.tah.comm
 			viewMap.mapType(TextChatModule);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
+			
+			injector.mapSingleton(CommAppModel);
 			
 			//This Context is mapping a single command to the ContextEvent.STARTUP
 			//The StartupCommand will map additional commands, mediators, services,
