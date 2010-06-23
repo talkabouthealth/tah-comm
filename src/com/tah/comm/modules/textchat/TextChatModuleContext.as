@@ -1,10 +1,12 @@
 package com.tah.comm.modules.textchat
 {
+	import com.tah.comm.common.events.CommAppContextEvent;
+	import com.tah.comm.common.events.LoggingEvent;
+	
 	import flash.display.DisplayObjectContainer;
 	
-	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	import org.robotlegs.core.IInjector;
-	import com.tah.comm.common.events.LoggingEvent;
+	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
 	
 	public class TextChatModuleContext extends ModuleContext
@@ -22,6 +24,7 @@ package com.tah.comm.modules.textchat
 			
 			//moduleCommandMap.mapEvent(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, DoodadModuleCommand);
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleContext startup"));
+			dispatchToModules(new CommAppContextEvent(CommAppContextEvent.INIT));
 			
 		}
 		

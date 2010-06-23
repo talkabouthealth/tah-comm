@@ -1,6 +1,6 @@
 package com.tah.comm
 {
-	import com.tah.comm.common.events.ContextEvent;
+	import com.tah.comm.common.events.CommAppContextEvent;
 	import com.tah.comm.controller.StartupCommand;
 	import com.tah.comm.model.User;
 	
@@ -8,30 +8,33 @@ package com.tah.comm
 	
 	public class CommAppMediator extends ModuleMediator
 	{
-		[inject]
+		[Inject]
 		public var view:CommApp;
-		
+		/*
 		[inject]
 		public var user:User;
+		*/
 		
 		override public function onRegister():void
 		{
 			trace("CommAppMediator onRegister 0");
 			
 			//addViewListener(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, dispatchToModules);
-			//addModuleListener(DoodadModuleEvent.REMOVE, handleDoodadRemoved);
+			//addModuleListener(CommAppContextEvent.INIT, onInit);
 			
-			eventMap.mapListener(eventDispatcher, ContextEvent.INIT, onInit);
-			dispatch(new ContextEvent(ContextEvent.REQUEST_INIT));
+			eventMap.mapListener(eventDispatcher, CommAppContextEvent.INIT, onInit);
+			//dispatch(new CommAppContextEvent(CommAppContextEvent.REQUEST_INIT));
+			dispatch(new CommAppContextEvent(CommAppContextEvent.INIT));
 			
 			trace("CommAppMediator onRegister 1");
 		}
 		
-		private function onInit(event:ContextEvent):void
+		private function onInit(event:CommAppContextEvent):void
 		{
-			trace("onInit" + view);	
-			view.log();
-			trace("onInit" + user);	
+			trace("onInit 0");
+			trace("onInit:" + view);	
+			//view.log();
+			//trace("onInit" + user);	
 		}
 		
 		

@@ -1,6 +1,6 @@
 package com.tah.comm.controller
 {
-	import com.tah.comm.common.events.ContextEvent;
+	import com.tah.comm.common.events.CommAppContextEvent;
 	import com.tah.comm.model.CommAppModel;
 	
 	import org.robotlegs.mvcs.Command;
@@ -8,7 +8,7 @@ package com.tah.comm.controller
 	public class StartupCommand extends Command
 	{
 		[inject]
-		public var event:ContextEvent;
+		public var event:CommAppContextEvent;
 		
 		[inject]
 		public var model:CommAppModel;

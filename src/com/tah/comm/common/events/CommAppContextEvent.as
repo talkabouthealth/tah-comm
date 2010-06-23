@@ -2,7 +2,7 @@ package com.tah.comm.common.events
 {
 	import flash.events.Event;
 
-	public class ContextEvent extends Event	
+	public class CommAppContextEvent extends Event	
 	{
 		public static const STARTUP:String = "ContextEvent.STARTUP";
 		public static const INIT:String = "ContextEvent.INIT";
@@ -15,7 +15,7 @@ package com.tah.comm.common.events
 			return _payload;
 		}
 		
-		public function ContextEvent(type:String, payload:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function CommAppContextEvent(type:String, payload:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_payload=payload;
@@ -23,7 +23,7 @@ package com.tah.comm.common.events
 		
 		override public function clone():Event
 		{
-			return new ContextEvent(type, payload, bubbles,cancelable);
+			return new CommAppContextEvent(type, payload, bubbles,cancelable);
 		}
 		
 		

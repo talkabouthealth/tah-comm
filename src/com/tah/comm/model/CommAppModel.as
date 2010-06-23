@@ -1,6 +1,6 @@
 package com.tah.comm.model
 {
-	import com.tah.comm.common.events.ContextEvent;
+	import com.tah.comm.common.events.CommAppContextEvent;
 	
 	import org.robotlegs.mvcs.Actor;
 	
@@ -19,7 +19,7 @@ package com.tah.comm.model
 		public function requestInit():void
 		{
 			trace("requestInit 0");
-			this.dispatch(new ContextEvent(ContextEvent.INIT));
+			this.dispatch(new CommAppContextEvent(CommAppContextEvent.INIT));
 			trace("requestInit 1");
 		}
 	}
