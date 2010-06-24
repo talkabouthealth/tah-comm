@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
-		implements="org.robotlegs.utilities.modular.core.IModule"
+		 implements="org.robotlegs.utilities.modular.core.IModule"
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="400" height="500">
 	<fx:Script>

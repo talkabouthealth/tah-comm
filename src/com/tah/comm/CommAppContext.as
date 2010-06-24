@@ -12,42 +12,39 @@ package com.tah.comm
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	import org.robotlegs.mvcs.Context;
 	
-	import com.tah.comm.common.events.CommAppContextEvent;
+	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.controller.StartupCommand;
 	import com.tah.comm.controller.InitCommand;	
 	import com.tah.comm.model.CommAppModel;
 	import com.tah.comm.model.User;
+	import com.tah.comm.view.CommAppMediator;
+	
+	import com.tah.comm.modules.core.CoreModule;
+	
+	// import org.robotlegs.core.IInjector;
 	
 	public class CommAppContext extends ModuleContext
 	{
-		
-	
+		/*
+		public function CommAppContext(contextView:DisplayObjectContainer, injector:IInjector)
+		{
+			super(contextView, true, injector);
+		}
+		*/
+			
 		override public function startup():void
 		{
-			trace("CommAppContext startup 0");
-			
-			//injector.mapClass(User,User);
+			injector.mapSingleton(CommAppModel);
+			injector.mapSingleton(User);
 			
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
-			
+			viewMap.mapType(CoreModule);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
-			/*
-			injector.mapSingleton(CommAppModel);
-			
-			//This Context is mapping a single command to the ContextEvent.STARTUP
-			//The StartupCommand will map additional commands, mediators, services,
-			//and models for use in the application.
-			commandMap.mapEvent( CommAppContextEvent.STARTUP, StartupCommand, CommAppContextEvent, true );
-			commandMap.mapEvent( CommAppContextEvent.REQUEST_INIT, InitCommand, CommAppContextEvent);
-			
-			//Start the Application (triggers the StartupCommand)			
-			//this.dispatchEvent(new ContextEvent(ContextEvent.STARTUP));
 
-			*/
-			trace("CommAppContext startup 1");
+			trace("/ CommAppContext startup");
 			
 		}
 	}

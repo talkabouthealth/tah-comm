@@ -1,6 +1,6 @@
 package com.tah.comm.modules.textchat
 {
-	import com.tah.comm.common.events.CommAppContextEvent;
+	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
 	
 	import flash.display.DisplayObjectContainer;
@@ -8,6 +8,7 @@ package com.tah.comm.modules.textchat
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
+	import com.tah.comm.controller.StartupCommand;
 	
 	public class TextChatModuleContext extends ModuleContext
 	{
@@ -19,13 +20,8 @@ package com.tah.comm.modules.textchat
 		
 		override public function startup():void
 		{
-			trace("TextChatModuleContext startup!!");
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
-			
-			//moduleCommandMap.mapEvent(ModuleCommandTriggerEvent.TRIGGER_MODULE_COMMAND, DoodadModuleCommand);
-			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleContext startup"));
-			dispatchToModules(new CommAppContextEvent(CommAppContextEvent.INIT));
-			
+			trace("/ TextChatModuleContext startup!!");
 		}
 		
 		override public function dispose():void

@@ -1,26 +1,26 @@
 package com.tah.comm.model
 {
-	import com.tah.comm.common.events.CommAppContextEvent;
+	import com.tah.comm.common.events.CommAppEvent;
 	
 	import org.robotlegs.mvcs.Actor;
 	
 	public class CommAppModel extends Actor
 	{
-		public var userid:String;
-		public var topic:String;
+		public var userid:String = "userid";
+		public var topic:String = "topic";
 		
 		public function CommAppModel()
 		{
-			trace("CommAppModel 0");
+			trace("CommAppModel");
 			super();
-			trace("CommAppModel 1");
+			trace("/ CommAppModel");
 		}
 		
 		public function requestInit():void
 		{
-			trace("requestInit 0");
-			this.dispatch(new CommAppContextEvent(CommAppContextEvent.INIT));
-			trace("requestInit 1");
+			trace("requestInit");
+			//this.dispatch(new CommAppEvent(CommAppEvent.INIT));
+			trace("/ requestInit");
 		}
 	}
 }

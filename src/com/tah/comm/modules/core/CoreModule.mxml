@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   implements="org.robotlegs.utilities.modular.core.IModule"
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx" 
+		   layout="absolute" width="84" height="56" backgroundColor="#2B33E3">
+	<fx:Script>
+		<![CDATA[
+			import com.tah.comm.common.events.LoggingEvent;
+			import com.tah.comm.modules.logger.*;
+			
+			import org.robotlegs.core.IContext;
+			import org.robotlegs.core.IInjector;
+			import org.robotlegs.utilities.modular.core.IModule;
+			import org.robotlegs.utilities.modular.core.IModuleContext;
+			
+			protected var context:IModuleContext;
+			
+			[Inject]
+			public function set parentInjector(value:IInjector):void
+			{
+				context = new CoreModuleContext(this, value);
+			}
+			
+			public function dispose():void
+			{
+				context.dispose();
+				context = null;
+			}
+		]]>
+	</fx:Script>
+	
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:Button x="6" y="20" label="Button"/>
+</mx:Module>

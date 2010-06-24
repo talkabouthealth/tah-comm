@@ -1,5 +1,6 @@
 package com.tah.comm.modules.textchat
 {
+	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
 	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
@@ -19,21 +20,11 @@ package com.tah.comm.modules.textchat
 		
 		override public function onRegister():void
 		{
-			trace("TextChatModuleMediator onRegister");
-			/*
-			var greetingDisplay:Label = new Label();
-			greetingDisplay.text = "Spark Label!";
-			textChat.addChild(greetingDisplay);
-			//*/
-			//addViewListener(TextChatEvent.SEND, onSend, TextChatEvent);
 			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
 			
-			this.dispatch(new TextChatEvent(TextChatEvent.SEND));
-			//dispatchToModules(new));
-			// capture enter event
 			view.txt_msg.addEventListener(KeyboardEvent.KEY_DOWN,keyHandler);
 			
-			//view.txt_history.text += app.userid + app.topic;
+			trace("/ TextChatModuleMediator onRegister");
 		}
 		
 		private function keyHandler(event:KeyboardEvent):void
@@ -60,15 +51,14 @@ package com.tah.comm.modules.textchat
 		
 		private function onSend(event:TextChatEvent):void
 		{
-			trace("onSend");
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleMediator onSend"));
 		}
 		
-		private function onGreet(event:TextChatEvent):void
+		private function onUpdateTitle(event:TextChatEvent):void
 		{
-			trace("onGreet");
+			
 			view.updateTitle(event.message);
-
+			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "/ onUpdateTitle"));
 		}
 	}
 }

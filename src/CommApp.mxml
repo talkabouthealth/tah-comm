@@ -5,9 +5,13 @@
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
-			   xmlns:textchat="com.tah.comm.modules.textchat.*" currentState="Login" creationComplete="init()" xmlns:bridge="bridge.*">
+			   xmlns:textchat="com.tah.comm.modules.textchat.*"
+			   xmlns:core="com.tah.comm.modules.core.*" 
+			   creationComplete="init()" xmlns:bridge="bridge.*">
 	<fx:Script>
 		<![CDATA[
+			import com.tah.comm.common.events.CommAppEvent;
+			
 			import mx.utils.ObjectUtil;
 			
 			public var userid:String;
@@ -15,40 +19,39 @@
 			
 			private function init():void
 			{
-				currentState = "Chat";
 				//FLASHVARS CODE
 				
 				var paramObj:Object = this.parameters;
 				this.userid = paramObj["userid"];
 				this.topic = paramObj["topic"];
 				
-				trace("init 2");
+				trace("/ init");
 			}
-			
-			public function log():void
+
+			protected function btn_startup_clickHandler(event:MouseEvent):void
 			{
-				trace("CommApp log");
+				this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));
 			}
-			
+
 		]]>
 	</fx:Script>
-	<s:states>
-		<s:State name="Chat"/>
-		<s:State name="Login"/>
-	</s:states>
 
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:CommAppContext contextView="{this}" />
-		<bridge:FABridge/>
 	</fx:Declarations>
-	<s:layout.Chat>
+	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
-	</s:layout.Chat>
-	<logger:LoggerModule includeIn="Chat"/>
-	<s:HGroup width="100%" height="100%" includeIn="Chat">
-		<view:Cam width="241" height="214">
-		</view:Cam>
+	</s:layout>
+	<logger:LoggerModule/>
+	
+	<s:HGroup width="100%" height="100%">
+		<s:VGroup width="241" height="100%">
+			<view:Cam width="241" height="214">
+			</view:Cam>
+			<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>
+			<core:CoreModule width="100" height="60"/>		
+		</s:VGroup>
 		<textchat:TextChatModule id="tc"  width="403" height="512" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
 		<mx:DataGrid height="509" width="178">
 			<mx:columns>
@@ -56,6 +59,5 @@
 			</mx:columns>
 		</mx:DataGrid>
 	</s:HGroup>
-	<s:Label includeIn="Login" text="Login required&#xd;" x="388" y="296"/>
 	
 </s:Application>

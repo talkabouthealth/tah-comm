@@ -1,6 +1,6 @@
 package com.tah.comm.controller
 {
-	import com.tah.comm.common.events.CommAppContextEvent;
+	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.model.CommAppModel;
 	
 	import org.robotlegs.mvcs.Command;
@@ -8,7 +8,7 @@ package com.tah.comm.controller
 	public class InitCommand extends Command
 	{
 		[inject]
-		public var event:CommAppContextEvent;
+		public var event:CommAppEvent;
 		
 		[inject]
 		public var model:CommAppModel;
@@ -19,7 +19,7 @@ package com.tah.comm.controller
 			trace("InitCommand execute 0");
 			trace("event: " + event);
 			trace("model: " + model);
-			this.dispatch(new CommAppContextEvent(CommAppContextEvent.INIT));
+			this.dispatch(new CommAppEvent(CommAppEvent.INIT));
 			model.requestInit();
 			trace("InitCommand execute 1");
 		}
