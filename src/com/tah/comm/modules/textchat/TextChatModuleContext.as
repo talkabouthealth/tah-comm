@@ -8,7 +8,7 @@ package com.tah.comm.modules.textchat
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
-	import com.tah.comm.controller.StartupCommand;
+	import com.tah.comm.common.controller.StartupCommand;
 	
 	public class TextChatModuleContext extends ModuleContext
 	{

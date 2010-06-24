@@ -3,8 +3,8 @@ package com.tah.comm.view
 	import com.tah.comm.CommAppContext;
 	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
-	import com.tah.comm.controller.StartupCommand;
-	import com.tah.comm.model.*;
+	import com.tah.comm.common.controller.StartupCommand;
+	import com.tah.comm.common.model.*;
 	
 	import flash.events.MouseEvent;
 	

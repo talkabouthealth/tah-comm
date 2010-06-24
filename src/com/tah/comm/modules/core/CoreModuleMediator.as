@@ -4,7 +4,7 @@ package com.tah.comm.modules.core
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	import com.tah.comm.common.events.*;
-	import com.tah.comm.model.*;
+	import com.tah.comm.common.model.*;
 	
 	public class CoreModuleMediator extends ModuleMediator
 	{

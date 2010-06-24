@@ -1,8 +1,8 @@
-package com.tah.comm.controller
+package com.tah.comm.common.controller
 {
 	import com.tah.comm.common.events.CommAppEvent;
-	import com.tah.comm.model.CommAppModel;
-	import com.tah.comm.model.User;
+	import com.tah.comm.common.model.CommAppModel;
+	import com.tah.comm.common.model.User;
 	
 	import org.robotlegs.mvcs.Command;
 	

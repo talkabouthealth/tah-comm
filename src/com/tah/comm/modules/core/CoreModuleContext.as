@@ -5,11 +5,11 @@ package com.tah.comm.modules.core
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
-	import com.tah.comm.model.*;
+	import com.tah.comm.common.model.*;
 	
 	import com.tah.comm.common.events.*;
 	
-	import com.tah.comm.controller.StartupCommand;
+	import com.tah.comm.common.controller.StartupCommand;
 	
 	public class CoreModuleContext extends ModuleContext
 	{

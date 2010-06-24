@@ -1,4 +1,4 @@
-package com.tah.comm.model
+package com.tah.comm.common.model
 {
 	public class User
 	{

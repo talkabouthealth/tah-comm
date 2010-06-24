@@ -13,10 +13,10 @@ package com.tah.comm
 	import org.robotlegs.mvcs.Context;
 	
 	import com.tah.comm.common.events.CommAppEvent;
-	import com.tah.comm.controller.StartupCommand;
-	import com.tah.comm.controller.InitCommand;	
-	import com.tah.comm.model.CommAppModel;
-	import com.tah.comm.model.User;
+	import com.tah.comm.common.controller.StartupCommand;
+	import com.tah.comm.common.controller.InitCommand;	
+	import com.tah.comm.common.model.CommAppModel;
+	import com.tah.comm.common.model.User;
 	import com.tah.comm.view.CommAppMediator;
 	
 	import com.tah.comm.modules.core.CoreModule;
