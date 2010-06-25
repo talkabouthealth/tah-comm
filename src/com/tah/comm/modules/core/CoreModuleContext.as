@@ -29,6 +29,11 @@ package com.tah.comm.modules.core
 			
 			trace("/ CoreModuleContext startup!!");
 		}
+		override public function dispose():void
+		{
+			mediatorMap.removeMediatorByView(contextView);
+			super.dispose();
+		}
 		
 	}
 }

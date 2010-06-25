@@ -11,19 +11,19 @@ package com.tah.comm.modules.core
 		[Inject]
 		public var view:CoreModule;
 		
+		[Inject]
+		public var model:CommAppModel;
 		
 		//[inject]
 		//public var user:User;
-		
-		[inject]
-		public var model:CommAppModel;
 		
 		override public function onRegister():void
 		{
 			trace("CoreModuleMediator onRegister");
 			trace("CoreModuleMediator view: "+view);
-			//trace("CoreModuleMediator user: "+user);
 			trace("CoreModuleMediator model: "+model);
+			//trace("CoreModuleMediator user: "+user);
+			
 			trace("/ CoreModuleMediator onRegister");
 		}
 	}

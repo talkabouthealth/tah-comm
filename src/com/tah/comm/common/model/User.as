@@ -1,6 +1,8 @@
 package com.tah.comm.common.model
 {
-	public class User
+	import org.robotlegs.mvcs.Actor;
+	
+	public class User extends Actor
 	{
 		public var id:String = null;
 		public var pseudo:String = null;
@@ -13,7 +15,14 @@ package com.tah.comm.common.model
 		public var isWatching:String =null;
 		public var hasWebcam:String =null;
 		
-		
+		public function User ()
+		{
+			trace("User");
+			super();
+			trace("/ User");
+			
+		}
+		/*		
 		public function User (id:String , pseudo:String, webcam:String, role:String, sex:String,onlineStatus:String ,room: String,world:String ,isWatching:String ,hasWebcam:String ) 
 		{
 			this.id = id;
@@ -27,5 +36,6 @@ package com.tah.comm.common.model
 			this.isWatching = "false";	
 			this.world = world;		      
 		}
+		//*/
 	} 
 }
