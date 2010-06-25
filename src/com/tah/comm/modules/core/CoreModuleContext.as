@@ -13,27 +13,22 @@ package com.tah.comm.modules.core
 	
 	public class CoreModuleContext extends ModuleContext
 	{
-		public function CoreModuleContext(contextView:DisplayObjectContainer,  injector:IInjector)
+		public function CoreModuleContext(contextView:DisplayObjectContainer, injector:IInjector)
 		{
 			super(contextView, true, injector);
 		}
-		
 		override public function startup():void
 		{
+			trace("CoreModuleContext startup!!");
 			injector.mapSingleton(CommAppModel);
-			injector.mapSingleton(User);
+			//injector.mapSingleton(User);
 			
 			mediatorMap.mapView(CoreModule, CoreModuleMediator);
 			
-			moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );
+			//moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );
 			
 			trace("/ CoreModuleContext startup!!");
 		}
 		
-		override public function dispose():void
-		{
-			mediatorMap.removeMediatorByView(contextView);
-			super.dispose();
-		}	
 	}
 }

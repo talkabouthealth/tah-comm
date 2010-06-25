@@ -10,6 +10,8 @@ package com.tah.comm.modules.textchat
 	
 	import com.tah.comm.common.controller.StartupCommand;
 	
+	import com.tah.comm.common.model.*;
+	
 	public class TextChatModuleContext extends ModuleContext
 	{
 		
@@ -19,9 +21,10 @@ package com.tah.comm.modules.textchat
 		}
 		
 		override public function startup():void
-		{
+		{	trace("TextChatModuleContext startup");
+			injector.mapSingleton(CommAppModel);
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
-			trace("/ TextChatModuleContext startup!!");
+			trace("/ TextChatModuleContext startup");
 		}
 		
 		override public function dispose():void

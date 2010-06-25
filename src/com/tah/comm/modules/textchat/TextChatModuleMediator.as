@@ -12,14 +12,23 @@ package com.tah.comm.modules.textchat
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
 	import spark.components.Label;
+	import com.tah.comm.common.model.*;
 	
 	public class TextChatModuleMediator extends ModuleMediator
 	{
 		[Inject]
 		public var view:TextChatModule;
 		
+		[Inject]
+		public var model:CommAppModel;
+		
 		override public function onRegister():void
 		{
+			trace("TextChatModuleMediator onRegister");
+			
+			trace("TextChatModuleMediator view: " + view);
+			trace("TextChatModuleMediator model: " + model);
+			
 			eventMap.mapListener(eventDispatcher, TextChatEvent.SEND, onSend);
 			
 			view.txt_msg.addEventListener(KeyboardEvent.KEY_DOWN,keyHandler);

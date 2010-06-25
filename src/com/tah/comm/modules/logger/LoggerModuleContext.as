@@ -6,6 +6,8 @@ package com.tah.comm.modules.logger
     import org.robotlegs.utilities.modular.mvcs.ModuleContext;
     
     import com.tah.comm.modules.logger.view.LoggerModuleMediator;
+	
+	import com.tah.comm.common.model.*;
     
     public class LoggerModuleContext extends ModuleContext
     {
@@ -24,8 +26,10 @@ package com.tah.comm.modules.logger
         
         override public function startup():void
         {
-            trace("LoggerModuleContext startup: WE HAVE SUB-CONTEXT!!");
+			trace("LoggerModuleContext startup");
+			injector.mapSingleton(CommAppModel);
             mediatorMap.mapView(LoggerModule, LoggerModuleMediator);
+			trace("/ LoggerModuleContext startup");
         }
     }
 }
