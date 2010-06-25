@@ -20,12 +20,13 @@ package com.tah.comm.view
 		public var user:User;
 		
 		[inject]
-		public var model:CommAppModel;
+		public var model:CoreModel;
 		
 		override public function onRegister():void
 		{
+			trace("CommAppMediator onRegister");
 			view.btn_startup.addEventListener(MouseEvent.CLICK, onClick);
-			
+			trace("CommAppMediator model: "+model);	
 			trace("/ CommAppMediator onRegister");
 		}
 		

@@ -4,22 +4,27 @@ package com.tah.comm.common.model
 	
 	import org.robotlegs.mvcs.Actor;
 	
-	public class CommAppModel extends Actor
+	public class CoreModel extends Actor
 	{
 		public var userid:String = "userid";
 		public var topic:String = "topic";
 		
-		public function CommAppModel()
+		public var user:User = null;
+		
+		public function CoreModel()
 		{
-			trace("CommAppModel");
+			trace("CoreModel");
 			super();
-			trace("/ CommAppModel");
+			user = new User();
+			trace("CoreModel user: "+ user);
+			trace("/ CoreModel");
 		}
 		
-		public function requestInit():void
+		public function requestParameters():void
 		{
 			trace("requestInit");
 			//this.dispatch(new CommAppEvent(CommAppEvent.INIT));
+			
 			trace("/ requestInit");
 		}
 	}

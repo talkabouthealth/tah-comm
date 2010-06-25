@@ -20,11 +20,11 @@ package com.tah.comm.modules.core
 		override public function startup():void
 		{
 			trace("CoreModuleContext startup!!");
-			injector.mapSingleton(CommAppModel);
-			//injector.mapSingleton(User);
+			
+			injector.mapSingleton(Model3);
+			injector.mapSingleton(CoreModel);
 			
 			mediatorMap.mapView(CoreModule, CoreModuleMediator);
-			
 			//moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );
 			
 			trace("/ CoreModuleContext startup!!");

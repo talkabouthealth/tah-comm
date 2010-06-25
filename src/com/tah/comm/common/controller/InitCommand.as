@@ -1,7 +1,7 @@
 package com.tah.comm.common.controller
 {
 	import com.tah.comm.common.events.CommAppEvent;
-	import com.tah.comm.common.model.CommAppModel;
+	import com.tah.comm.common.model.CoreModel;
 	
 	import org.robotlegs.mvcs.Command;
 	
@@ -11,7 +11,7 @@ package com.tah.comm.common.controller
 		public var event:CommAppEvent;
 		
 		[inject]
-		public var model:CommAppModel;
+		public var model:CoreModel;
 		
 		override public function execute():void
 		{
@@ -20,7 +20,7 @@ package com.tah.comm.common.controller
 			trace("event: " + event);
 			trace("model: " + model);
 			this.dispatch(new CommAppEvent(CommAppEvent.INIT));
-			model.requestInit();
+			model.requestParameters();
 			trace("InitCommand execute 1");
 		}
 	}

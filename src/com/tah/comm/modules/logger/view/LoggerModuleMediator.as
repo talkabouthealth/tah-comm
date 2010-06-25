@@ -12,14 +12,13 @@ package com.tah.comm.modules.logger.view
         public var view:LoggerModule;
         
 		[Inject]
-		public var model:CommAppModel;
+		public var model:CoreModel;
 		
         override public function onRegister():void
         {
 			trace("LoggerModuleMediator view: " + view);
 			trace("LoggerModuleMediator model: " + model);
             eventMap.mapListener(moduleDispatcher, LoggingEvent.MESSAGE, handleLoggingeMessage);
-
         }
         
         protected function handleLoggingeMessage(event:LoggingEvent):void

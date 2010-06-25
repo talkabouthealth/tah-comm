@@ -20,7 +20,7 @@ package com.tah.comm.modules.textchat
 		public var view:TextChatModule;
 		
 		[Inject]
-		public var model:CommAppModel;
+		public var model:CoreModel;
 		
 		override public function onRegister():void
 		{
@@ -50,7 +50,6 @@ package com.tah.comm.modules.textchat
 				msg = msg.substr(0,msg.length-1);
 				view.txt_history.text += msg + '\r';				
 				dispatch(new TextChatEvent(TextChatEvent.SEND));
-				//view.dispatchEvent(new TextChatEvent(TextChatEvent.SEND));
 				
 				// scrollToMax
 				view.txt_history.validateNow();
