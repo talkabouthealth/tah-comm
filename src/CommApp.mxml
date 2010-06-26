@@ -22,8 +22,8 @@
 				//FLASHVARS CODE
 				
 				var paramObj:Object = this.parameters;
-				this.userid = paramObj["userid"];
-				this.topic = paramObj["topic"];
+				this.userid = paramObj["id"];
+				this.topic = paramObj["t"];
 				
 				trace("/ init");
 			}

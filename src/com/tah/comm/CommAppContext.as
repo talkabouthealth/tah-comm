@@ -34,8 +34,7 @@ package com.tah.comm
 		
 		override public function startup():void
 		{
-			model = new CoreModel();
-			injector.mapValue(CoreModel,model);
+			injector.mapSingleton(CoreModel);
 		
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
@@ -44,7 +43,7 @@ package com.tah.comm
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
-			moduleCommandMap.mapEvent(CoreEvent.REQUEST_PARAMETERS, StartupCommand);
+			commandMap.mapEvent(CommAppEvent.SET_PARAMETERS, StartupCommand);
 			trace("/ CommAppContext startup");
 			
 		}

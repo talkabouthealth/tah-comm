@@ -11,13 +11,13 @@ package com.tah.comm.common.controller
 	
 	public class StartupCommand extends Command
 	{
-		public var event:CoreEvent;
+		public var event:CommAppEvent;
 		public var model:CoreModel;
 		
 		[Inject]
 		public var moduleDispatcher:IModuleEventDispatcher;
 		
-		public function StartupCommand(event:CoreEvent, model:CoreModel)
+		public function StartupCommand(event:CommAppEvent, model:CoreModel)
 		{
 			this.event = event;
 			this.model = model;
@@ -25,11 +25,14 @@ package com.tah.comm.common.controller
 		override public function execute():void
 		{
 			trace("StartupCommand execute");
-			trace("event: " + event);
-			trace("model: " + model);
+			
+			model.userid = event.payload["userid"];
+			model.topic = event.payload["t"];
+			model.createUser();
 			
 			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "StartupCommand Executed!"));
-				
+			
+			
 			
 			trace("/ StartupCommand execute");
 		}

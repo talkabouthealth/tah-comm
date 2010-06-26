@@ -14,15 +14,19 @@ package com.tah.comm.modules.core
 		[Inject]
 		public var view:Core;
 		
-		
+		public function CoreMediator(model:CoreModel)
+		{
+			this.model = model;
+		}
+				
 		
 		override public function onRegister():void
 		{
-			trace("CoreModuleMediator onRegister");
-			trace("CoreModuleMediator view: "+view);
+			trace("CoreMediator onRegister");
+			trace("CoreMediator view: "+view);
 			
-			trace("CoreModuleMediator model: "+model);
-			dispatchToModules(new CoreEvent(CoreEvent.REQUEST_PARAMETERS, model));				
+			trace("CoreMediator model: "+model);
+			dispatchToModules(new CoreEvent(CoreEvent.REQUEST_PARAMETERS));				
 			trace("/ CoreModuleMediator onRegister");
 		}
 	}

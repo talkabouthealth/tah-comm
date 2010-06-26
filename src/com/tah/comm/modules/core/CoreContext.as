@@ -21,7 +21,7 @@ package com.tah.comm.modules.core
 		{
 			trace("CoreModuleContext startup!!");
 			
-			injector.mapSingleton(CoreModel);
+			//injector.mapSingleton(CoreModel);
 			
 			mediatorMap.mapView(Core, CoreMediator);
 			//moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );

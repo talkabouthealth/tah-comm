@@ -2,8 +2,8 @@ package com.tah.comm.common.model
 {
 	public class User
 	{
-		public var userid:String = "userid";
-		public var topic:String = "topic";
+		public var userid:String = "null userid";
+		public var topic:String = "null topic";
 		
 		public var id:String = null;
 		public var pseudo:String = null;
@@ -16,19 +16,11 @@ package com.tah.comm.common.model
 		public var isWatching:String =null;
 		public var hasWebcam:String =null;
 		
-		public function User()
+		public function User(userid:String)
 		{
 			trace("User");
-			super();
+			this.userid = userid;
 			trace("/ User");
-			
-		}
-		
-		public function requestInit():void
-		{
-			trace("requestInit");
-			//this.dispatch(new CommAppEvent(CommAppEvent.INIT));
-			trace("/ requestInit");
 		}
 		
 		/*		
