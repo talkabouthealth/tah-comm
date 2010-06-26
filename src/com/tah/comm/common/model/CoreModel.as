@@ -18,7 +18,7 @@ package com.tah.comm.common.model
 		
 		public function createUser():void
 		{
-			this.user = new User(userid);
+			this.user = new User(userid,topic);
 			trace("user.userid "+user.userid);
 			//trace("user.topic "+user.topic);
 			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "id: " + user.userid + "  t: " + user.topic ));

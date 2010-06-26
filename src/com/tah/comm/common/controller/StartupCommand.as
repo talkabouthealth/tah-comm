@@ -27,10 +27,16 @@ package com.tah.comm.common.controller
 			trace("StartupCommand execute");
 			
 			model.userid = event.payload["userid"];
-			model.topic = event.payload["t"];
+			model.topic = event.payload["topic"];
+			
+			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, model.userid + ' | ' + model.topic));
+			
+			if(model.userid == null || model.userid == "null") model.userid = "test user";
+			if(model.topic == null || model.topic == "null") model.topic = "test topic";
+			
 			model.createUser();
 			
-			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "StartupCommand Executed!"));
+			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "4 StartupCommand Executed!"));
 			
 			
 			

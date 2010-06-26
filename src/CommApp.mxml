@@ -6,28 +6,13 @@
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
-			   xmlns:core="com.tah.comm.modules.core.*" 
-			   creationComplete="init()" xmlns:bridge="bridge.*">
+			   xmlns:core="com.tah.comm.modules.core.*" >
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
 			
 			import mx.utils.ObjectUtil;
 			
-			public var userid:String;
-			public var topic:String;
-			
-			private function init():void
-			{
-				//FLASHVARS CODE
-				
-				var paramObj:Object = this.parameters;
-				this.userid = paramObj["id"];
-				this.topic = paramObj["t"];
-				
-				trace("/ init");
-			}
-
 			protected function btn_startup_clickHandler(event:MouseEvent):void
 			{
 				this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));

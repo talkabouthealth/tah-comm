@@ -2,10 +2,10 @@ package com.tah.comm.view
 {
 	import com.tah.comm.CommAppContext;
 	import com.tah.comm.common.controller.StartupCommand;
+	import com.tah.comm.common.events.*;
 	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
 	import com.tah.comm.common.model.*;
-	import com.tah.comm.common.events.*;
 	
 	import flash.events.MouseEvent;
 	
@@ -39,7 +39,10 @@ package com.tah.comm.view
 		private function onClick(event:MouseEvent):void
 		{
 			trace(view.parameters);
-			dispatchToModules(new CommAppEvent(CommAppEvent.STARTUP,view.parameters));
+			dispatch(new CommAppEvent(CommAppEvent.SET_PARAMETERS,view.parameters));
+			for(var x:String in view.parameters){
+				moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "5 onClick: "+ x +":"+view.parameters[x]));
+			}
 			trace("/ onClick");
 		}
 		

@@ -16,10 +16,11 @@ package com.tah.comm.common.model
 		public var isWatching:String =null;
 		public var hasWebcam:String =null;
 		
-		public function User(userid:String)
+		public function User(userid:String,topic:String)
 		{
 			trace("User");
 			this.userid = userid;
+			this.topic = topic;
 			trace("/ User");
 		}
 		

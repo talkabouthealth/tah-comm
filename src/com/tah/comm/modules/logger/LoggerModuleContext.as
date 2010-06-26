@@ -27,7 +27,6 @@ package com.tah.comm.modules.logger
         override public function startup():void
         {
 			trace("LoggerModuleContext startup");
-			injector.mapSingleton(CoreModel);
             mediatorMap.mapView(LoggerModule, LoggerModuleMediator);
 			trace("/ LoggerModuleContext startup");
         }

@@ -23,7 +23,7 @@ package com.tah.comm.modules.textchat
 		override public function startup():void
 		{	
 			trace("TextChatModuleContext startup");
-			injector.mapSingleton(CoreModel);
+			
 			mediatorMap.mapView(TextChatModule, TextChatModuleMediator);
 			trace("/ TextChatModuleContext startup");
 		}
