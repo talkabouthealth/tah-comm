@@ -36,12 +36,16 @@ package com.tah.comm
 		override public function startup():void
 		{
 			model = new CoreModel();
-			injector.mapValue(CoreModel,model);
-		
+			model.userid = "U2";
+			injector.mapSingleton(CoreModel);
+			
+			
+			var m = injector.getInstance(CoreModel);
+			trace(m);
 			//map the modules so that instances will be properly supplied (injected) with an injector.
-			viewMap.mapType(LoggerModule);
-			viewMap.mapType(TextChatModule);
-			viewMap.mapType(CoreModule);
+			//viewMap.mapType(LoggerModule);
+			//viewMap.mapType(TextChatModule);
+			//viewMap.mapType(CoreModule);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			

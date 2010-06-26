@@ -7,7 +7,7 @@
 			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
 			   xmlns:core="com.tah.comm.modules.core.*" 
-			   creationComplete="init()" xmlns:bridge="bridge.*">
+			   creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
