@@ -5,7 +5,7 @@ package com.tah.comm
 	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.model.CoreModel;
 	import com.tah.comm.common.model.User;
-	import com.tah.comm.modules.core.CoreModule;
+	import com.tah.comm.modules.core.Core;
 	import com.tah.comm.modules.logger.LoggerModule;
 	import com.tah.comm.modules.textchat.TextChatCommand;
 	import com.tah.comm.modules.textchat.TextChatModel;
@@ -40,11 +40,11 @@ package com.tah.comm
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);
 			viewMap.mapType(TextChatModule);
-			viewMap.mapType(CoreModule);
+			viewMap.mapType(Core);
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
-			moduleCommandMap.mapEvent(CoreModuleEvent.REQUEST_PARAMETERS, StartupCommand);
+			moduleCommandMap.mapEvent(CoreEvent.REQUEST_PARAMETERS, StartupCommand);
 			trace("/ CommAppContext startup");
 			
 		}

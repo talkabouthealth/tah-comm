@@ -6,16 +6,14 @@ package com.tah.comm.modules.core
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
-	public class CoreModuleMediator extends ModuleMediator
+	public class CoreMediator extends ModuleMediator
 	{
-		[inject]
-		public var m3:Model3;
 		
-		[Inject]
 		public var model:CoreModel;
 		
 		[Inject]
-		public var view:CoreModule;
+		public var view:Core;
+		
 		
 		
 		override public function onRegister():void
@@ -23,10 +21,8 @@ package com.tah.comm.modules.core
 			trace("CoreModuleMediator onRegister");
 			trace("CoreModuleMediator view: "+view);
 			
-			trace("CoreModuleMediator m3: "+m3);
 			trace("CoreModuleMediator model: "+model);
-			model.requestParameters();
-			dispatchToModules(new CoreModuleEvent(CoreModuleEvent.REQUEST_PARAMETERS, model));				
+			dispatchToModules(new CoreEvent(CoreEvent.REQUEST_PARAMETERS, model));				
 			trace("/ CoreModuleMediator onRegister");
 		}
 	}

@@ -11,9 +11,9 @@ package com.tah.comm.modules.core
 	
 	import com.tah.comm.common.controller.StartupCommand;
 	
-	public class CoreModuleContext extends ModuleContext
+	public class CoreContext extends ModuleContext
 	{
-		public function CoreModuleContext(contextView:DisplayObjectContainer, injector:IInjector)
+		public function CoreContext(contextView:DisplayObjectContainer, injector:IInjector)
 		{
 			super(contextView, true, injector);
 		}
@@ -21,10 +21,9 @@ package com.tah.comm.modules.core
 		{
 			trace("CoreModuleContext startup!!");
 			
-			injector.mapSingleton(Model3);
 			injector.mapSingleton(CoreModel);
 			
-			mediatorMap.mapView(CoreModule, CoreModuleMediator);
+			mediatorMap.mapView(Core, CoreMediator);
 			//moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );
 			
 			trace("/ CoreModuleContext startup!!");

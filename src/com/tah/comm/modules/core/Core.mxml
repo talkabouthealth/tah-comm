@@ -3,7 +3,7 @@
 		   xmlns:s="library://ns.adobe.com/flex/spark" 
 		   xmlns:mx="library://ns.adobe.com/flex/mx" 
 		   implements="org.robotlegs.utilities.modular.core.IModule"
-		   layout="absolute" width="84" height="56" backgroundColor="#2B33E3">
+		   layout="absolute" width="84" height="56" backgroundColor="#C5C7F6">
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.LoggingEvent;
@@ -19,7 +19,7 @@
 			[Inject]
 			public function set parentInjector(value:IInjector):void
 			{
-				context = new CoreModuleContext(this, value);
+				context = new CoreContext(this, value);
 			}
 			
 			public function dispose():void
@@ -33,5 +33,4 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
-	<s:Button x="6" y="20" label="Button"/>
 </mx:Module>

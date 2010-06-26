@@ -2,7 +2,7 @@ package com.tah.comm.common.events
 {
     import flash.events.Event;
     
-    public class CoreModuleEvent extends Event
+    public class CoreEvent extends Event
     {
 		public static const REQUEST_PARAMETERS:String = "CoreModuleEvent.REQUEST_PARAMETERS";
 		
@@ -13,7 +13,7 @@ package com.tah.comm.common.events
 			return _payload;
 		}
 		
-		public function CoreModuleEvent(type:String, payload:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
+		public function CoreEvent(type:String, payload:Object=null, bubbles:Boolean=false, cancelable:Boolean=false)
 		{
 			super(type, bubbles, cancelable);
 			_payload=payload;
@@ -21,7 +21,7 @@ package com.tah.comm.common.events
 		
 		override public function clone():Event
 		{
-			return new CoreModuleEvent(type,payload,bubbles,cancelable);
+			return new CoreEvent(type,payload,bubbles,cancelable);
 		}
     }
 }

@@ -1,9 +1,9 @@
 package com.tah.comm.view
 {
 	import com.tah.comm.CommAppContext;
+	import com.tah.comm.common.controller.StartupCommand;
 	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
-	import com.tah.comm.common.controller.StartupCommand;
 	import com.tah.comm.common.model.*;
 	
 	import flash.events.MouseEvent;
@@ -17,11 +17,12 @@ package com.tah.comm.view
 		public var view:CommApp;
 		
 		[inject]
-		public var user:User;
-		
-		[inject]
 		public var model:CoreModel;
 		
+		public function CommAppMediator(model:CoreModel)
+		{
+			this.model = model;
+		}
 		override public function onRegister():void
 		{
 			trace("CommAppMediator onRegister");
@@ -33,7 +34,6 @@ package com.tah.comm.view
 		private function onClick(event:MouseEvent):void
 		{
 			trace("view: "+view);
-			trace("user: "+user);
 			trace("model: "+model);
 			this.dispatchToModules(new CommAppEvent(CommAppEvent.STARTUP));
 			trace("/ onClick");
