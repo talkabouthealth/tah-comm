@@ -1,15 +1,14 @@
 package com.tah.comm.modules.logger
 {
+    import com.tah.comm.common.model.*;
+    import com.tah.comm.modules.logger.view.LoggerModuleMediator;
+    
     import flash.display.DisplayObjectContainer;
     
     import org.robotlegs.core.IInjector;
-    import org.robotlegs.utilities.modular.mvcs.ModuleContext;
+    import org.robotlegs.mvcs.Context;
     
-    import com.tah.comm.modules.logger.view.LoggerModuleMediator;
-	
-	import com.tah.comm.common.model.*;
-    
-    public class LoggerModuleContext extends ModuleContext
+    public class LoggerModuleContext extends Context
     {
         /**
          * Because this module <b>requires</b> an injector we need to use its constructor to initialize

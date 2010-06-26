@@ -1,17 +1,15 @@
 package com.tah.comm.modules.core
 {
+	import com.tah.comm.common.controller.StartupCommand;
+	import com.tah.comm.common.events.*;
+	import com.tah.comm.common.model.*;
+	
 	import flash.display.DisplayObjectContainer;
 	
 	import org.robotlegs.core.IInjector;
-	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
+	import org.robotlegs.mvcs.Context;
 	
-	import com.tah.comm.common.model.*;
-	
-	import com.tah.comm.common.events.*;
-	
-	import com.tah.comm.common.controller.StartupCommand;
-	
-	public class CoreModuleContext extends ModuleContext
+	public class CoreModuleContext extends Context
 	{
 		public function CoreModuleContext(contextView:DisplayObjectContainer, injector:IInjector)
 		{
@@ -28,11 +26,6 @@ package com.tah.comm.modules.core
 			//moduleCommandMap.mapEvent( CommAppEvent.STARTUP, StartupCommand );
 			
 			trace("/ CoreModuleContext startup!!");
-		}
-		override public function dispose():void
-		{
-			mediatorMap.removeMediatorByView(contextView);
-			super.dispose();
 		}
 		
 	}

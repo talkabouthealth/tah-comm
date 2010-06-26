@@ -9,9 +9,9 @@ package com.tah.comm.view
 	import flash.events.MouseEvent;
 	
 	import org.robotlegs.mvcs.Command;
-	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
+	import org.robotlegs.mvcs.Mediator;
 	
-	public class CommAppMediator extends ModuleMediator
+	public class CommAppMediator extends Mediator
 	{
 		[Inject]
 		public var view:CommApp;
@@ -35,7 +35,7 @@ package com.tah.comm.view
 			trace("view: "+view);
 			trace("user: "+user);
 			trace("model: "+model);
-			this.dispatchToModules(new CommAppEvent(CommAppEvent.STARTUP));
+			dispatch(new CommAppEvent(CommAppEvent.STARTUP));
 			trace("/ onClick");
 		}
 		

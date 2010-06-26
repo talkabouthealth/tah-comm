@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
-		 implements="org.robotlegs.utilities.modular.core.IModule"
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx" layout="vertical" width="400" height="500">
 	<fx:Script>
@@ -11,28 +10,12 @@
 			
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
-			import org.robotlegs.utilities.modular.core.IModule;
-			import org.robotlegs.utilities.modular.core.IModuleContext;
 			
-			protected var context:IModuleContext;
-			
-
 			public function updateTitle(txt_title:String):void
 			{
 				topicTitle.text = txt_title;
 			}
 
-			[Inject]
-			public function set parentInjector(value:IInjector):void
-			{
-				context = new TextChatModuleContext(this, value);
-			}
-
-			public function dispose():void
-			{
-				context.dispose();
-				context = null;
-			}
 		]]>
 	</fx:Script>
 	<fx:Declarations>

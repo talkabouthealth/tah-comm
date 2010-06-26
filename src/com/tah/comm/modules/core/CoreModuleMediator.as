@@ -4,9 +4,9 @@ package com.tah.comm.modules.core
 	import com.tah.comm.common.model.*;
 	
 	import org.robotlegs.core.IInjector;
-	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
+	import org.robotlegs.mvcs.Mediator;
 	
-	public class CoreModuleMediator extends ModuleMediator
+	public class CoreModuleMediator extends Mediator
 	{
 		[inject]
 		public var m3:Model3;

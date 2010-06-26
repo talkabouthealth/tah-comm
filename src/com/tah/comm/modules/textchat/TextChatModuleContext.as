@@ -6,13 +6,13 @@ package com.tah.comm.modules.textchat
 	import flash.display.DisplayObjectContainer;
 	
 	import org.robotlegs.core.IInjector;
-	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
+	import org.robotlegs.mvcs.Context;
 	
 	import com.tah.comm.common.controller.StartupCommand;
 	
 	import com.tah.comm.common.model.*;
 	
-	public class TextChatModuleContext extends ModuleContext
+	public class TextChatModuleContext extends Context
 	{
 		
 		public function TextChatModuleContext(contextView:DisplayObjectContainer,  injector:IInjector)
@@ -27,10 +27,5 @@ package com.tah.comm.modules.textchat
 			trace("/ TextChatModuleContext startup");
 		}
 		
-		override public function dispose():void
-		{
-			mediatorMap.removeMediatorByView(contextView);
-			super.dispose();
-		}		
 	}
 }

@@ -4,9 +4,9 @@ package com.tah.comm.modules.logger.view
     import com.tah.comm.common.model.*;
     import com.tah.comm.modules.logger.LoggerModule;
     
-    import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
+    import org.robotlegs.mvcs.Mediator;
 	
-    public class LoggerModuleMediator extends ModuleMediator
+    public class LoggerModuleMediator extends Mediator
     {
         [Inject]
         public var view:LoggerModule;

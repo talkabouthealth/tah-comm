@@ -2,6 +2,7 @@ package com.tah.comm.modules.textchat
 {
 	import com.tah.comm.common.events.CommAppEvent;
 	import com.tah.comm.common.events.LoggingEvent;
+	import com.tah.comm.common.model.*;
 	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
 	import flash.events.KeyboardEvent;
@@ -9,12 +10,12 @@ package com.tah.comm.modules.textchat
 	import mx.controls.Alert;
 	
 	import org.robotlegs.mvcs.Command;
+	import org.robotlegs.mvcs.Mediator;
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
 	import spark.components.Label;
-	import com.tah.comm.common.model.*;
 	
-	public class TextChatModuleMediator extends ModuleMediator
+	public class TextChatModuleMediator extends Mediator
 	{
 		[Inject]
 		public var view:TextChatModule;

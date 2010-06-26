@@ -17,12 +17,13 @@ package com.tah.comm
 	import flash.display.DisplayObjectContainer;
 	
 	import org.robotlegs.mvcs.Context;
-	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
+	import org.robotlegs.mvcs.Context;
 	
 	// import org.robotlegs.core.IInjector;
 	
-	public class CommAppContext extends ModuleContext
+	public class CommAppContext extends Context
 	{
+		
 		/*
 		public function CommAppContext(contextView:DisplayObjectContainer, injector:IInjector)
 		{
@@ -44,7 +45,7 @@ package com.tah.comm
 			
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
-			moduleCommandMap.mapEvent(CoreModuleEvent.REQUEST_PARAMETERS, StartupCommand);
+			commandMap.mapEvent(CoreModuleEvent.REQUEST_PARAMETERS, StartupCommand);
 			trace("/ CommAppContext startup");
 			
 		}
