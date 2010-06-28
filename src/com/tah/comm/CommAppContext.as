@@ -19,7 +19,7 @@ package com.tah.comm
 	import org.robotlegs.mvcs.Context;
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 	
-	// import org.robotlegs.core.IInjector;
+	import com.tah.comm.remote.services.*;
 	
 	public class CommAppContext extends ModuleContext
 	{
@@ -35,6 +35,7 @@ package com.tah.comm
 		override public function startup():void
 		{
 			injector.mapSingleton(CoreModel);
+			injector.mapSingletonOf(IRTMPService,Red5Service);
 		
 			//map the modules so that instances will be properly supplied (injected) with an injector.
 			viewMap.mapType(LoggerModule);

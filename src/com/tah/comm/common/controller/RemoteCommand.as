@@ -5,7 +5,7 @@ package com.tah.comm.common.controller
 	
 	import org.robotlegs.mvcs.Command;
 	
-	public class InitCommand extends Command
+	public class RemoteCommand extends Command
 	{
 		[inject]
 		public var event:CommAppEvent;

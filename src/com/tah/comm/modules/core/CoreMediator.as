@@ -26,7 +26,8 @@ package com.tah.comm.modules.core
 			trace("CoreMediator view: "+view);
 			
 			trace("CoreMediator model: "+model);
-			dispatchToModules(new CoreEvent(CoreEvent.REQUEST_PARAMETERS));				
+			dispatchToModules(new CoreEvent(CoreEvent.REQUEST_PARAMETERS));	
+			
 			trace("/ CoreModuleMediator onRegister");
 		}
 	}
