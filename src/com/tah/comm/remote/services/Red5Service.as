@@ -4,14 +4,17 @@ package com.tah.comm.remote.services
 	
 	import flash.media.Video;
 	import flash.net.NetConnection;
+	import flash.net.NetStream;
 	
 	import org.robotlegs.mvcs.Actor;
 
 	public class Red5Service extends Actor implements IRTMPService
 	{
 		public var model:CoreModel;
+		
 		private var nc:NetConnection;
 		private var rtmpString:String = "rtmp://10.0.2.2:1935/chat";
+		private var ns:NetStream;
 		
 		public function Red5Service(model:CoreModel)
 		{
@@ -27,7 +30,8 @@ package com.tah.comm.remote.services
 			trace("connect " + this.model.user.userid);
 			trace("connect " + this.model.user.topic);
 			//nc.connect(this.rtmpString);
-			//nc.connect(this.rtmpString,"_root.user.pseudo","yes","yes","yes","male","chat","world");
+			nc.connect(this.rtmpString,"_root.user.pseudo","yes","yes","yes","male","chat","world");
+			//ns = new NetStream(nc);
 			//nc.connect(_root.rtmpString,_root.user.pseudo,_root.user.webcam,_root.user.onlineStatus,_root.user.role,_root.user.sex,_root.user.room,_root.user.world);
 			trace("/ connect");
 		}
