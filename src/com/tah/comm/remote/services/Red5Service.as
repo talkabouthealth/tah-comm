@@ -35,6 +35,12 @@ package com.tah.comm.remote.services
 			//nc.connect(_root.rtmpString,_root.user.pseudo,_root.user.webcam,_root.user.onlineStatus,_root.user.role,_root.user.sex,_root.user.room,_root.user.world);
 			trace("/ connect");
 		}
+		public function send_text():Boolean
+		{
+			//nc.call();
+			trace("Red5Service send_text");
+			return true;
+		}
 			
 	}
 }

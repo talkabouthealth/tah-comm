@@ -33,6 +33,8 @@ package com.tah.comm.common.controller
 			trace("event: " + event);
 			trace("model.user.userid: " + model.user.userid);
 			
+			service.send_text();
+			
 			trace("/ SendTextCommand execute");
 		}
 	}
