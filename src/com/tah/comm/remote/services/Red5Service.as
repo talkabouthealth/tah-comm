@@ -15,15 +15,19 @@ package com.tah.comm.remote.services
 		
 		public function Red5Service(model:CoreModel)
 		{
-			trace("Red5Service 0");
+			trace("Red5Service");
 			this.model = model;
+			trace("Red5Service model.userid:" + this.model.userid);
 			trace("/ Red5Service");	
 		}
 		
 		public function connect():void
 		{
 			this.nc = new NetConnection();
-			nc.connect(this.rtmpString);
+			trace("connect " + this.model.user.userid);
+			trace("connect " + this.model.user.topic);
+			//nc.connect(this.rtmpString);
+			//nc.connect(this.rtmpString,"_root.user.pseudo","yes","yes","yes","male","chat","world");
 			//nc.connect(_root.rtmpString,_root.user.pseudo,_root.user.webcam,_root.user.onlineStatus,_root.user.role,_root.user.sex,_root.user.room,_root.user.world);
 			trace("/ connect");
 		}

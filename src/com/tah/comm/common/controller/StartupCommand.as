@@ -40,7 +40,8 @@ package com.tah.comm.common.controller
 			
 			model.createUser();
 			
-			//service.connect();
+			service.connect();
+			
 			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "4 StartupCommand Executed!"));
 			
 			

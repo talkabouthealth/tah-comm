@@ -19,17 +19,10 @@ package com.tah.comm.common.model
 		public function createUser():void
 		{
 			this.user = new User(userid,topic);
-			trace("user.userid "+user.userid);
-			//trace("user.topic "+user.topic);
-			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "id: " + user.userid + "  t: " + user.topic ));
+			trace("createUser user.userid "+user.userid);
+			trace("createUser user.topic "+user.topic);
+			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "createUser id: " + user.userid + "  t: " + user.topic ));
 		}
-			
-		public function requestParameters():void
-		{
-			trace("requestInit");
-			//this.dispatch(new CommAppEvent(CommAppEvent.INIT));
-			
-			trace("/ requestInit");
-		}
+		
 	}
 }
