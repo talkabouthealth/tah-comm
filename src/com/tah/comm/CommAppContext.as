@@ -7,7 +7,7 @@ package com.tah.comm
 	import com.tah.comm.common.model.User;
 	import com.tah.comm.modules.core.Core;
 	import com.tah.comm.modules.logger.LoggerModule;
-	import com.tah.comm.modules.textchat.TextChatCommand;
+
 	import com.tah.comm.modules.textchat.TextChatModel;
 	import com.tah.comm.modules.textchat.TextChatModule;
 	import com.tah.comm.modules.textchat.TextChatModuleMediator;
@@ -45,6 +45,9 @@ package com.tah.comm
 			mediatorMap.mapView(CommApp, CommAppMediator);
 			
 			commandMap.mapEvent(CommAppEvent.SET_PARAMETERS, StartupCommand);
+			
+			moduleCommandMap.mapEvent(CoreEvent.SEND_TEXT, SendTextCommand);
+				
 			trace("/ CommAppContext startup");
 			
 		}

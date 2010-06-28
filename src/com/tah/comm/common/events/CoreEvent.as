@@ -4,7 +4,8 @@ package com.tah.comm.common.events
     
     public class CoreEvent extends Event
     {
-		public static const REQUEST_PARAMETERS:String = "CoreModuleEvent.REQUEST_PARAMETERS";
+		public static const REQUEST_PARAMETERS:String = "CoreEvent.REQUEST_PARAMETERS";
+		public static const SEND_TEXT:String = "CoreEvent.SEND_TEXT";
 		
 		private var _payload:Object;
 		

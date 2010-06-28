@@ -1,7 +1,9 @@
 package com.tah.comm.modules.textchat
 {
 	import com.tah.comm.common.events.CommAppEvent;
+	import com.tah.comm.common.events.CoreEvent;
 	import com.tah.comm.common.events.LoggingEvent;
+	import com.tah.comm.common.model.*;
 	import com.tah.comm.modules.textchat.events.TextChatEvent;
 	
 	import flash.events.KeyboardEvent;
@@ -12,7 +14,6 @@ package com.tah.comm.modules.textchat
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
 	import spark.components.Label;
-	import com.tah.comm.common.model.*;
 	
 	public class TextChatModuleMediator extends ModuleMediator
 	{
@@ -48,7 +49,8 @@ package com.tah.comm.modules.textchat
 				if (msg == String.fromCharCode(10)) return;
 				
 				msg = msg.substr(0,msg.length-1);
-				view.txt_history.text += msg + '\r';				
+				view.txt_history.text += msg + '\r';
+				
 				dispatch(new TextChatEvent(TextChatEvent.SEND));
 				
 				// scrollToMax
@@ -59,6 +61,7 @@ package com.tah.comm.modules.textchat
 		
 		private function onSend(event:TextChatEvent):void
 		{
+			dispatchToModules(new CoreEvent(CoreEvent.SEND_TEXT));
 			dispatchToModules(new LoggingEvent(LoggingEvent.MESSAGE, "TextChatModuleMediator onSend"));
 		}
 		
