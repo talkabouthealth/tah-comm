@@ -13,11 +13,6 @@
 			
 			import mx.utils.ObjectUtil;
 			
-			protected function btn_test_clickHandler(event:MouseEvent):void
-			{
-				//this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));
-			}
-
 		]]>
 	</fx:Script>
 
@@ -34,7 +29,7 @@
 		<s:VGroup width="241" height="100%">
 			<view:Cam width="241" height="214">
 			</view:Cam>
-			<s:Button label="Test" id="btn_test" click="btn_test_clickHandler(event)"/>
+			<s:Button label="Test" id="btn_test"/>
 			<core:Core/>		
 		</s:VGroup>
 		<textchat:TextChatModule id="tc"  width="403" height="512" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>

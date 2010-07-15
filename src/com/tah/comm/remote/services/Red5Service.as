@@ -55,8 +55,9 @@ package com.tah.comm.remote.services
 			this.nc = new NetConnection();
 			trace("connect " + this.model.user.userid);
 			trace("connect " + this.model.user.topic);
-			//nc.connect(this.rtmpString);
-			nc.connect(this.rtmpString,"_root.user.pseudo","yes","yes","yes","male","chat","world");
+			
+			//nc.connect(this.rtmpString,"_root.user.pseudo","yes","yes","yes","male","chat","world");
+			nc.connect(this.rtmpString,this.model.user.userid,"yes","yes","yes","male",this.model.user.topic,"world");
 			//ns = new NetStream(nc);
 			//nc.connect(_root.rtmpString,_root.user.pseudo,_root.user.webcam,_root.user.onlineStatus,_root.user.role,_root.user.sex,_root.user.room,_root.user.world);
 			
@@ -69,18 +70,5 @@ package com.tah.comm.remote.services
 			return true;
 		}
 		
-		/*
-		//Create the URLLOader instance
-		var myLoader:URLLoader = new URLLoader()
-		//the data will come as URL-encoded variables
-		myLoader.dataFormat = URLLoaderDataFormat.VARIABLES
-		//Load using an URLRequest, even beeing local
-		myLoader.load(new URLRequest("files/txt/anastasio.txt"))
-		//add a listener for the complete event
-		myLoader.addEventListener(Event.COMPLETE, onLoad)
-		function onLoad(ev:Event){
-		trace ("Data loaded")
-		}
-		*/
 	}
 }
