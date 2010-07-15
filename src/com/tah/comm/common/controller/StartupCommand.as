@@ -42,7 +42,7 @@ package com.tah.comm.common.controller
 			
 			service.connect();
 			
-			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "4 StartupCommand Executed!"));
+			moduleDispatcher.dispatchEvent(new LoggingEvent(LoggingEvent.MESSAGE, "StartupCommand Executed!"));
 			
 			
 			
