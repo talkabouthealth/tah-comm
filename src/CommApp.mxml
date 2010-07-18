@@ -112,7 +112,7 @@
 				txt_history.textFlow.addChild(para);
 			}
 			/***************************************************************************/
-			/*			private var conStatus:Boolean=false;
+			/*private var conStatus:Boolean=false;
 			private var vi:Video;
 			private var snd:Sound;
 			private var cam:Camera;
@@ -189,7 +189,7 @@
 			inStream.close();
 			videoDisplay.removeChild(vi);
 			}
-			*/			
+			*/	
 			///////////////////\/\/\/\Displaying Part/\/\/\///////////////////
 		]]>
 	</fx:Script>

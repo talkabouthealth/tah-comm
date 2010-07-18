@@ -26,7 +26,7 @@ package com.tah.comm.view
 		override public function onRegister():void
 		{
 			trace("CommAppMediator onRegister");
-			view.btn_test.addEventListener(MouseEvent.CLICK, onTestClick);
+			//view.btn_test.addEventListener(MouseEvent.CLICK, onTestClick);
 			addModuleListener(CoreEvent.REQUEST_PARAMETERS,set_paremeters,CoreEvent);
 			trace("CommAppMediator model: "+model);	
 			trace("/ CommAppMediator onRegister");

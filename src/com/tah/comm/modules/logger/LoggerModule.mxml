@@ -52,7 +52,6 @@
                 context.dispose();
                 context = null;
             }
-            
         ]]>
     </fx:Script>
     <fx:Declarations>
