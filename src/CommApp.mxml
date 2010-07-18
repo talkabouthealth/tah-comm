@@ -4,18 +4,196 @@
 			   xmlns:view="com.tah.comm.modules.media.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="849" height="601" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="949" height="1501" 
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
-			   xmlns:core="com.tah.comm.modules.core.*" >
+			   xmlns:core="com.tah.comm.modules.core.*" 
+			   xmlns:nc="flash.net.NetConnection"
+			   
+			   creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
 			
+			import flash.events.NetStatusEvent;
+			import flash.net.SharedObject;
+			import flash.text.engine.FontWeight;
+			
+			import flashx.textLayout.container.ContainerController;
+			import flashx.textLayout.elements.ParagraphElement;
+			import flashx.textLayout.elements.SpanElement;
+			import flashx.textLayout.elements.TextFlow;
+			import flashx.textLayout.factory.TextFlowTextLineFactory;
+			
+			import mx.collections.ArrayCollection;
 			import mx.utils.ObjectUtil;
 			
+			import spark.utils.TextFlowUtil;
+			
+			[Bindable] private var talkerListAC:Array;
+			
+			public var talkerListSO:SharedObject;
+			public var userid:String;
+			public var username:String;
+			public var topicid:String;
+			public var topic:String;
+			public var nc:NetConnection;
+			
+			private function init():void
+			{
+				//FLASHVARS CODE
+				var paramObj:Object = this.parameters;
+				
+				this.userid = paramObj["userid"];
+				this.username = paramObj["username"];
+				this.topicid = paramObj["topicid"];
+				this.topic = paramObj["topic"];
+				
+				// new netconnection
+				nc = new NetConnection( );
+				nc.client = this;
+				
+				// set encoding to old amf
+				nc.objectEncoding = ObjectEncoding.AMF3;
+				
+				// netstatus event listening
+				nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
+				
+				// connect to red5, passing false as parameter
+				nc.connect( "rtmp://localhost/tah-commapp-server/" + topicid, userid, username, topicid, topic );
+				topicTitle.text = "Topic: " + topic;
+				welcomeUser.text = "Welcome " + userid;
+			}
+			
+			private function netStatus ( event:NetStatusEvent ):void
+			{
+				if( event.info.code == "NetConnection.Connect.Success" ) {
+					//conStatus = true;
+					logger.addLoggingMessage("NC Success");
+					talkerListSO = SharedObject.getRemote("talkerListSO-" + topicid, nc.uri, false);
+					talkerListSO.connect(nc);
+					talkerListSO.addEventListener(SyncEvent.SYNC, talkerListSync);
+					//talkerListSO.client = this;
+					logger.addLoggingMessage("SO Success");
+					
+				} else {
+					// connection failed
+				}
+			}
+			private function talkerListSync ( event:SyncEvent ):void
+			{
+				logger.addLoggingMessage("++++Talker List Sync");
+			
+				var tmpArray:Array;
+				for (var i = 0; i < (talkerListSO.data[ "talkerListAC" ]).length; i++ ) {
+					tmpArray.push(((talkerListSO.data[ "talkerListAC" ])[i])[1]);
+				}
+				talkerListAC = new Array();
+				talkerListAC = tmpArray;
+			}
+			/*protected function btn_startup_clickHandler(event:MouseEvent):void
+			{
+			this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));
+			}*/
+			
+			protected function enter_txtevent(event:Event):void
+			{
+				nc.call("send_msgtoroom", null, this.userid, this.topic, txt_msg.text);
+				txt_msg.text = "";
+			}
+			public function receivePublicMsg(fromUser:String, msg:String):void {
+				var para:ParagraphElement = new ParagraphElement(); 
+				var span1:SpanElement = new SpanElement(); 
+				var span2:SpanElement = new SpanElement(); 
+				span1.text = fromUser + ": "; 
+				span1.fontWeight = FontWeight.BOLD;
+				span2.text = msg;
+				para.addChild(span1); 
+				para.addChild(span2);
+				txt_history.textFlow.addChild(para);
+			}
+			/***************************************************************************/
+			/*			private var conStatus:Boolean=false;
+			private var vi:Video;
+			private var snd:Sound;
+			private var cam:Camera;
+			private var mph:Microphone;
+			private var inStream:NetStream;
+			private var outStream:NetStream;
+			
+			protected function videoStart():void
+			{
+			if(conStatus == true)
+			{
+			//Begins recording
+			beginRec();
+			getVideo();
+			}
+			else
+			{
+			logger.addLoggingMessage("Cannot start video ...");
+			}
+			}
+			protected function videoStop():void
+			{
+			stopVideo();
+			endRec();
+			}
+			///////////////////  Recording Part   ///////////////////
+			
+			//Start recording
+			protected function beginRec():void
+			{
+			cam = Camera.getCamera();
+			cam.setMode(320,240,30);//Set size and Frame Rate
+			cam.setQuality(0,70);//Set video quality
+			
+			mph = Microphone.getMicrophone();
+			mph.rate = 11;
+			mph.setUseEchoSuppression(true);
+			mph.setLoopBack(false);
+			
+			outStream = new NetStream(nc);
+			outStream.client = this;
+			
+			outStream.attachCamera(cam);//activate video
+			outStream.attachAudio(mph);
+			outStream.publish(this.userid,"live");
+			}
+			
+			//Stop recording
+			private function endRec():void
+			{
+			outStream.close();
+			}
+			
+			///////////////////\/\/\/\Recording Part/\/\/\/\//////////////////
+			
+			///////////////////       Displaying Part/     ///////////////////
+			private function getVideo():void
+			{
+			inStream = new NetStream(nc);
+			inStream.client = this;
+			inStream.play(this.userid);
+			
+			vi = new Video();
+			vi.width = videoDisplay.width;
+			vi.height = videoDisplay.height;
+			vi.smoothing = true;
+			vi.attachNetStream(inStream);
+			
+			videoDisplay.addChild(vi);
+			}
+			
+			private function stopVideo():void
+			{
+			inStream.close();
+			videoDisplay.removeChild(vi);
+			}
+			*/			
+			///////////////////\/\/\/\Displaying Part/\/\/\///////////////////
 		]]>
 	</fx:Script>
-
+	
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:CommAppContext contextView="{this}" />
@@ -23,21 +201,41 @@
 	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
-	<logger:LoggerModule/>
 	
-	<s:HGroup width="100%" height="100%">
-		<s:VGroup width="241" height="100%">
-			<view:Cam width="241" height="214">
-			</view:Cam>
-			<s:Button label="Test" id="btn_test"/>
-			<core:Core/>		
-		</s:VGroup>
-		<textchat:TextChatModule id="tc"  width="403" height="512" horizontalScrollPolicy="off" verticalScrollPolicy="off"/>
-		<mx:DataGrid height="509" width="178">
-			<mx:columns>
-				<mx:DataGridColumn headerText="User" dataField="col1"/>
-			</mx:columns>
-		</mx:DataGrid>
+	<logger:LoggerModule id="logger"/>
+	<!--<s:HGroup>
+	<s:VGroup width="241" height="214">
+	<s:VideoDisplay id="videoDisplay" width="240" height="180"/>
+	<s:HGroup>
+	<s:Button label="Start Cam" x="10" click="videoStart()"/>
+	<s:Button label="Stop Cam" x="130" click="videoStop()"/>
 	</s:HGroup>
-	
+	</s:VGroup>	
+	</s:HGroup>-->
+	<s:HGroup width="100%" height="100%">
+		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
+		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
+			<s:HGroup>
+				<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>
+				<s:Label id="topicTitle" />
+			</s:HGroup>	
+			<s:TextArea width="100%" height="275" id="txt_history" editable="false" enabled="true" />
+			<s:HGroup>
+				<mx:CheckBox width="100" label="Video On/Off"/> 
+				<mx:CheckBox width="100" label="Voice On/Off"/>
+				<mx:Button label="Speaker Volume"/>
+				<mx:Button label="Microphone Volume"/>
+			</s:HGroup>
+			<s:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"/>
+		</s:VGroup>
+		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
+			<s:Label id="welcomeUser" />
+			<mx:DataGrid height="330" width="178" dataProvider="{talkerListAC}" >
+				<mx:columns>
+					<!--<mx:DataGridColumn headerText="Talkers" dataField="username" id="talkerlist"/>-->
+					<mx:DataGridColumn id="talkerlist"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</s:VGroup>
+	</s:HGroup>
 </s:Application>

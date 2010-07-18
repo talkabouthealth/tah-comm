@@ -2,7 +2,7 @@
 <project name="tah-comm" basedir="." default="copy">
 
   <property name="FLEX_HOME" location="/base/sdks/flex_sdk_4.0.0.14159"/>
-  <property name="destDir" location="${basedir}/../tah-red5chat-mod/WebContent" />
+  <property name="destDir" location="${basedir}/../tah-commapp-server/WebContent" />
   
   <target name="clean" description="Clean output directories">
       <!-- Delete the ${build} directory trees -->
