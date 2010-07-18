@@ -12,7 +12,7 @@
 
   <target name="swf" depends="clean">
     <echo>[test] Running swf generation</echo>
-    <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true">
+    <java jar="${FLEX_HOME}/lib/mxmlc.jar" dir="${FLEX_HOME}/frameworks" fork="true" failonerror="true" maxmemory="512m">
         <arg value="${basedir}/src/CommApp.mxml"/>
       <arg value="-source-path=${basedir}/src"/>
       <arg value="-output=${basedir}/bin/CommApp.swf"/>
