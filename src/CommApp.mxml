@@ -216,7 +216,7 @@
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:HGroup>
-				<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>
+				<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
 				<s:Label id="topicTitle" />
 			</s:HGroup>	
 			<s:TextArea width="100%" height="275" id="txt_history" editable="false" enabled="true" />
