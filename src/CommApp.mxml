@@ -61,7 +61,7 @@
 				// connect to red5, passing false as parameter
 				nc.connect( "rtmp://localhost/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
-				welcomeUser.text = "Welcome " + userid;
+				welcomeUser.text = "Welcome " + username;
 			}
 			
 			private function netStatus ( event:NetStatusEvent ):void
@@ -83,11 +83,11 @@
 			{
 				logger.addLoggingMessage("++++Talker List Sync");
 			
-				var tmpArray:Array;
+				var tmpArray:Array = new Array();
 				for (var i = 0; i < (talkerListSO.data[ "talkerListAC" ]).length; i++ ) {
 					tmpArray.push(((talkerListSO.data[ "talkerListAC" ])[i])[1]);
 				}
-				talkerListAC = new Array();
+				//talkerListAC = new Array();
 				talkerListAC = tmpArray;
 			}
 			/*protected function btn_startup_clickHandler(event:MouseEvent):void
@@ -97,7 +97,7 @@
 			
 			protected function enter_txtevent(event:Event):void
 			{
-				nc.call("send_msgtoroom", null, this.userid, this.topic, txt_msg.text);
+				nc.call("send_msgtoroom", null, this.username, this.topicid, txt_msg.text);
 				txt_msg.text = "";
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
