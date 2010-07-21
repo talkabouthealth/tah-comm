@@ -2,7 +2,8 @@
 <project name="tah-comm" basedir="." default="copy">
 
   <property name="FLEX_HOME" location="/base/sdks/flex_sdk_4.0.0.14159"/>
-  <property name="destDir" location="${basedir}/../tah-commapp-server" />
+  <property name="webAppDestDir" location="${basedir}/../tah-webapp/public/comm" />
+  <property name="red5DestDir" location="${basedir}/../tah-commapp-server" />
   
   <target name="clean" description="Clean output directories">
       <!-- Delete the ${build} directory trees -->
@@ -27,6 +28,7 @@
   </target>
   
   <target name="copy" depends="swf">
-      <copy file="${basedir}/bin/CommApp.swf" tofile="${destDir}/CommApp.swf"/>
+      <copy file="${basedir}/bin/CommApp.swf" tofile="${webAppDestDir}/CommApp.swf"/>
+      <copy file="${basedir}/bin/CommApp.swf" tofile="${red5DestDir}/CommApp.swf"/>
   </target>
 </project>

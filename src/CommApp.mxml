@@ -66,7 +66,7 @@
 				nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
 				
 				// connect to red5, passing false as parameter
-				nc.connect( "rtmp://localhost/tah-commapp-server/" + topicid, userid, username, topicid, topic );
+				nc.connect( "rtmp://talkabouthealth.com:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
 			}
