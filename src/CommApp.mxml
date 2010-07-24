@@ -72,6 +72,9 @@
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
 				
+				//set the video List
+				videoListAC = new Array();
+				
 				//set the local VideoDisplay
 				videoLocal = new VideoDisplay();
 				videoLocal.width = 160;
@@ -308,16 +311,17 @@
 				
 				while(videoGroup.numElements>0){
 					videoGroup.removeElementAt(0);
-					logger.addLoggingMessage("row group removed");
 				}
+				logger.addLoggingMessage("row group removed");
 				
 				dispRowGroupAC = new Array();
 				inStream = new Array();
 				
 				//Get video array of peers
 				for(var i:int=0; i<videoListAC.length;i++){
+					logger.addLoggingMessage("video list is not empty.");
 					if( this.clientid != videoListAC[i]){
-						logger.addLoggingMessage("video list is not empty.")
+						logger.addLoggingMessage("There exist other peers on video list");
 										
 						var newInStream:NetStream = new NetStream(nc);
 						newInStream.play(videoListAC[i]as String);
