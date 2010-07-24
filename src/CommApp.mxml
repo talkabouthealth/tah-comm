@@ -4,7 +4,7 @@
 			   xmlns:view="com.tah.comm.modules.media.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="949" height="1501" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="949"  height="2000"
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
 			   xmlns:core="com.tah.comm.modules.core.*" 
 			   xmlns:nc="flash.net.NetConnection"
@@ -12,7 +12,6 @@
 			   creationComplete="init()">
 	<fx:Script>
 		<![CDATA[
-			//July. 21, 2010 Situ
 			import com.tah.comm.common.events.CommAppEvent;
 			
 			import flash.events.NetStatusEvent;
@@ -26,8 +25,11 @@
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.VideoDisplay;
+			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
 			
+			import spark.components.Group;
 			import spark.utils.TextFlowUtil;
 			
 			[Bindable] private var talkerListAC:Array;
@@ -69,6 +71,13 @@
 				nc.connect( "rtmp://localhost/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
+				
+				//set the local VideoDisplay
+				videoLocal = new VideoDisplay();
+				videoLocal.width = 160;
+				videoLocal.height = 120;
+				
+				doDisplay();
 			}
 			
 			private function netStatus ( event:NetStatusEvent ):void
@@ -134,17 +143,18 @@
 				logger.addLoggingMessage("vid syc step 1 ...");
 				tmpArray = new Array();
 				
+				
 				for (var i :int= 0; i < (videoListSO.data[ listName ]).length; i++ ) {
 					tmpArray.push((videoListSO.data[ listName ])[i]);
 				}
 				logger.addLoggingMessage("vid syc step 2 ...");
 				videoListAC = null;
 				videoListAC = tmpArray;	
-				if(videoListAC == null) {
+				/* if(videoListAC == null) {
 					logger.addLoggingMessage("videoListAC is null");
 				}else {
 					logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
-				}
+				} */
 				
 				logger.addLoggingMessage("Video List: ");
 				for(var i:int =0 ; i<videoListAC.length ;i++){
@@ -182,6 +192,7 @@
 			private var mph:Microphone;
 			private var inStream:Array; //Array<NetStream>
 			private var outStream:NetStream;
+			//private var broadCasting = false;
 			
 			protected function videoStart():void
 			{
@@ -210,7 +221,7 @@
 				logger.addLoggingMessage("Bigin Recording ...");
 				cam = Camera.getCamera();
 				cam.setMode(320,240,30);//Set size and Frame Rate
-				cam.setQuality(0,70);//Set video quality
+				cam.setQuality(0,50);//Set video quality
 				
 				mph = Microphone.getMicrophone();
 				mph.rate = 11;
@@ -244,7 +255,9 @@
 				logger.addLoggingMessage("++++Video List Removed");
 				
 				cam = null;
-				vi.attachCamera(null);
+				vi = null;
+				
+				doDisplay();
 				
 			}
 			
@@ -254,8 +267,11 @@
 			/*
 			* Display local video
 			*/
+			public var videoLocal:VideoDisplay;
+			
 			private function getVideoLocal():void
 			{
+				
 				logger.addLoggingMessage("Getting Local Video ... ");
 				vi = new Video();
 				vi.width = videoLocal.width;
@@ -264,48 +280,112 @@
 				vi.attachCamera(this.cam);
 				
 				videoLocal.addChild(vi);
+				doDisplay();
 			}
 			
 			private function stopVideoLocal():void
 			{
 				// Don't show local video 
 				videoLocal.removeChild(vi);
-				logger.addLoggingMessage("Video removed ...");			
+				logger.addLoggingMessage("Video removed ...");
 			}
+			
+			private var dispListAC:Array=null;
+			private var dispRowGroupAC:Array = null; //Put HGroup in it
 			
 			private function doDisplay():void
 			{
 				logger.addLoggingMessage("Do display ...");
-				logger.addLoggingMessage("video 0: "+(videoGroup.getChildAt(0)as VideoDisplay).id);
+				/* logger.addLoggingMessage("video 0: "+(videoGroup.getChildAt(0)as VideoDisplay).id);
 				logger.addLoggingMessage("video 1: "+(videoGroup.getChildAt(1)as VideoDisplay).id);
-				logger.addLoggingMessage("video 2: "+(videoGroup.getChildAt(2)as VideoDisplay).id);
-				var count:int = 0;
+				logger.addLoggingMessage("video 2: "+(videoGroup.getChildAt(2)as VideoDisplay).id); */
+				
+				var dispRowCapacity:int = 4;
+				//var groupCnt:int = 0;
+				//var dispRowNum = videoListAC.length/dispRowCapacity + 1;
 				inStream = new Array();
 				vid = new Array();
 				
+				while(videoGroup.numElements>0){
+					videoGroup.removeElementAt(0);
+					logger.addLoggingMessage("row group removed");
+				}
+				
+				dispRowGroupAC = new Array();
+				inStream = new Array();
+				
+				//Get video array of peers
 				for(var i:int=0; i<videoListAC.length;i++){
 					if( this.clientid != videoListAC[i]){
-						inStream[count] = new NetStream(nc);
-						inStream[count].play(videoListAC[i].toString());
+						logger.addLoggingMessage("video list is not empty.")
+										
+						var newInStream:NetStream = new NetStream(nc);
+						newInStream.play(videoListAC[i]as String);
+						inStream.push(newInStream);
 						
-						vid[count] = new Video();
-						vid[count].width = videoGroup.getChildAt(count).width;
-						vid[count].height = videoGroup.getChildAt(count).height;
-						vid[count].smoothing = true;
+						var newVid:Video = new Video();
+						newVid.width = 160;
+						newVid.height = 120;
+						newVid.smoothing = true;
+						newVid.attachNetStream(newInStream);
+						vid.push(newVid);		
 						
-						vid[count].attachNetStream(inStream[count]);
-						
-						count++;
 					}
-					if(count>=3) break;
 				}
-				for(var i:int=0;i<3;i++){
-					//if((vid[i] as Video).)
-					(videoGroup.getChildAt(i)as VideoDisplay).addChild(vid[i]);
+				logger.addLoggingMessage("video array done!");
+				
+				//Assgin video array to VideoDisplay array
+				dispListAC = new Array();
+				logger.addLoggingMessage("dispListAC new!");
+				dispListAC.push(videoLocal);//Show local Video first
+				logger.addLoggingMessage("videoLocal pushed!");
+				for(var i:int = 0; i<vid.length;i++){
+					var vDisp:VideoDisplay = new VideoDisplay();
+					vDisp.width = (vid[i] as Video).width;
+					vDisp.height = (vid[i] as Video).height;
+					vDisp.addChild(vid[i]as Video);
+					dispListAC.push(vDisp);
 				}
+				logger.addLoggingMessage("dispListAC done!");
+				//Assign VidDisplay list to rowGroup and push rowGroup into dispRowGroupAC
+				var newGroup:HGroup = null;
+				logger.addLoggingMessage("dispListAC.length: "+dispListAC.length);
+				for(var i:int=0; i<dispListAC.length; i++){
+					if(i%dispRowCapacity == 0){
+						if(newGroup!=null){
+							dispRowGroupAC.push(newGroup);
+						}
+						var newGroup:HGroup = new HGroup();
+						newGroup.gap = 5;
+						newGroup.paddingLeft = 5;
+						newGroup.paddingTop = 5;
+					}
+					//logger.addLoggingMessage("before addChild ...");
+					newGroup.addElement(dispListAC[i] as VideoDisplay);
+				}
+				//logger.addLoggingMessage("addChild success!");
+				logger.addLoggingMessage("addElement success!");
+				if(newGroup!=null){
+					dispRowGroupAC.push(newGroup);
+				}
+				logger.addLoggingMessage("VideoDisplay RowGroup Array done!");
+				///////////////////////////////////////////////////////////////////
+				
+				//logger.addLoggingMessage("we wanna show it at videoGroup");
+				logger.addLoggingMessage("dispRowGroupAC.length: " + dispRowGroupAC.length);
+				for(var i:int = 0; i<dispRowGroupAC.length;i++){
+					videoGroup.addElement(dispRowGroupAC[i]as HGroup);
+
+					logger.addLoggingMessage("videoGroup numElement " + videoGroup.numElements);
+					//logger.addLoggingMessage("videoGroup Element id: " + (dispRowGroupAC[i]as HGroup).id);
+				}
+				
 			}
 			
 			///////////////////\/\/\/\Displaying Part/\/\/\///////////////////
+
+			
+
 		]]>
 	</fx:Script>
 	
@@ -319,18 +399,18 @@
 	
 	<logger:LoggerModule id="logger"/>
 	<s:HGroup>
-		<s:HGroup width="210" height="120">
+		<!--<s:HGroup left="0" >
 			<s:VGroup width="50">
 				<s:Button label="Start" click="videoStart()" width="50"/>
 				<s:Button label="Stop"  click="videoStop()" width="50"/>
 			</s:VGroup>
 			<s:VideoDisplay id="videoLocal" width="160" height="120" right="0"/>
-		</s:HGroup>	
-		<s:HGroup id="videoGroup">
-			<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
+		</s:HGroup>	-->
+		<s:VGroup id="videoGroup" left="0">
+			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay1" width="200" height="150"/>
-			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>
-		</s:HGroup>		
+			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>-->
+		</s:VGroup>		
 	</s:HGroup>
 	<s:HGroup width="100%" height="100%">
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
@@ -339,9 +419,11 @@
 				<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
 				<s:Label id="topicTitle" />
 			</s:HGroup>	
-			<s:TextArea width="100%" height="275" id="txt_history" editable="false" enabled="true" />
+			<s:TextArea width="100%" height="200" id="txt_history" editable="false" enabled="true" />
 			<s:HGroup>
-				<mx:CheckBox width="100" label="Video On/Off"/> 
+				<mx:CheckBox id="videoSwitch" width="100" label="Video On/Off" 
+							 change="if(videoSwitch.selected == true) videoStart();
+							 else videoStop();"/>
 				<mx:CheckBox width="100" label="Voice On/Off"/>
 				<mx:Button label="Speaker Volume"/>
 				<mx:Button label="Microphone Volume"/>
@@ -350,7 +432,7 @@
 		</s:VGroup>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:Label id="welcomeUser" />
-			<mx:DataGrid height="330" width="178" dataProvider="{talkerListAC}" >
+			<mx:DataGrid height="260" width="178" dataProvider="{talkerListAC}" >
 				<mx:columns>
 					<!--<mx:DataGridColumn headerText="Talkers" dataField="username" id="talkerlist"/>-->
 					<mx:DataGridColumn id="talkerlist"/>
