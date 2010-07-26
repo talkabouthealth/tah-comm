@@ -192,7 +192,7 @@
 			private var vid:Array;      //Array<Video>
 			private var snd:Sound;
 			private var cam:Camera;
-			private var mph:Microphone;
+			private var mic:Microphone;
 			private var inStream:Array; //Array<NetStream>
 			private var outStream:NetStream;
 			//private var broadCasting = false;
@@ -221,21 +221,28 @@
 			//Start recording
 			protected function beginRec():void
 			{
-				logger.addLoggingMessage("Bigin Recording ...");
-				cam = Camera.getCamera();
-				cam.setMode(320,240,30);//Set size and Frame Rate
-				cam.setQuality(0,50);//Set video quality
-				
-				mph = Microphone.getMicrophone();
-				mph.rate = 11;
-				mph.setUseEchoSuppression(true);
-				mph.setLoopBack(false);
-				
 				outStream = new NetStream(nc);
-				outStream.client = this;
+				//outStream.client = this;
 				
-				outStream.attachCamera(cam);//activate video
-				outStream.attachAudio(mph);
+				logger.addLoggingMessage("Bigin Recording ...");
+				
+				cam = Camera.getCamera();
+				if(cam!=null){
+					cam.setMode(320,240,30);//Set size and Frame Rate
+					cam.setQuality(0,50);//Set video quality
+					outStream.attachCamera(cam);//activate video
+				}
+				
+				
+				mic = Microphone.getMicrophone();
+				if(mic!=null){
+					mic.setUseEchoSuppression(true);
+					//mic.setLoopBack(true);
+					mic.setSilenceLevel(0,1);
+					mic.gain = 80;
+					outStream.attachAudio(mic);
+				}
+				
 				outStream.publish(this.clientid,"live");
 				
 				//Add himself to the video list
