@@ -25,6 +25,7 @@
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
 			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
@@ -71,6 +72,12 @@
 				nc.connect( "rtmp://talkabouthealth.com:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
+				
+				//set volume and mic slider
+				//micVolslider = new VSlider();
+				//micVolslider.x = micVol.x;
+				//micVolslider.y = micVol.x;
+				//micVolslider.visible = true;
 				
 				//set the video List
 				videoListAC = new Array();
@@ -239,7 +246,7 @@
 					mic.setUseEchoSuppression(true);
 					//mic.setLoopBack(true);
 					mic.setSilenceLevel(0,1);
-					mic.gain = 80;
+					mic.gain = micVol.value;
 					outStream.attachAudio(mic);
 				}
 				
@@ -355,6 +362,7 @@
 					vDisp.width = (vid[i] as Video).width;
 					vDisp.height = (vid[i] as Video).height;
 					vDisp.addChild(vid[i]as Video);
+					vDisp.volume = spVol.value;
 					dispListAC.push(vDisp);
 				}
 				logger.addLoggingMessage("dispListAC done!");
@@ -395,7 +403,15 @@
 			
 			///////////////////\/\/\/\Displaying Part/\/\/\///////////////////
 
-			
+			//var micVolslider:VSlider;
+			private function spVolHandler():void
+			{
+				logger.addLoggingMessage("spVolHandler");
+				for(var i:int=1;i<dispListAC.length;i++){
+					(dispListAC[i]as VideoDisplay).volume = spVol.value;
+				}
+				
+			}
 
 		]]>
 	</fx:Script>
@@ -407,7 +423,6 @@
 	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
-	
 	<logger:LoggerModule id="logger"/>
 	<s:HGroup>
 		<!--<s:HGroup left="0" >
@@ -436,8 +451,22 @@
 							 change="if(videoSwitch.selected == true) videoStart();
 							 else videoStop();"/>
 				<mx:CheckBox width="100" label="Voice On/Off"/>
-				<mx:Button label="Speaker Volume"/>
-				<mx:Button label="Microphone Volume"/>
+				<s:Label text="Vol:"/>
+				<s:HSlider id="spVol" 						   
+						   minimum="0.0"
+						   maximum="1.0"
+						   value="1.0"
+						   snapInterval="0.01"
+						   liveDragging="true"
+						   thumbRelease="spVolHandler()"/>
+				<s:Label text="Mic:"/>
+				<s:HSlider id="micVol"
+						   minimum="0"
+						   maximum="100"
+						   value="80"
+						   snapInterval="1"
+						   liveDragging="true"
+						   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>
 			</s:HGroup>
 			<s:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"/>
 		</s:VGroup>
