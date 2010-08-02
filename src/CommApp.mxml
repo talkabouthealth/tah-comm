@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:Application xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:comm="com.tah.comm.*"
+			   xmlns:components="components.*"
 			   xmlns:view="com.tah.comm.modules.media.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
@@ -10,9 +11,29 @@
 			   xmlns:nc="flash.net.NetConnection"
 			   
 			   creationComplete="init()">
+	<fx:Declarations>
+		<fx:XML id="testData" xmlns="">		
+			<root>
+				<book>
+					<author>Peter F. Hamilton</author>
+					<title>Pandora's Star</title>
+					<image>http://bbs.airia.cn/UserFiles/Avatar/Big/8/3/8/83891.jpg</image>
+					<date>Dec 3, 2004</date>
+				</book>			
+				<book>				
+					<author>Peter F. Hamilton</author>				
+					<title>Judas Unchained</title>				
+					<image>assets/judas_unchained.jpg</image>				
+					<date>Feb 28, 2006</date>				
+				</book>			
+			</root>		
+		</fx:XML>
+	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
+			
+			import components.VideoDispUnit;
 			
 			import flash.events.NetStatusEvent;
 			import flash.net.SharedObject;
@@ -25,6 +46,7 @@
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			
 			import mx.collections.ArrayCollection;
+			import mx.controls.Image;
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
 			import mx.states.AddChild;
@@ -33,13 +55,15 @@
 			import spark.components.Group;
 			import spark.utils.TextFlowUtil;
 			
-			[Bindable] private var talkerListAC:Array;
+			[Bindable] public var talkerListAC:Array;
+			
 			private var videoListAC:Array;
 			
 			private var ncSuccess:Boolean;
 			
 			public var talkerListSO:SharedObject;
 			public var videoListSO:SharedObject;
+			public var imageListSO:SharedObject;
 			public var userid:String;
 			public var username:String;
 			public var topicid:String;
@@ -59,7 +83,7 @@
 				this.clientid = null;
 				
 				// new netconnection
-				nc = new NetConnection( );
+				nc = new NetConnection();
 				nc.client = this;
 				
 				// set encoding to old amf
@@ -69,7 +93,7 @@
 				nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
 				
 				// connect to red5, passing false as parameter
-				nc.connect( "rtmp://talkabouthealth.com:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
+				nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
 				
@@ -82,10 +106,23 @@
 				//set the video List
 				videoListAC = new Array();
 				
+				talkerUnitListAC = new Array();
+				//set the image List
+				//imageListAC = new Array();
+				
 				//set the local VideoDisplay
 				videoLocal = new VideoDisplay();
+				videoLocal.top = 0;
 				videoLocal.width = 160;
 				videoLocal.height = 120;
+				videoLocal.volume = spVol.value; 
+				
+				//icon = "http://bbs.airia.cn/UserFiles/Avatar/Big/8/3/8/83891.jpg";
+				//icon.source = "@Embed=(source='assets/pandoras_star_.jpg')";
+				//icon1.load(new URLRequest(@Embed(source='images/image1.jpg'));
+				//icon1.source=http://www.helpexamples.com/flash/images/image1.jpg";
+				//icon2.source="http://www.helpexamples.com/flash/images/image2.jpg";
+				//icon3.source="http://www.helpexamples.com/flash/images/image3.jpg";
 				
 				doDisplay();
 			}
@@ -110,6 +147,9 @@
 					videoListSO.addEventListener(SyncEvent.SYNC, videoListSync);
 					logger.addLoggingMessage("video SO Success");
 					
+					//imageListSO = SharedObject.getRemote("imageListSO-" + topicid,nc.uri,false);
+					//imageListSO.connect(nc);
+					//imageListSO.addEventListener(SyncEvent.SYNC, imageListSync);
 				} else {
 					ncSuccess = false;
 					// connection failed
@@ -136,8 +176,39 @@
 				//talkerListAC = new Array();
 				talkerListAC = tmpArray;
 				
+				rebuild_talker_list_unit_list();
+				
 			}
+			/**************************************************************
+			 * *Synchronize image list
+			 * *Added by: Situ
+			 * ************************************************************/
+			/* 			public function imageListSync(event:SyncEvent):void{
+			logger.addLoggingMessage("++++Image List Sync");
+			var tmpArray:Array;
+			var listName:String = "imageListAC";
+			logger.addLoggingMessage("img syc step 1 ...");
+			tmpArray = new Array();
 			
+			
+			for (var i :int= 0; i < (imageListSO.data[ listName ]).length; i++ ) {
+			tmpArray.push((imageListSO.data[ listName ])[i]);
+			}
+			logger.addLoggingMessage("img syc step 2 ...");
+			imageListAC = null;
+			imageListAC = tmpArray;	
+			// if(videoListAC == null) {
+			//logger.addLoggingMessage("videoListAC is null");
+			//}else {
+			//logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
+			//} 
+			
+			logger.addLoggingMessage("Image List: ");
+			for(var i:int =0 ; i<imageListAC.length ;i++){
+			logger.addLoggingMessage(i+": "+imageListAC[i]);
+			}
+			doDisplay();
+			} */
 			/**************************************************************
 			 * *Synchronize video list
 			 * *Added by: Situ
@@ -146,7 +217,7 @@
 			public function videoListSync(event:SyncEvent):void
 			{
 				logger.addLoggingMessage("++++Video List Sync");
-				logger.addLoggingMessage(videoListSO.toString());
+				//logger.addLoggingMessage(videoListSO.toString());
 				
 				var tmpArray:Array;
 				var listName:String = "videoListAC";
@@ -160,11 +231,11 @@
 				logger.addLoggingMessage("vid syc step 2 ...");
 				videoListAC = null;
 				videoListAC = tmpArray;	
-				/* if(videoListAC == null) {
+				if(videoListAC == null) {
 					logger.addLoggingMessage("videoListAC is null");
 				}else {
 					logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
-				} */
+				} 
 				
 				logger.addLoggingMessage("Video List: ");
 				for(var i:int =0 ; i<videoListAC.length ;i++){
@@ -291,8 +362,8 @@
 				
 				logger.addLoggingMessage("Getting Local Video ... ");
 				vi = new Video();
-				vi.width = videoLocal.width;
-				vi.height = videoLocal.height;
+				vi.width = 160;
+				vi.height = 120;
 				vi.smoothing = true;
 				vi.attachCamera(this.cam);
 				
@@ -308,36 +379,32 @@
 			}
 			
 			private var dispListAC:Array=null;
+			private var dispUnitListAC:Array = null;
 			private var dispRowGroupAC:Array = null; //Put HGroup in it
 			
 			private function doDisplay():void
 			{
 				logger.addLoggingMessage("Do display ...");
-				/* logger.addLoggingMessage("video 0: "+(videoGroup.getChildAt(0)as VideoDisplay).id);
-				logger.addLoggingMessage("video 1: "+(videoGroup.getChildAt(1)as VideoDisplay).id);
-				logger.addLoggingMessage("video 2: "+(videoGroup.getChildAt(2)as VideoDisplay).id); */
 				
 				var dispRowCapacity:int = 4;
-				//var groupCnt:int = 0;
-				//var dispRowNum = videoListAC.length/dispRowCapacity + 1;
+				
 				inStream = new Array();
 				vid = new Array();
+				dispRowGroupAC = new Array();
 				
 				while(videoGroup.numElements>0){
 					videoGroup.removeElementAt(0);
 				}
 				logger.addLoggingMessage("row group removed");
 				
-				dispRowGroupAC = new Array();
-				inStream = new Array();
-				
 				//Get video array of peers
 				for(var i:int=0; i<videoListAC.length;i++){
 					logger.addLoggingMessage("video list is not empty.");
 					if( this.clientid != videoListAC[i]){
 						logger.addLoggingMessage("There exist other peers on video list");
-										
+						
 						var newInStream:NetStream = new NetStream(nc);
+						//new Sound
 						newInStream.play(videoListAC[i]as String);
 						inStream.push(newInStream);
 						
@@ -346,6 +413,7 @@
 						newVid.height = 120;
 						newVid.smoothing = true;
 						newVid.attachNetStream(newInStream);
+						
 						vid.push(newVid);		
 						
 					}
@@ -363,9 +431,26 @@
 					vDisp.height = (vid[i] as Video).height;
 					vDisp.addChild(vid[i]as Video);
 					vDisp.volume = spVol.value;
+					logger.addLoggingMessage("volume: " + vDisp.volume);
+					vDisp.top = 0;
+					
 					dispListAC.push(vDisp);
 				}
-				logger.addLoggingMessage("dispListAC done!");
+				logger.addLoggingMessage("dispListAC done!"); 
+				////////////////////////////////////////////////////////////
+				dispUnitListAC = new Array();
+				
+				for(var i:int=0;i<dispListAC.length;i++){
+					var tempUnit:VideoDispUnit = new VideoDispUnit();
+					
+					try{
+						tempUnit.addElement(dispListAC[i] as VideoDisplay);
+					}catch(e:Error){
+						logger.addLoggingMessage(e.toString());
+					}
+					tempUnit.userName = "username"+(i+1);
+					dispUnitListAC.push(tempUnit);
+				}
 				//Assign VidDisplay list to rowGroup and push rowGroup into dispRowGroupAC
 				var newGroup:HGroup = null;
 				logger.addLoggingMessage("dispListAC.length: "+dispListAC.length);
@@ -374,13 +459,13 @@
 						if(newGroup!=null){
 							dispRowGroupAC.push(newGroup);
 						}
-						var newGroup:HGroup = new HGroup();
+						newGroup = new HGroup();
 						newGroup.gap = 5;
 						newGroup.paddingLeft = 5;
 						newGroup.paddingTop = 5;
 					}
 					//logger.addLoggingMessage("before addChild ...");
-					newGroup.addElement(dispListAC[i] as VideoDisplay);
+					newGroup.addElement(dispUnitListAC[i] as VideoDispUnit);
 				}
 				//logger.addLoggingMessage("addChild success!");
 				logger.addLoggingMessage("addElement success!");
@@ -394,7 +479,7 @@
 				logger.addLoggingMessage("dispRowGroupAC.length: " + dispRowGroupAC.length);
 				for(var i:int = 0; i<dispRowGroupAC.length;i++){
 					videoGroup.addElement(dispRowGroupAC[i]as HGroup);
-
+					
 					logger.addLoggingMessage("videoGroup numElement " + videoGroup.numElements);
 					//logger.addLoggingMessage("videoGroup Element id: " + (dispRowGroupAC[i]as HGroup).id);
 				}
@@ -402,17 +487,42 @@
 			}
 			
 			///////////////////\/\/\/\Displaying Part/\/\/\///////////////////
-
+			
 			//var micVolslider:VSlider;
 			private function spVolHandler():void
 			{
 				logger.addLoggingMessage("spVolHandler");
-				for(var i:int=1;i<dispListAC.length;i++){
+				for(var i:int=0;i<dispListAC.length;i++){
 					(dispListAC[i]as VideoDisplay).volume = spVol.value;
+					logger.addLoggingMessage("Volume " + i + ": "+ (dispListAC[i]as VideoDisplay).volume);
 				}
-				
+				logger.addLoggingMessage("complete without error");
 			}
-
+			
+			//public var icon1:Image;
+			//public var icon2:Image;
+			//public var icon3:Image;
+			
+			public var icon:String;
+			//public var imageListAC:Array;
+			[Bindable] public var talkerUnitListAC:Array;
+			
+			private function rebuild_talker_list_unit_list():void
+			{
+				
+				//var icon:Array = new Array({icon1,icon2,icon3});
+				talkerUnitListAC = new Array();
+				//imageListAC = new Array();
+				for(var i:int=0; i<talkerListAC.length;i++){
+					//imageListAC.push(icon);
+					logger.addLoggingMessage("talkerListAC["+i+"]: "+talkerListAC[i]);
+					talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://www.talkabouthealth.com:9000/image/"+talkerListAC[i]} );
+				}
+				//logger.addLoggingMessage("imageListAC length: "+imageListAC.length);
+				//talkerUnitListAC.name = talkerListAC;
+				//talkerUnitListAC.icon = imageListAC;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -424,20 +534,19 @@
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 	<logger:LoggerModule id="logger"/>
-	<s:HGroup>
-		<!--<s:HGroup left="0" >
-			<s:VGroup width="50">
-				<s:Button label="Start" click="videoStart()" width="50"/>
-				<s:Button label="Stop"  click="videoStop()" width="50"/>
-			</s:VGroup>
-			<s:VideoDisplay id="videoLocal" width="160" height="120" right="0"/>
-		</s:HGroup>	-->
-		<s:VGroup id="videoGroup" left="0">
+	<s:VGroup>
+		<s:HGroup  id="row1" paddingTop="5" bottom="0">
+			<s:Label text="Situ" width="160" textAlign="center" paddingBottom="0"/>
+			<s:Label text="Murray" width="160" textAlign="center" paddingBottom="0"/>
+			<s:Label text="fat" width="160" textAlign="center" paddingBottom="0"/>
+			<s:Label text="skinny" width="160" textAlign="center" paddingBottom="0"/>
+		</s:HGroup>	
+		<s:VGroup id="videoGroup" left="0" top="0" paddingTop="0">
 			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay1" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>-->
 		</s:VGroup>		
-	</s:HGroup>
+	</s:VGroup>
 	<s:HGroup width="100%" height="100%">
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
@@ -472,12 +581,26 @@
 		</s:VGroup>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:Label id="welcomeUser" />
-			<mx:DataGrid height="260" width="178" dataProvider="{talkerListAC}" >
+			<!--<mx:Image source="photo/1.png"/>-->
+			<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0">
 				<mx:columns>
-					<!--<mx:DataGridColumn headerText="Talkers" dataField="username" id="talkerlist"/>-->
-					<mx:DataGridColumn id="talkerlist"/>
-				</mx:columns>
+					<mx:DataGridColumn headerText="Icon" width="48" >
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Image source="{data.icon}" height="48" width="48"/>
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+					<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Label text="{data.name}" height="48" paddingTop="12"/>
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+				</mx:columns>								
 			</mx:DataGrid>
+			
 		</s:VGroup>
 	</s:HGroup>
 </s:Application>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="160" height="135">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.VideoDisplay;
+			//import flash.media.*;
+			//public vid:VideoDisplay;
+			[Bindable]
+			public var userName:String;
+			/* public function VideoDispUnit(vid:VideoDisplay,username:String){
+				this.vid = vid;
+				this.userName = username;
+			} */
+			/* public function addVideo(vid:Video){
+				vid.addChild(vid);
+			}
+			public function attachCamera(cam:Camera){
+				vid.attachCamera(cam);
+			} */
+		]]>
+	</fx:Script>
+	<s:Label text="{userName}"/>
+	<!--<mx:VideoDisplay id="vid" width="160" height="120" />-->
+		
+</s:VGroup>
