@@ -251,7 +251,7 @@
 			
 			protected function enter_txtevent(event:Event):void
 			{
-				nc.call("send_msgtoroom", null, this.username, this.topicid, txt_msg.text);
+				nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
 				txt_msg.text = "";
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
