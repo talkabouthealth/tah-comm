@@ -69,7 +69,7 @@
 				nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
 				
 				// connect to red5, passing false as parameter
-				nc.connect( "rtmp://talkabouthealth.com:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
+				nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 				topicTitle.text = "Topic: " + topic;
 				welcomeUser.text = "Welcome " + username;
 				
@@ -180,7 +180,7 @@
 			
 			protected function enter_txtevent(event:Event):void
 			{
-				nc.call("send_msgtoroom", null, this.username, this.topicid, txt_msg.text);
+				nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
 				txt_msg.text = "";
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
