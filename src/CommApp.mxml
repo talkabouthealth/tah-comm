@@ -11,24 +11,7 @@
 			   xmlns:nc="flash.net.NetConnection"
 			   
 			   creationComplete="init()">
-	<fx:Declarations>
-		<fx:XML id="testData" xmlns="">		
-			<root>
-				<book>
-					<author>Peter F. Hamilton</author>
-					<title>Pandora's Star</title>
-					<image>http://bbs.airia.cn/UserFiles/Avatar/Big/8/3/8/83891.jpg</image>
-					<date>Dec 3, 2004</date>
-				</book>			
-				<book>				
-					<author>Peter F. Hamilton</author>				
-					<title>Judas Unchained</title>				
-					<image>assets/judas_unchained.jpg</image>				
-					<date>Feb 28, 2006</date>				
-				</book>			
-			</root>		
-		</fx:XML>
-	</fx:Declarations>
+	
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
@@ -49,10 +32,12 @@
 			import mx.controls.Image;
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
+			import mx.core.mx_internal;
 			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
 			
 			import spark.components.Group;
+			import spark.components.Panel;
 			import spark.utils.TextFlowUtil;
 			
 			[Bindable] public var talkerListAC:Array;
@@ -266,7 +251,7 @@
 				txt_history.textFlow.addChild(para);
 			}
 			/***************************************************************************/
-			private var vi:Video;
+			//private var vi:Video;
 			private var vid:Array;      //Array<Video>
 			private var snd:Sound;
 			private var cam:Camera;
@@ -291,8 +276,8 @@
 			protected function videoStop():void
 			{
 				logger.addLoggingMessage("Stopping video ...");
-				stopVideoLocal();
 				endRec();
+				stopVideoLocal();
 			}
 			///////////////////  Recording Part   ///////////////////
 			
@@ -343,9 +328,8 @@
 				logger.addLoggingMessage("++++Video List Removed");
 				
 				cam = null;
-				vi = null;
+				//vi = null;
 				
-				doDisplay();
 				
 			}
 			
@@ -361,21 +345,26 @@
 			{
 				
 				logger.addLoggingMessage("Getting Local Video ... ");
-				vi = new Video();
-				vi.width = 160;
-				vi.height = 120;
-				vi.smoothing = true;
-				vi.attachCamera(this.cam);
+				//vi = new Video();
+				//vi.width = 160;
+				//vi.height = 120;
+				//vi.smoothing = true;
+				//vi.attachCamera(this.cam);
 				
-				videoLocal.addChild(vi);
+				//videoLocal.addChild(vi);
+				videoLocal.attachCamera(this.cam);
 				doDisplay();
 			}
 			
 			private function stopVideoLocal():void
 			{
 				// Don't show local video 
-				videoLocal.removeChild(vi);
+				//videoLocal.removeChild(vi);
+				videoLocal.attachCamera(null);
+				videoLocal.mx_internal::videoPlayer.clear();
 				logger.addLoggingMessage("Video removed ...");
+				
+				doDisplay();
 			}
 			
 			private var dispListAC:Array=null;
@@ -444,7 +433,7 @@
 					var tempUnit:VideoDispUnit = new VideoDispUnit();
 					
 					try{
-						tempUnit.addElement(dispListAC[i] as VideoDisplay);
+						tempUnit.addElementAt((dispListAC[i] as VideoDisplay),0);
 					}catch(e:Error){
 						logger.addLoggingMessage(e.toString());
 					}
@@ -535,12 +524,6 @@
 	</s:layout>
 	<logger:LoggerModule id="logger"/>
 	<s:VGroup>
-		<s:HGroup  id="row1" paddingTop="5" bottom="0">
-			<s:Label text="Situ" width="160" textAlign="center" paddingBottom="0"/>
-			<s:Label text="Murray" width="160" textAlign="center" paddingBottom="0"/>
-			<s:Label text="fat" width="160" textAlign="center" paddingBottom="0"/>
-			<s:Label text="skinny" width="160" textAlign="center" paddingBottom="0"/>
-		</s:HGroup>	
 		<s:VGroup id="videoGroup" left="0" top="0" paddingTop="0">
 			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay1" width="200" height="150"/>
