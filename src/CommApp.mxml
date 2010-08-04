@@ -236,8 +236,15 @@
 			
 			protected function enter_txtevent(event:Event):void
 			{
-				nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
-				txt_msg.text = "";
+				if(txt_msg.text!=""){
+					try{
+						nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
+					}catch(e:Error){
+						logger.addLoggingMessage(e.getStackTrace());
+					}
+					txt_msg.text = "";
+				}
+				
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
 				var para:ParagraphElement = new ParagraphElement(); 
@@ -249,6 +256,7 @@
 				para.addChild(span1); 
 				para.addChild(span2);
 				txt_history.textFlow.addChild(para);
+				txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum; 
 			}
 			/***************************************************************************/
 			//private var vi:Video;
