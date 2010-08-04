@@ -141,6 +141,8 @@
 					logger.addLoggingMessage(event.info.code);
 				}
 			}
+			
+			private var firstUser:Boolean = true;
 			private function talkerListSync ( event:SyncEvent ):void
 			{
 				logger.addLoggingMessage("++++Talker List Sync");
@@ -163,6 +165,21 @@
 				
 				rebuild_talker_list_unit_list();
 				
+				//check if this is the first login user and show up message
+				if(firstUser){
+					if( talkerListAC.length==1){
+						//i am the first login user
+						var para:ParagraphElement = new ParagraphElement();
+						var span:SpanElement = new SpanElement();
+						span.text =  "Finding other users to join the conversations. This should only take a minute.";
+						span.color = "#25bbdb";
+						span.fontWeight = FontWeight.BOLD;
+						para.addChild(span);
+						txt_history.textFlow.addChild(para);
+					}else{
+						firstUser = false;
+					}
+				}				
 			}
 			/**************************************************************
 			 * *Synchronize image list
