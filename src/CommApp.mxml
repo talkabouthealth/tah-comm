@@ -301,7 +301,9 @@
 				if(mic!=null){
 					mic.setUseEchoSuppression(true);
 					//mic.setLoopBack(true);
-					mic.setSilenceLevel(0,1);
+					//var level:int = mic.;
+					//logger.addLoggingMessage("activity level: "+ level);
+					mic.setSilenceLevel(5);
 					mic.gain = micVol.value;
 					outStream.attachAudio(mic);
 				}
@@ -362,12 +364,14 @@
 				//videoLocal.removeChild(vi);
 				videoLocal.attachCamera(null);
 				videoLocal.mx_internal::videoPlayer.clear();
+				videoLocal.invalidateProperties();
 				logger.addLoggingMessage("Video removed ...");
 				
 				doDisplay();
 			}
-			
+			[ArrayElementType("mx.controls.VideoDisplay")]
 			private var dispListAC:Array=null;
+			
 			private var dispUnitListAC:Array = null;
 			private var dispRowGroupAC:Array = null; //Put HGroup in it
 			
@@ -481,9 +485,13 @@
 			private function spVolHandler():void
 			{
 				logger.addLoggingMessage("spVolHandler");
-				for(var i:int=0;i<dispListAC.length;i++){
-					(dispListAC[i]as VideoDisplay).volume = spVol.value;
-					logger.addLoggingMessage("Volume " + i + ": "+ (dispListAC[i]as VideoDisplay).volume);
+				for(var i:int=0;i<inStream.length;i++){
+					//((dispListAC[i]as VideoDisplay).getChildAt(0)as Video). = spVol.value;
+					(inStream[i]as NetStream).soundTransform = new SoundTransform(spVol.value);
+					
+					
+					//logger.addLoggingMessage("Volume " + i + ": "+ (dispListAC[i]as VideoDisplay).volume);
+					//logger.addLoggingMessage("VideoLocal volume: "+ videoLocal.volume);
 				}
 				logger.addLoggingMessage("complete without error");
 			}
@@ -530,7 +538,7 @@
 			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>-->
 		</s:VGroup>		
 	</s:VGroup>
-	<s:HGroup width="100%" height="100%">
+	<s:HGroup width="100%">
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:HGroup>
@@ -586,4 +594,13 @@
 			
 		</s:VGroup>
 	</s:HGroup>
+	<s:Group>
+		<s:layout>
+			<s:BasicLayout/>
+		</s:layout>
+		<s:Label text="Warning:" color="#25bbdb"/>
+		<s:Label width="650"
+				 text="                  All content on this site is informational and is not substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health."/>
+	</s:Group>
+	
 </s:Application>
