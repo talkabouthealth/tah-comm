@@ -316,8 +316,9 @@
 				
 				cam = Camera.getCamera();
 				if(cam!=null){
-					cam.setMode(320,240,30);//Set size and Frame Rate
-					cam.setQuality(0,50);//Set video quality
+					cam.setMode(320,240,15);//Set size and Frame Rate
+					cam.setQuality(20000,80);//Set video quality
+					
 					outStream.attachCamera(cam);//activate video
 				}
 				
@@ -439,6 +440,8 @@
 							var newInStream:NetStream = new NetStream(nc);
 							//new Sound
 							newInStream.play(videoListAC[i]as String);
+							
+							
 							inStream.push(newInStream);
 							
 							var newVid:Video = new Video();
