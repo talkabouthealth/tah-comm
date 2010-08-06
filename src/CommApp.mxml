@@ -276,7 +276,7 @@
 				txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum; 
 			}
 			/***************************************************************************/
-			//private var vi:Video;
+			private var vi:Video;
 			private var vid:Array;      //Array<Video>
 			private var snd:Sound;
 			private var cam:Camera;
@@ -354,7 +354,6 @@
 				nc.call("removeVideoList", null, this.clientid, this.topicid);
 				logger.addLoggingMessage("++++Video List Removed");
 				
-				cam = null;
 				//vi = null;
 				
 				
@@ -372,27 +371,30 @@
 			{
 				
 				logger.addLoggingMessage("Getting Local Video ... ");
-				//vi = new Video();
-				//vi.width = 160;
-				//vi.height = 120;
-				//vi.smoothing = true;
-				//vi.attachCamera(this.cam);
+				vi = new Video();
+				vi.width = 160;
+				vi.height = 120;
+				vi.smoothing = true;
+				vi.attachCamera(this.cam);
 				
-				//videoLocal.addChild(vi);
-				videoLocal.attachCamera(this.cam);
-				doDisplay();
+				videoLocal.addChild(vi);
+				//videoLocal.attachCamera(this.cam);
+				//doDisplay();
 			}
 			
 			private function stopVideoLocal():void
 			{
 				// Don't show local video 
 				//videoLocal.removeChild(vi);
-				videoLocal.attachCamera(null);
-				videoLocal.mx_internal::videoPlayer.clear();
-				videoLocal.invalidateProperties();
+				//videoLocal.attachCamera(null);
+				//videoLocal.mx_internal::videoPlayer.clear();
+				//videoLocal.invalidateProperties();
+				
+				vi.attachCamera(null);
+				vi.clear();
 				logger.addLoggingMessage("Video removed ...");
 				
-				doDisplay();
+				//doDisplay();
 			}
 			[ArrayElementType("mx.controls.VideoDisplay")]
 			private var dispListAC:Array=null;
@@ -406,37 +408,53 @@
 				
 				var dispRowCapacity:int = 4;
 				
+				//Make all netstreams in inStream stop playing
+				if(null!=inStream&&inStream.length>0){
+					for(var i:int=0;i<inStream.length;i++){
+						(inStream[i] as NetStream).close();
+					}
+				}
 				inStream = new Array();
+				
+				if(null!=vid&&vid.length>0){
+					for(var i:int=0;i<vid.length;i++){
+						(vid[i]as Video).clear();
+					}
+				}
 				vid = new Array();
+				
 				dispRowGroupAC = new Array();
 				
 				while(videoGroup.numElements>0){
 					videoGroup.removeElementAt(0);
 				}
 				logger.addLoggingMessage("row group removed");
-				
-				//Get video array of peers
-				for(var i:int=0; i<videoListAC.length;i++){
-					logger.addLoggingMessage("video list is not empty.");
-					if( this.clientid != videoListAC[i]){
-						logger.addLoggingMessage("There exist other peers on video list");
-						
-						var newInStream:NetStream = new NetStream(nc);
-						//new Sound
-						newInStream.play(videoListAC[i]as String);
-						inStream.push(newInStream);
-						
-						var newVid:Video = new Video();
-						newVid.width = 160;
-						newVid.height = 120;
-						newVid.smoothing = true;
-						newVid.attachNetStream(newInStream);
-						
-						vid.push(newVid);		
-						
+				if(othervideoSwitch.selected){
+					//Get video array of peers
+					for(var i:int=0; i<videoListAC.length;i++){
+						logger.addLoggingMessage("video list is not empty.");
+						if( this.clientid != videoListAC[i]){
+							logger.addLoggingMessage("There exist other peers on video list");
+							
+							var newInStream:NetStream = new NetStream(nc);
+							//new Sound
+							newInStream.play(videoListAC[i]as String);
+							inStream.push(newInStream);
+							
+							var newVid:Video = new Video();
+							newVid.width = 160;
+							newVid.height = 120;
+							newVid.smoothing = true;
+							newVid.attachNetStream(newInStream);
+							
+							vid.push(newVid);		
+							
+						}
 					}
+					logger.addLoggingMessage("video array done!");
 				}
-				logger.addLoggingMessage("video array done!");
+				
+				
 				
 				//Assgin video array to VideoDisplay array
 				dispListAC = new Array();
@@ -445,10 +463,11 @@
 				logger.addLoggingMessage("videoLocal pushed!");
 				for(var i:int = 0; i<vid.length;i++){
 					var vDisp:VideoDisplay = new VideoDisplay();
+					//Set the properties of videodisplays
 					vDisp.width = (vid[i] as Video).width;
 					vDisp.height = (vid[i] as Video).height;
 					vDisp.addChild(vid[i]as Video);
-					vDisp.volume = spVol.value;
+					//vDisp.volume = spVol.value;
 					logger.addLoggingMessage("volume: " + vDisp.volume);
 					vDisp.top = 0;
 					
@@ -544,7 +563,6 @@
 				//talkerUnitListAC.name = talkerListAC;
 				//talkerUnitListAC.icon = imageListAC;
 			}
-			
 		]]>
 	</fx:Script>
 	
@@ -572,10 +590,12 @@
 			</s:HGroup>	
 			<s:TextArea width="100%" height="200" id="txt_history" editable="false" enabled="true" />
 			<s:HGroup>
-				<mx:CheckBox id="videoSwitch" width="100" label="Video On/Off" 
-							 change="if(videoSwitch.selected == true) videoStart();
+				<mx:CheckBox id="myvideoSwitch" width="100" label="Your Video On|Off" 
+							 change="if(myvideoSwitch.selected == true) videoStart();
 							 else videoStop();"/>
-				<mx:CheckBox width="100" label="Voice On/Off"/>
+				<mx:CheckBox id="othervideoSwitch" width="100" label="Other members Video On|Off" 
+							 change=" doDisplay();" />
+				
 				<s:Label text="Vol:"/>
 				<s:HSlider id="spVol" 						   
 						   minimum="0.0"
