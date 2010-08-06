@@ -267,13 +267,18 @@
 				var para:ParagraphElement = new ParagraphElement(); 
 				var span1:SpanElement = new SpanElement(); 
 				var span2:SpanElement = new SpanElement(); 
-				span1.text = fromUser + ": "; 
+				span1.text = fromUser + " :  "; 
 				span1.fontWeight = FontWeight.BOLD;
+				span1.fontSize = 14;
+				span1.color = "#25bbdb";
 				span2.text = msg;
 				para.addChild(span1); 
 				para.addChild(span2);
 				txt_history.textFlow.addChild(para);
-				txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum; 
+				
+				//txt_history.validateProperties();
+				txt_history.validateNow();
+				txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum;
 			}
 			/***************************************************************************/
 			private var vi:Video;
