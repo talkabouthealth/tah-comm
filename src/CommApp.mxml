@@ -108,6 +108,7 @@
 				//icon1.source=http://www.helpexamples.com/flash/images/image1.jpg";
 				//icon2.source="http://www.helpexamples.com/flash/images/image2.jpg";
 				//icon3.source="http://www.helpexamples.com/flash/images/image3.jpg";
+				othervideoSwitch.selected = true;
 				
 				doDisplay();
 			}
