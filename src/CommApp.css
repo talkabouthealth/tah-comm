@@ -1,0 +1,16 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+.topicTitle
+{
+	color: #1D68A2;
+	font-weight: bold;
+}
+	
+.welcomeUser
+{
+	color: #1D68A2;
+	font-family: arial;
+}

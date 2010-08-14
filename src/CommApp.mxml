@@ -11,7 +11,7 @@
 			   xmlns:nc="flash.net.NetConnection"
 			   
 			   creationComplete="init()">
-	
+	<fx:Style source="CommApp.css"/>
 	<fx:Script>
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
@@ -29,6 +29,7 @@
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			
 			import mx.collections.ArrayCollection;
+			import mx.containers.Canvas;
 			import mx.controls.Image;
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
@@ -95,6 +96,11 @@
 				//set the image List
 				//imageListAC = new Array();
 				
+				vi = new Video();
+				vi.width = 160;
+				vi.height = 120;
+				vi.smoothing = true;
+				
 				//set the local VideoDisplay
 				videoLocal = new VideoDisplay();
 				videoLocal.top = 0;
@@ -109,6 +115,7 @@
 				//icon2.source="http://www.helpexamples.com/flash/images/image2.jpg";
 				//icon3.source="http://www.helpexamples.com/flash/images/image3.jpg";
 				othervideoSwitch.selected = true;
+				
 				
 				doDisplay();
 			}
@@ -283,7 +290,7 @@
 			}
 			/***************************************************************************/
 			private var vi:Video;
-			private var vid:Array;      //Array<Video>
+			private var vidListAC:Array;      //Array<Video>
 			private var snd:Sound;
 			private var cam:Camera;
 			private var mic:Microphone;
@@ -335,7 +342,7 @@
 					//mic.setLoopBack(true);
 					//var level:int = mic.;
 					//logger.addLoggingMessage("activity level: "+ level);
-					mic.setSilenceLevel(5);
+					mic.setSilenceLevel(15);
 					mic.gain = micVol.value;
 					outStream.attachAudio(mic);
 				}
@@ -378,13 +385,10 @@
 			{
 				
 				logger.addLoggingMessage("Getting Local Video ... ");
-				vi = new Video();
-				vi.width = 160;
-				vi.height = 120;
-				vi.smoothing = true;
+				
 				vi.attachCamera(this.cam);
 				
-				videoLocal.addChild(vi);
+				//videoLocal.addChild(vi);
 				//videoLocal.attachCamera(this.cam);
 				//doDisplay();
 			}
@@ -423,12 +427,12 @@
 				}
 				inStream = new Array();
 				
-				if(null!=vid&&vid.length>0){
-					for(var i:int=0;i<vid.length;i++){
-						(vid[i]as Video).clear();
+				if(null!=vidListAC&&vidListAC.length>0){
+					for(var i:int=0;i<vidListAC.length;i++){
+						(vidListAC[i]as Video).clear();
 					}
 				}
-				vid = new Array();
+				vidListAC = new Array();
 				
 				dispRowGroupAC = new Array();
 				
@@ -436,6 +440,8 @@
 					videoGroup.removeElementAt(0);
 				}
 				logger.addLoggingMessage("row group removed");
+				
+				vidListAC.push(vi);
 				if(othervideoSwitch.selected){
 					//Get video array of peers
 					for(var i:int=0; i<videoListAC.length;i++){
@@ -456,51 +462,68 @@
 							newVid.smoothing = true;
 							newVid.attachNetStream(newInStream);
 							
-							vid.push(newVid);		
+							vidListAC.push(newVid);		
 							
 						}
 					}
 					logger.addLoggingMessage("video array done!");
+					logger.addLoggingMessage("vidListAC: " + vidListAC.length);
 				}
 				
 				
 				
 				//Assgin video array to VideoDisplay array
-				dispListAC = new Array();
-				logger.addLoggingMessage("dispListAC new!");
-				dispListAC.push(videoLocal);//Show local Video first
-				logger.addLoggingMessage("videoLocal pushed!");
-				for(var i:int = 0; i<vid.length;i++){
+				//dispListAC = new Array();
+				//logger.addLoggingMessage("dispListAC new!");
+				//videoLocal.setStyle("radiusX",10);
+				//videoLocal.setStyle("radiusY",10);
+				//logger.addLoggingMessage("videoLocal corner radius set successfully!");
+				
+				//dispListAC.push(videoLocal);//Show local Video first
+				//logger.addLoggingMessage("videoLocal pushed!");
+				/* for(var i:int = 0; i<vidListAC.length;i++){
 					var vDisp:VideoDisplay = new VideoDisplay();
 					//Set the properties of videodisplays
-					vDisp.width = (vid[i] as Video).width;
-					vDisp.height = (vid[i] as Video).height;
-					vDisp.addChild(vid[i]as Video);
+					vDisp.width = (vidListAC[i] as Video).width;
+					vDisp.height = (vidListAC[i] as Video).height;
+
+					vDisp.addChild(vidListAC[i]as Video);
 					//vDisp.volume = spVol.value;
 					logger.addLoggingMessage("volume: " + vDisp.volume);
 					vDisp.top = 0;
 					
 					dispListAC.push(vDisp);
-				}
-				logger.addLoggingMessage("dispListAC done!"); 
+				} */
+				//logger.addLoggingMessage("dispListAC done!"); 
 				////////////////////////////////////////////////////////////
 				dispUnitListAC = new Array();
 				
-				for(var i:int=0;i<dispListAC.length;i++){
+				for(var i:int=0;i<vidListAC.length;i++){
 					var tempUnit:VideoDispUnit = new VideoDispUnit();
 					
 					try{
-						tempUnit.addElementAt((dispListAC[i] as VideoDisplay),0);
+						//var tmpC:Canvas = new Canvas();
+						//tmpC.width = 160;
+						//tmpC.height = 120;
+						//tmpC.setStyle("cornerRadius",20);
+						//(dispListAC[i] as VideoDisplay).setStyle("cornerRadius",20);
+						//(dispListAC[i] as VideoDisplay).mask = tempUnit.c3;
+						//logger.addLoggingMessage("The cornerRadius of videodisplay set successfully!");
+						
+						//tempUnit.g1.addElementAt((dispListAC[i] as VideoDisplay),1);
+						tempUnit.vd.addChild(vidListAC[i]as Video);
+						
+						//tempUnit.internalVD.addChild(vi);
 					}catch(e:Error){
 						logger.addLoggingMessage(e.toString());
 					}
-					tempUnit.userName = "username"+(i+1);
+					tempUnit.userName.text = "username"+(i+1);
 					dispUnitListAC.push(tempUnit);
 				}
 				//Assign VidDisplay list to rowGroup and push rowGroup into dispRowGroupAC
 				var newGroup:HGroup = null;
-				logger.addLoggingMessage("dispListAC.length: "+dispListAC.length);
-				for(var i:int=0; i<dispListAC.length; i++){
+				//logger.addLoggingMessage("dispListAC.length: "+dispListAC.length);
+				for(var i:int=0; i<dispUnitListAC.length; i++){
 					if(i%dispRowCapacity == 0){
 						if(newGroup!=null){
 							dispRowGroupAC.push(newGroup);
@@ -579,60 +602,85 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:CommAppContext contextView="{this}" />
 	</fx:Declarations>
+	
 	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 	<logger:LoggerModule id="logger"/>
 	<s:VGroup>
-		<s:VGroup id="videoGroup" left="0" top="0" paddingTop="0">
+		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" >
 			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay1" width="200" height="150"/>
 			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>-->
 		</s:VGroup>		
 	</s:VGroup>
-	<s:HGroup width="100%">
+	<s:HGroup width="100%" >
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
+		<s:Group width="100%" height="100%">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
+				<s:HGroup>
+					<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
+					<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle"/>
+				</s:HGroup>	
+				<s:TextArea width="100%" height="200" id="txt_history" editable="false" enabled="true" />
+				<s:HGroup id="cntrl_Group">
+					<mx:CheckBox id="myvideoSwitch"  label="Your Video On|Off" 
+								 change="if(myvideoSwitch.selected == true) videoStart();
+								 else videoStop();"/>
+					<mx:CheckBox id="othervideoSwitch"  label="Other members Video On|Off" 
+								 change=" doDisplay();" />
+					
+					<s:Label text="Vol:" paddingTop="6" paddingLeft="15" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					<!--<s:HSlider id="spVol" 						   
+							   minimum="0.0"
+							   maximum="1.0"
+							   value="1.0"
+							   snapInterval="0.01"
+							   liveDragging="true"
+							   thumbRelease="spVolHandler()"/>-->
+					<s:Label text=":Mic" paddingTop="6" paddingLeft="70" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					<!--<s:HSlider id="micVol"
+							   minimum="0"
+							   maximum="100"
+							   value="80"
+							   snapInterval="1"
+							   liveDragging="true"
+							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
+				</s:HGroup>
+				<s:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)" skinClass="spark.skins.SparkSkin"/>
+			</s:VGroup>
+			<s:VolumeBar id="spVol" 
+					   minimum="0.0"
+					   maximum="1.0"
+					   value="0.5"
+					   snapInterval="0.01"
+					   liveDragging="true"
+					   x="{cntrl_Group.x+othervideoSwitch.x+220}"
+					   y="{cntrl_Group.y+othervideoSwitch.y}"
+					   thumbRelease="spVolHandler()"/>
+			<s:VolumeBar id="micVol" 
+					   minimum="0"
+					   maximum="100"
+					   value="50"
+					   snapInterval="1"
+					   liveDragging="true"
+					   x="{cntrl_Group.x+othervideoSwitch.x+270}"
+					   y="{cntrl_Group.y+othervideoSwitch.y}"
+					   thumbRelease="if(mic!=null)mic.gain = micVol.value" />
+			
+		</s:Group>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-			<s:HGroup>
-				<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
-				<s:Label id="topicTitle" />
-			</s:HGroup>	
-			<s:TextArea width="100%" height="200" id="txt_history" editable="false" enabled="true" />
-			<s:HGroup>
-				<mx:CheckBox id="myvideoSwitch" width="100" label="Your Video On|Off" 
-							 change="if(myvideoSwitch.selected == true) videoStart();
-							 else videoStop();"/>
-				<mx:CheckBox id="othervideoSwitch" width="100" label="Other members Video On|Off" 
-							 change=" doDisplay();" />
-				
-				<s:Label text="Vol:"/>
-				<s:HSlider id="spVol" 						   
-						   minimum="0.0"
-						   maximum="1.0"
-						   value="1.0"
-						   snapInterval="0.01"
-						   liveDragging="true"
-						   thumbRelease="spVolHandler()"/>
-				<s:Label text="Mic:"/>
-				<s:HSlider id="micVol"
-						   minimum="0"
-						   maximum="100"
-						   value="80"
-						   snapInterval="1"
-						   liveDragging="true"
-						   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>
-			</s:HGroup>
-			<s:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"/>
-		</s:VGroup>
-		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-			<s:Label id="welcomeUser" />
+			<s:Label id="welcomeUser" height="15"  color="#1D68A2"  styleName="welcomeUser"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0">
+			<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle" >
 				<mx:columns>
 					<mx:DataGridColumn headerText="Icon" width="48" >
-						<mx:itemRenderer>
+						<mx:itemRenderer >
 							<fx:Component>
-								<mx:Image source="{data.icon}" height="48" width="48"/>
+								<mx:Image source="{data.icon}" height="48" width="48" />
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
@@ -655,6 +703,5 @@
 		<s:Label text="Warning:" color="#25bbdb"/>
 		<s:Label width="650"
 				 text="                  All content on this site is informational and is not substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health."/>
-	</s:Group>
-	
+	</s:Group>	
 </s:Application>
