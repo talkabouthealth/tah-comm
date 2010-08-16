@@ -580,19 +580,29 @@
 				<s:BasicLayout/>
 			</s:layout>
 			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
-				<s:HGroup>
-					<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
-					<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle"/>
-				</s:HGroup>	
-				<s:TextArea width="100%" height="200" id="txt_history" editable="false" enabled="true" />
+					
+				<s:VGroup width="100%" height="100%">
+					<s:HGroup>
+						<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
+						<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle" height="15"/>
+					</s:HGroup>
+					<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
+						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true"  horizontalCenter="0" verticalCenter="0"/>
+						
+						<mx:Canvas width="100%" height="202" cornerRadius="8" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+					</mx:Canvas>
+				</s:VGroup>
+				
+				
 				<s:HGroup id="cntrl_Group">
-					<mx:CheckBox id="myvideoSwitch"  label="Your Video On|Off" 
+					<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On|Off" 
 								 change="if(myvideoSwitch.selected == true) videoStart();
-								 else videoStop();"/>
-					<mx:CheckBox id="othervideoSwitch"  label="Other members Video On|Off" 
+								 else videoStop();" />
+					<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other members Video On|Off" 
 								 change=" doDisplay();" />
 					
-					<s:Label text="Vol:" paddingTop="6" paddingLeft="15" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					
 					<!--<s:HSlider id="spVol" 						   
 							   minimum="0.0"
 							   maximum="1.0"
@@ -600,7 +610,7 @@
 							   snapInterval="0.01"
 							   liveDragging="true"
 							   thumbRelease="spVolHandler()"/>-->
-					<s:Label text=":Mic" paddingTop="6" paddingLeft="70" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					<mx:Label text=":Mic" paddingTop="4" paddingLeft="80" paddingRight="20" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
 					<!--<s:HSlider id="micVol"
 							   minimum="0"
 							   maximum="100"
@@ -609,7 +619,11 @@
 							   liveDragging="true"
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
-				<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)" />
+				<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
+					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="0"/>
+					<mx:Canvas width="100%" height="27" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+				</mx:Canvas>
+				
 				
 			</s:VGroup>
 			<s:VolumeBar id="spVol" 
@@ -618,7 +632,7 @@
 					   value="0.5"
 					   snapInterval="0.01"
 					   liveDragging="true"
-					   x="{cntrl_Group.x+othervideoSwitch.x+220}"
+					   x="{cntrl_Group.x+othervideoSwitch.x+230}"
 					   y="{cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="spVolHandler()"/>
 			<s:VolumeBar id="micVol" 
@@ -633,26 +647,31 @@
 			
 		</s:Group>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-			<s:Label id="welcomeUser" height="15"  color="#1D68A2"  styleName="welcomeUser"/>
+			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle" >
-				<mx:columns>
-					<mx:DataGridColumn headerText="Icon" width="48" >
-						<mx:itemRenderer >
-							<fx:Component>
-								<mx:Image source="{data.icon}" height="48" width="48" />
-							</fx:Component>
-						</mx:itemRenderer>
-					</mx:DataGridColumn>
-					<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
-						<mx:itemRenderer>
-							<fx:Component>
-								<mx:Label text="{data.name}" height="48" paddingTop="12"/>
-							</fx:Component>
-						</mx:itemRenderer>
-					</mx:DataGridColumn>
-				</mx:columns>								
-			</mx:DataGrid>
+			<mx:Canvas height="265" width="180" cornerRadius="12" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
+				
+				<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0">
+					<mx:columns>
+						<mx:DataGridColumn headerText="Icon" width="48" >
+							<mx:itemRenderer >
+								<fx:Component>
+									<mx:Image source="{data.icon}" height="48" width="48" />
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
+							<mx:itemRenderer>
+								<fx:Component>
+									<mx:Label text="{data.name}" height="48" paddingTop="12"/>
+								</fx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+					</mx:columns>		
+				</mx:DataGrid>
+				<mx:Canvas height="265" width="180" cornerRadius="12" borderStyle="solid" borderThickness="4" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+			</mx:Canvas>
+			
 			
 		</s:VGroup>
 	</s:HGroup>
