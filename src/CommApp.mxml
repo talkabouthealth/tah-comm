@@ -167,11 +167,12 @@
 						//i am the first login user
 						var para:ParagraphElement = new ParagraphElement();
 						var span:SpanElement = new SpanElement();
-						span.text =  "Finding other users to join the conversations. This should only take a minute.";
-						span.color = "#25bbdb";
+						span.text =  "    Searching other users to join the conversations. This should only take a minute.";
+						span.color = "#f790b9";
 						span.fontWeight = FontWeight.BOLD;
 						para.addChild(span);
 						txt_history.textFlow.addChild(para);
+						
 					}else{
 						firstUser = false;
 					}
@@ -234,11 +235,18 @@
 				var para:ParagraphElement = new ParagraphElement(); 
 				var span1:SpanElement = new SpanElement(); 
 				var span2:SpanElement = new SpanElement(); 
-				span1.text = fromUser + " :  "; 
-				span1.fontWeight = FontWeight.BOLD;
+				span1.text = "  " + fromUser + " :  "; 
+				//span1.fontStyle = FontStyle.BOLD;
 				span1.fontSize = 14;
+				span1.fontFamily = "Times New Roman";
 				span1.color = "#25bbdb";
+				
 				span2.text = msg;
+				span2.fontStyle = FontStyle.ITALIC;
+				span2.fontSize = 14;
+				span2.fontFamily = "Times New Roman";
+				
+				
 				para.addChild(span1); 
 				para.addChild(span2);
 				txt_history.textFlow.addChild(para);
@@ -622,7 +630,7 @@
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
 				<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
-					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="0"/>
+					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="0" fontFamily="Times New Roman" fontStyle="italic" fontSize="12"/>
 					<mx:Canvas width="100%" height="27" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 				</mx:Canvas>
 				
@@ -634,7 +642,7 @@
 					   value="0.5"
 					   snapInterval="0.01"
 					   liveDragging="true"
-					   x="{cntrl_Group.x+othervideoSwitch.x+230}"
+					   x="{cntrl_Group.x+othervideoSwitch.x+235}"
 					   y="{cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="spVolHandler()"/>
 			<s:VolumeBar id="micVol" 
@@ -643,7 +651,7 @@
 					   value="50"
 					   snapInterval="1"
 					   liveDragging="true"
-					   x="{cntrl_Group.x+othervideoSwitch.x+270}"
+					   x="{cntrl_Group.x+othervideoSwitch.x+275}"
 					   y="{cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="if(mic!=null)mic.gain = micVol.value" />
 			
