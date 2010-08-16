@@ -171,19 +171,20 @@
 						span.color = "#f790b9";
 						span.fontWeight = FontWeight.BOLD;
 						para.addChild(span);
-						txt_history.textFlow.addChildAt(0,para);
+						txt_history.textFlow.addChild(para);
 						 
-						var para:ParagraphElement = new ParagraphElement();
-						var span:SpanElement = new SpanElement();
-						span.text = "";
+						para = new ParagraphElement();
+						span = new SpanElement();
+						span.text = " ";
 						para.addChild(span);
 						txt_history.textFlow.addChild(para); 
 						
 						//txt_history.validateProperties();
 						
+						/* 
 						txt_history.validateNow();
 						txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum;
-						
+						 */
 					}else{
 						firstUser = false;
 					}
@@ -588,7 +589,7 @@
 			}
 			
 			[Bindable]
-			private var txt_msgToast:String = "Type your sentence here!";
+			private var txt_msgToast:String = "Enter your message here";
 			private function txt_msgFocusOut():void{
 				if(txt_msg.text == ""){
 					txt_msg.text = txt_msgToast;
