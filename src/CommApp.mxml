@@ -103,7 +103,7 @@
 					othervideoSwitch.selected = true;
 					doDisplay();
 				}catch(e:Error){
-					logger.addLoggingMessage(e.getStackTrace());
+//					logger.addLoggingMessage(e.getStackTrace());
 				}
 				
 			}
@@ -112,12 +112,12 @@
 			{
 				if( event.info.code == "NetConnection.Connect.Success" ) {
 					ncSuccess = true;
-					logger.addLoggingMessage("NC Success");
+//					logger.addLoggingMessage("NC Success");
 					talkerListSO = SharedObject.getRemote("talkerListSO-" + topicid, nc.uri, false);
 					talkerListSO.connect(nc);
 					talkerListSO.addEventListener(SyncEvent.SYNC, talkerListSync);
 					//talkerListSO.client = this;
-					logger.addLoggingMessage("SO Success");
+//					logger.addLoggingMessage("SO Success");
 					
 					/*****************************************
 					 * *Target: new SharedObject of video list
@@ -126,7 +126,7 @@
 					videoListSO = SharedObject.getRemote("videoListSO-" + topicid,nc.uri,false);
 					videoListSO.connect(nc);
 					videoListSO.addEventListener(SyncEvent.SYNC, videoListSync);
-					logger.addLoggingMessage("video SO Success");
+//					logger.addLoggingMessage("video SO Success");
 					
 					//imageListSO = SharedObject.getRemote("imageListSO-" + topicid,nc.uri,false);
 					//imageListSO.connect(nc);
@@ -134,14 +134,14 @@
 				} else {
 					ncSuccess = false;
 					// connection failed
-					logger.addLoggingMessage(event.info.code);
+//					logger.addLoggingMessage(event.info.code);
 				}
 			}
 			
 			private var firstUser:Boolean = true;
 			private function talkerListSync ( event:SyncEvent ):void
 			{
-				logger.addLoggingMessage("++++Talker List Sync");
+//				logger.addLoggingMessage("++++Talker List Sync");
 				
 				var tmpArray:Array = new Array();
 				var listName:String = "talkerListAC";
@@ -152,7 +152,7 @@
 					if(null == this.clientid){
 						if(this.username == ((talkerListSO.data[ listName ])[i])[1]){
 							this.clientid = ((talkerListSO.data[ listName ])[i])[0];
-							logger.addLoggingMessage("client id: "+this.clientid+"   username: "+this.username);
+//							logger.addLoggingMessage("client id: "+this.clientid+"   username: "+this.username);
 						}
 					}
 				}
@@ -185,30 +185,30 @@
 			
 			public function videoListSync(event:SyncEvent):void
 			{
-				logger.addLoggingMessage("++++Video List Sync");
+//				logger.addLoggingMessage("++++Video List Sync");
 				//logger.addLoggingMessage(videoListSO.toString());
 				
 				var tmpArray:Array;
 				var listName:String = "videoListAC";
-				logger.addLoggingMessage("vid syc step 1 ...");
+//				logger.addLoggingMessage("vid syc step 1 ...");
 				tmpArray = new Array();
 				
 				
 				for (var i :int= 0; i < (videoListSO.data[ listName ]).length; i++ ) {
 					tmpArray.push((videoListSO.data[ listName ])[i]);
 				}
-				logger.addLoggingMessage("vid syc step 2 ...");
+//				logger.addLoggingMessage("vid syc step 2 ...");
 				videoListAC = null;
 				videoListAC = tmpArray;	
 				if(videoListAC == null) {
-					logger.addLoggingMessage("videoListAC is null");
+//					logger.addLoggingMessage("videoListAC is null");
 				}else {
-					logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
+//					logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
 				} 
 				
-				logger.addLoggingMessage("Video List: ");
+//				logger.addLoggingMessage("Video List: ");
 				for(var i:int =0 ; i<videoListAC.length ;i++){
-					logger.addLoggingMessage(i+": "+videoListAC[i]);
+//					logger.addLoggingMessage(i+": "+videoListAC[i]);
 				}
 				doDisplay();
 			}
@@ -224,7 +224,7 @@
 					try{
 						nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
 					}catch(e:Error){
-						logger.addLoggingMessage(e.getStackTrace());
+//						logger.addLoggingMessage(e.getStackTrace());
 					}
 					txt_msg.text = "";
 				}
@@ -267,12 +267,12 @@
 				}
 				else
 				{
-					logger.addLoggingMessage("Cannot start video ...");
+//					logger.addLoggingMessage("Cannot start video ...");
 				}
 			}
 			protected function videoStop():void
 			{
-				logger.addLoggingMessage("Stopping video ...");
+//				logger.addLoggingMessage("Stopping video ...");
 				endRec();
 				stopVideoLocal();
 			}
@@ -284,7 +284,7 @@
 				outStream = new NetStream(nc);
 				//outStream.client = this;
 				
-				logger.addLoggingMessage("Bigin Recording ...");
+//				logger.addLoggingMessage("Bigin Recording ...");
 				
 				cam = Camera.getCamera();
 				if(cam!=null){
@@ -309,23 +309,23 @@
 				outStream.publish(this.clientid,"live");
 				
 				//Add himself to the video list
-				logger.addLoggingMessage("Client ID is: " + this.clientid+"  Topic ID is: "+ this.topicid);
+//				logger.addLoggingMessage("Client ID is: " + this.clientid+"  Topic ID is: "+ this.topicid);
 				nc.call("send_msgtoroom", null, this.username, this.topicid, "I am adding video list");
 				nc.call("addVideoList", null, this.clientid, this.topicid);
 				nc.call("testMethod", null, this.clientid, this.topicid);
-				logger.addLoggingMessage("++++Video List Added");
+//				logger.addLoggingMessage("++++Video List Added");
 				
 			}
 			
 			//Stop recording
 			private function endRec():void
 			{
-				logger.addLoggingMessage("End Recording ...");
+//				logger.addLoggingMessage("End Recording ...");
 				outStream.close();
 				//remove himself to the video list
 				nc.call("send_msgtoroom", null, this.username, this.topicid, "I am adding video list");
 				nc.call("removeVideoList", null, this.clientid, this.topicid);
-				logger.addLoggingMessage("++++Video List Removed");
+//				logger.addLoggingMessage("++++Video List Removed");
 				
 				//vi = null;
 				
@@ -343,7 +343,7 @@
 			private function getVideoLocal():void
 			{
 				
-				logger.addLoggingMessage("Getting Local Video ... ");
+//				logger.addLoggingMessage("Getting Local Video ... ");
 				
 				vi.attachCamera(this.cam);
 				
@@ -362,7 +362,7 @@
 				
 				vi.attachCamera(null);
 				vi.clear();
-				logger.addLoggingMessage("Video removed ...");
+//				logger.addLoggingMessage("Video removed ...");
 				
 				//doDisplay();
 			}
@@ -374,7 +374,7 @@
 			
 			private function doDisplay():void
 			{
-				logger.addLoggingMessage("Do display ...");
+//				logger.addLoggingMessage("Do display ...");
 				
 				var dispRowCapacity:int = 4;
 				
@@ -398,15 +398,15 @@
 				while(videoGroup.numElements>0){
 					videoGroup.removeElementAt(0);
 				}
-				logger.addLoggingMessage("row group removed");
+//				logger.addLoggingMessage("row group removed");
 				
 				vidListAC.push(vi);
 				if(othervideoSwitch.selected){
 					//Get video array of peers
 					for(var i:int=0; i<videoListAC.length;i++){
-						logger.addLoggingMessage("video list is not empty.");
+//						logger.addLoggingMessage("video list is not empty.");
 						if( this.clientid != videoListAC[i]){
-							logger.addLoggingMessage("There exist other peers on video list");
+//							logger.addLoggingMessage("There exist other peers on video list");
 							
 							var newInStream:NetStream = new NetStream(nc);
 							//new Sound
@@ -425,8 +425,8 @@
 							
 						}
 					}
-					logger.addLoggingMessage("video array done!");
-					logger.addLoggingMessage("vidListAC: " + vidListAC.length);
+//					logger.addLoggingMessage("video array done!");
+//					logger.addLoggingMessage("vidListAC: " + vidListAC.length);
 				}
 				
 				
@@ -474,7 +474,7 @@
 						
 						//tempUnit.internalVD.addChild(vi);
 					}catch(e:Error){
-						logger.addLoggingMessage(e.toString());
+//						logger.addLoggingMessage(e.toString());
 					}
 					tempUnit.userName.text = "username"+(i+1);
 					dispUnitListAC.push(tempUnit);
@@ -496,19 +496,19 @@
 					newGroup.addElement(dispUnitListAC[i] as VideoDispUnit);
 				}
 				//logger.addLoggingMessage("addChild success!");
-				logger.addLoggingMessage("addElement success!");
+//				logger.addLoggingMessage("addElement success!");
 				if(newGroup!=null){
 					dispRowGroupAC.push(newGroup);
 				}
-				logger.addLoggingMessage("VideoDisplay RowGroup Array done!");
+//				logger.addLoggingMessage("VideoDisplay RowGroup Array done!");
 				///////////////////////////////////////////////////////////////////
 				
 				//logger.addLoggingMessage("we wanna show it at videoGroup");
-				logger.addLoggingMessage("dispRowGroupAC.length: " + dispRowGroupAC.length);
+//				logger.addLoggingMessage("dispRowGroupAC.length: " + dispRowGroupAC.length);
 				for(var i:int = 0; i<dispRowGroupAC.length;i++){
 					videoGroup.addElement(dispRowGroupAC[i]as HGroup);
 					
-					logger.addLoggingMessage("videoGroup numElement " + videoGroup.numElements);
+//					logger.addLoggingMessage("videoGroup numElement " + videoGroup.numElements);
 					//logger.addLoggingMessage("videoGroup Element id: " + (dispRowGroupAC[i]as HGroup).id);
 				}
 				
@@ -519,7 +519,7 @@
 			//var micVolslider:VSlider;
 			private function spVolHandler():void
 			{
-				logger.addLoggingMessage("spVolHandler");
+//				logger.addLoggingMessage("spVolHandler");
 				for(var i:int=0;i<inStream.length;i++){
 					//((dispListAC[i]as VideoDisplay).getChildAt(0)as Video). = spVol.value;
 					(inStream[i]as NetStream).soundTransform = new SoundTransform(spVol.value);
@@ -528,7 +528,7 @@
 					//logger.addLoggingMessage("Volume " + i + ": "+ (dispListAC[i]as VideoDisplay).volume);
 					//logger.addLoggingMessage("VideoLocal volume: "+ videoLocal.volume);
 				}
-				logger.addLoggingMessage("complete without error");
+//				logger.addLoggingMessage("complete without error");
 			}
 			
 			//public var icon1:Image;
@@ -547,7 +547,7 @@
 				//imageListAC = new Array();
 				for(var i:int=0; i<talkerListAC.length;i++){
 					//imageListAC.push(icon);
-					logger.addLoggingMessage("talkerListAC["+i+"]: "+talkerListAC[i]);
+//					logger.addLoggingMessage("talkerListAC["+i+"]: "+talkerListAC[i]);
 					talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://www.talkabouthealth.com:9000/image/"+talkerListAC[i]} );
 				}
 				//logger.addLoggingMessage("imageListAC length: "+imageListAC.length);
@@ -565,7 +565,9 @@
 	<s:layout>
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
-	<logger:LoggerModule id="logger"/>
+	
+	<!--<logger:LoggerModule id="logger" height="75"/>-->
+	
 	<s:VGroup>
 		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" >
 			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
