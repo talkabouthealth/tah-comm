@@ -171,7 +171,18 @@
 						span.color = "#f790b9";
 						span.fontWeight = FontWeight.BOLD;
 						para.addChild(span);
-						txt_history.textFlow.addChild(para);
+						txt_history.textFlow.addChildAt(0,para);
+						 
+						var para:ParagraphElement = new ParagraphElement();
+						var span:SpanElement = new SpanElement();
+						span.text = "";
+						para.addChild(span);
+						txt_history.textFlow.addChild(para); 
+						
+						//txt_history.validateProperties();
+						
+						txt_history.validateNow();
+						txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum;
 						
 					}else{
 						firstUser = false;
@@ -590,12 +601,13 @@
 	<!--<logger:LoggerModule id="logger" height="75"/>-->
 	
 	<s:VGroup width="720">
-		<s:HGroup width="100%" height="100%" >
-			<mx:Image source="{imgLogo}" width="100%" height="100%"/>
+		<s:Group width="720" height="31" >
+			
+			<mx:Image source="{imgLogo}" width="233" height="31"/>
 			<!--<mx:Image source="{imgClose}" width="100%" height="100%" horizontalAlign="right"
 					  click="closeIE()"  />-->
-			<mx:Button icon="{imgClose}" click="closeIE()" width="32" borderColor="#FFFFFF" alpha="1.0"/>
-		</s:HGroup>
+			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="13" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="689"/> 
+		</s:Group>
 		
 		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" />
 	</s:VGroup>
@@ -613,7 +625,7 @@
 						<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle" height="15"/>
 					</s:HGroup>
 					<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
-						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true"  horizontalCenter="0" verticalCenter="0"/>
+						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true" fontFamily="Times New Roman" verticalAlign="middle" fontSize="14" x="2" top="0"/>
 						
 						<mx:Canvas width="100%" height="202" cornerRadius="8" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 					</mx:Canvas>
@@ -646,8 +658,8 @@
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
 				<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
-					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="0" fontFamily="Times New Roman" fontStyle="italic" fontSize="12"/>
-					<mx:Canvas width="100%" height="27" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="none" textIndent="10" fontWeight="normal"/>
+					<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 				</mx:Canvas>
 				
 				
@@ -671,13 +683,14 @@
 					   y="{cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="if(mic!=null)mic.gain = micVol.value" />
 			
+			
 		</s:Group>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:Canvas height="265" width="180" cornerRadius="12" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
+			<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
 				
-				<mx:DataGrid height="260" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0">
+				<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0">
 					<mx:columns>
 						<mx:DataGridColumn headerText="Icon" width="48" >
 							<mx:itemRenderer >
@@ -695,7 +708,7 @@
 						</mx:DataGridColumn>
 					</mx:columns>		
 				</mx:DataGrid>
-				<mx:Canvas height="265" width="180" cornerRadius="12" borderStyle="solid" borderThickness="4" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+				<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="4" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 			</mx:Canvas>
 			
 			
