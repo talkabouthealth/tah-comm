@@ -586,6 +586,22 @@
 				navigateToURL(new URLRequest("javascript:window.opener = null; window.open(' ', '_self', ' '); window.close()"),"_parent");
 				//logger.addLoggingMessage("Button clicked! no error");
 			}
+			
+			[Bindable]
+			private var txt_msgToast:String = "Type your sentence here!";
+			private function txt_msgFocusOut():void{
+				if(txt_msg.text == ""){
+					txt_msg.text = txt_msgToast;
+				}
+				txt_msg.setStyle("color","#94CBD7"); //blue gray
+			}
+			
+			private function txt_msgFocusIn():void{
+				if(txt_msg.text == txt_msgToast){
+					txt_msg.text = "";
+				}
+				txt_msg.setStyle("color","#0B333C"); //black blue 
+			}
 		]]>
 	</fx:Script>
 	
@@ -625,7 +641,7 @@
 						<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle" height="15"/>
 					</s:HGroup>
 					<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
-						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true" fontFamily="Times New Roman" verticalAlign="middle" fontSize="14" x="2" top="0"/>
+						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true" fontFamily="Times New Roman"  fontSize="14" horizontalCenter="0" verticalCenter="0"/>
 						
 						<mx:Canvas width="100%" height="202" cornerRadius="8" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 					</mx:Canvas>
@@ -658,7 +674,7 @@
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
 				<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
-					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="none" textIndent="10" fontWeight="normal"/>
+					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="none" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
 					<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
 				</mx:Canvas>
 				
