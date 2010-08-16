@@ -59,65 +59,53 @@
 			
 			private function init():void
 			{
-				//FLASHVARS CODE
-				var paramObj:Object = this.parameters;
+				try{
+					//FLASHVARS CODE
+					var paramObj:Object = this.parameters;
+					
+					this.userid = paramObj["userid"];
+					this.username = paramObj["username"];
+					this.topicid = paramObj["topicid"];
+					this.topic = paramObj["topic"];
+					this.clientid = null;
+					
+					// new netconnection
+					nc = new NetConnection();
+					nc.client = this;
+					
+					// set encoding to old amf
+					nc.objectEncoding = ObjectEncoding.AMF3;
+					
+					// netstatus event listening
+					nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
+					
+					// connect to red5, passing false as parameter
+					nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
+					topicTitle.text = "Topic: " + topic;
+					welcomeUser.text = "Welcome " + username;
+					
+					//set volume and mic slider
+					//micVolslider = new VSlider();
+					//micVolslider.x = micVol.x;
+					//micVolslider.y = micVol.x;
+					//micVolslider.visible = true;
+					
+					//set the video List
+					videoListAC = new Array();
+					
+					talkerUnitListAC = new Array();
+					
+					vi = new Video();
+					vi.width = 160;
+					vi.height = 120;
+					vi.smoothing = true;
+					
+					othervideoSwitch.selected = true;
+					doDisplay();
+				}catch(e:Error){
+					logger.addLoggingMessage(e.getStackTrace());
+				}
 				
-				this.userid = paramObj["userid"];
-				this.username = paramObj["username"];
-				this.topicid = paramObj["topicid"];
-				this.topic = paramObj["topic"];
-				this.clientid = null;
-				
-				// new netconnection
-				nc = new NetConnection();
-				nc.client = this;
-				
-				// set encoding to old amf
-				nc.objectEncoding = ObjectEncoding.AMF3;
-				
-				// netstatus event listening
-				nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
-				
-				// connect to red5, passing false as parameter
-				nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
-				topicTitle.text = "Topic: " + topic;
-				welcomeUser.text = "Welcome " + username;
-				
-				//set volume and mic slider
-				//micVolslider = new VSlider();
-				//micVolslider.x = micVol.x;
-				//micVolslider.y = micVol.x;
-				//micVolslider.visible = true;
-				
-				//set the video List
-				videoListAC = new Array();
-				
-				talkerUnitListAC = new Array();
-				//set the image List
-				//imageListAC = new Array();
-				
-				vi = new Video();
-				vi.width = 160;
-				vi.height = 120;
-				vi.smoothing = true;
-				
-				//set the local VideoDisplay
-				videoLocal = new VideoDisplay();
-				videoLocal.top = 0;
-				videoLocal.width = 160;
-				videoLocal.height = 120;
-				videoLocal.volume = spVol.value; 
-				
-				//icon = "http://bbs.airia.cn/UserFiles/Avatar/Big/8/3/8/83891.jpg";
-				//icon.source = "@Embed=(source='assets/pandoras_star_.jpg')";
-				//icon1.load(new URLRequest(@Embed(source='images/image1.jpg'));
-				//icon1.source=http://www.helpexamples.com/flash/images/image1.jpg";
-				//icon2.source="http://www.helpexamples.com/flash/images/image2.jpg";
-				//icon3.source="http://www.helpexamples.com/flash/images/image3.jpg";
-				othervideoSwitch.selected = true;
-				
-				
-				doDisplay();
 			}
 			
 			private function netStatus ( event:NetStatusEvent ):void
@@ -189,36 +177,7 @@
 					}
 				}				
 			}
-			/**************************************************************
-			 * *Synchronize image list
-			 * *Added by: Situ
-			 * ************************************************************/
-			/* 			public function imageListSync(event:SyncEvent):void{
-			logger.addLoggingMessage("++++Image List Sync");
-			var tmpArray:Array;
-			var listName:String = "imageListAC";
-			logger.addLoggingMessage("img syc step 1 ...");
-			tmpArray = new Array();
 			
-			
-			for (var i :int= 0; i < (imageListSO.data[ listName ]).length; i++ ) {
-			tmpArray.push((imageListSO.data[ listName ])[i]);
-			}
-			logger.addLoggingMessage("img syc step 2 ...");
-			imageListAC = null;
-			imageListAC = tmpArray;	
-			// if(videoListAC == null) {
-			//logger.addLoggingMessage("videoListAC is null");
-			//}else {
-			//logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
-			//} 
-			
-			logger.addLoggingMessage("Image List: ");
-			for(var i:int =0 ; i<imageListAC.length ;i++){
-			logger.addLoggingMessage(i+": "+imageListAC[i]);
-			}
-			doDisplay();
-			} */
 			/**************************************************************
 			 * *Synchronize video list
 			 * *Added by: Situ
@@ -379,7 +338,7 @@
 			/*
 			* Display local video
 			*/
-			public var videoLocal:VideoDisplay;
+			//public var videoLocal:VideoDisplay;
 			
 			private function getVideoLocal():void
 			{
@@ -650,7 +609,8 @@
 							   liveDragging="true"
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
-				<s:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)" skinClass="spark.skins.SparkSkin"/>
+				<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)" />
+				
 			</s:VGroup>
 			<s:VolumeBar id="spVol" 
 					   minimum="0.0"
