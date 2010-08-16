@@ -562,6 +562,19 @@
 				//talkerUnitListAC.name = talkerListAC;
 				//talkerUnitListAC.icon = imageListAC;
 			}
+			[Embed(source="images/popup_logo.gif")]
+			[Bindable]
+			public var imgLogo:Class;
+
+			[Embed(source="images/popup_close.gif")]
+			[Bindable]
+			public var imgClose:Class;
+			
+			private function closeIE():void{
+				//logger.addLoggingMessage("Button clicked!");
+				navigateToURL(new URLRequest("javascript:window.opener = null; window.open(' ', '_self', ' '); window.close()"),"_parent");
+				//logger.addLoggingMessage("Button clicked! no error");
+			}
 		]]>
 	</fx:Script>
 	
@@ -576,12 +589,15 @@
 	
 	<!--<logger:LoggerModule id="logger" height="75"/>-->
 	
-	<s:VGroup>
-		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" >
-			<!--<s:VideoDisplay id="videoDisplay0" width="200" height="150"/>
-			<s:VideoDisplay id="videoDisplay1" width="200" height="150"/>
-			<s:VideoDisplay id="videoDisplay2" width="200" height="150"/>-->
-		</s:VGroup>		
+	<s:VGroup width="720">
+		<s:HGroup width="100%" height="100%" >
+			<mx:Image source="{imgLogo}" width="100%" height="100%"/>
+			<!--<mx:Image source="{imgClose}" width="100%" height="100%" horizontalAlign="right"
+					  click="closeIE()"  />-->
+			<mx:Button icon="{imgClose}" click="closeIE()" width="32" borderColor="#FFFFFF" alpha="1.0"/>
+		</s:HGroup>
+		
+		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" />
 	</s:VGroup>
 	<s:HGroup width="100%" >
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
