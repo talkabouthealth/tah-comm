@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="160" height="140"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="160" height="135" paddingBottom="0"
 		 
-		 alpha="1.0" horizontalAlign="center" verticalAlign="middle" >
+		 alpha="1.0" horizontalAlign="center">
 	<s:Group>
 		<s:layout>
 			<s:BasicLayout/>
 		</s:layout>
-		<mx:VideoDisplay id="vd" width="160" height="120" cornerRadius="20" horizontalCenter="0" verticalCenter="0" backgroundAlpha="0.43" backgroundColor="#EAEAEA" borderStyle="solid" borderColor="#8DCFFD" borderThickness="4"/>
-		<mx:Canvas horizontalCenter="0" verticalCenter="0" width="160" height="120" borderColor="#FFFFFF" borderStyle="solid" borderThickness="6" backgroundAlpha="0.0"/>
-		<mx:Canvas cornerRadius="20" width="160" height="120" borderStyle="solid" borderThickness="6" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderColor="#8DCFFD" backgroundAlpha="0.0" horizontalCenter="0" verticalCenter="0"/>
+		<mx:VideoDisplay id="vd" width="160" height="120" cornerRadius="20" horizontalCenter="0" verticalCenter="0" backgroundAlpha="0.43" backgroundColor="#DEA4DB" borderStyle="solid" borderColor="#FFFFFF" borderThickness="4"/>
+		<mx:Canvas horizontalCenter="0" verticalCenter="0" width="160" height="120" borderColor="#CAE3ED" borderStyle="solid" borderThickness="6" backgroundAlpha="0.0"/>
+		<mx:Canvas cornerRadius="15" width="160" height="120" borderStyle="solid" borderThickness="6" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderColor="#FFFFFF" backgroundAlpha="0.0" horizontalCenter="0" verticalCenter="0"/>
 
 	</s:Group>
 	
 	
 	<!--<mx:VideoDisplay id="vd" width="160" height="120" />-->
 	
-	<s:Label id="userName" horizontalCenter="0"/>
+	<s:Label id="userName" horizontalCenter="0" verticalAlign="bottom" textAlign="center" color="#1D68A2"/>
 		
 </s:VGroup>

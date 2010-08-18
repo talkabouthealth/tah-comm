@@ -508,9 +508,15 @@
 							dispRowGroupAC.push(newGroup);
 						}
 						newGroup = new HGroup();
-						newGroup.gap = 5;
-						newGroup.paddingLeft = 5;
-						newGroup.paddingTop = 5;
+						
+						newGroup.gap = 11;
+						newGroup.paddingLeft = 16;
+						newGroup.paddingRight = 16;
+						newGroup.paddingTop = 9;
+						newGroup.paddingBottom = 9;
+						//paddingTop="9"  paddingBottom="9" paddingLeft="5" paddingRight="0"
+						//newGroup.paddingLeft = 5;
+						//newGroup.paddingTop = 5;
 					}
 					//logger.addLoggingMessage("before addChild ...");
 					newGroup.addElement(dispUnitListAC[i] as VideoDispUnit);
@@ -626,7 +632,14 @@
 			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="13" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="689"/> 
 		</s:Group>
 		
-		<s:VGroup id="videoGroup" left="9" top="0" gap="5" paddingTop="9" />
+		<s:Group width="100%">
+			<s:layout>
+				<s:BasicLayout/>
+			</s:layout>
+			<mx:Canvas width="100%" height="100%" styleName="canvas1"/>
+			<s:VGroup id="videoGroup"  top="0"  left="0"/>
+		</s:Group>
+		
 	</s:VGroup>
 	<s:HGroup width="100%" >
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
@@ -707,7 +720,7 @@
 			<!--<mx:Image source="photo/1.png"/>-->
 			<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
 				
-				<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0">
+				<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0" fontFamily="Times New Roman">
 					<mx:columns>
 						<mx:DataGridColumn headerText="Icon" width="48" >
 							<mx:itemRenderer >

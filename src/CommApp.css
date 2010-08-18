@@ -14,3 +14,9 @@
 	color: #1D68A2;
 	font-family: arial;
 }
+mx|Canvas.canvas1
+{
+	backgroundColor: #CAE3ED;
+	borderStyle: solid;
+	borderThickness: 1;
+}
