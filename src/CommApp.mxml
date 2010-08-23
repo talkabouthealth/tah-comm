@@ -27,10 +27,15 @@
 			import flashx.textLayout.elements.SpanElement;
 			import flashx.textLayout.elements.TextFlow;
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
+			import flashx.textLayout.formats.TextAlign;
 			
 			import mx.collections.ArrayCollection;
 			import mx.containers.Canvas;
+			import mx.containers.GridItem;
+			import mx.containers.GridRow;
+			import mx.containers.VBox;
 			import mx.controls.Image;
+			import mx.controls.Text;
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
 			import mx.core.mx_internal;
@@ -81,7 +86,7 @@
 					
 					// connect to red5, passing false as parameter
 					nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
-					topicTitle.text = "Topic: " + topic;
+					topicTitle.text = topic;
 					welcomeUser.text = "Welcome " + username;
 					
 					//set volume and mic slider
@@ -165,19 +170,26 @@
 				if(firstUser){
 					if( talkerListAC.length==1){
 						//i am the first login user
-						var para:ParagraphElement = new ParagraphElement();
-						var span:SpanElement = new SpanElement();
-						span.text =  "    Searching other users to join the conversations. This should only take a minute.";
-						span.color = "#f790b9";
-						span.fontWeight = FontWeight.BOLD;
-						para.addChild(span);
-						txt_history.textFlow.addChild(para);
+						//var para:ParagraphElement = new ParagraphElement();
+						var lb:spark.components.Label = new spark.components.Label();
+						lb.text =  "    Searching other users to join the conversations. This should only take a minute.";
+						lb.setStyle('color','#f790b9');
+						lb.setStyle('fontWeight',FontWeight.BOLD);
+						//para.addChild(span);
+						//txt_history.textFlow.addChild(para);
 						 
-						para = new ParagraphElement();
-						span = new SpanElement();
-						span.text = " ";
-						para.addChild(span);
-						txt_history.textFlow.addChild(para); 
+						//para = new ParagraphElement();
+						//span = new SpanElement();
+						//span.text = " ";
+						//para.addChild(span);
+						var grow:GridRow = new GridRow();
+						var gitem:GridItem = new GridItem();
+						gitem.addChild(lb);
+						grow.addChild(gitem);
+						grow.setStyle("paddingTop", '10');
+						
+						txt_history.addChild(grow);
+						//txt_history.textFlow.addChild(para); 
 						
 						//txt_history.validateProperties();
 						
@@ -244,28 +256,50 @@
 				
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
-				var para:ParagraphElement = new ParagraphElement(); 
-				var span1:SpanElement = new SpanElement(); 
-				var span2:SpanElement = new SpanElement(); 
-				span1.text = "  " + fromUser + " :  "; 
+				//var para:ParagraphElement = new ParagraphElement(); 
+				var uname:Text = new Text(); 
+				var tf:Text = new Text();
+				//var lbl2:spark.components.Label = new spark.components.Label(); 
+				uname.text = "  " + fromUser + " :  "; 
 				//span1.fontStyle = FontStyle.BOLD;
-				span1.fontSize = 14;
-				span1.fontFamily = "Times New Roman";
-				span1.color = "#25bbdb";
+				uname.setStyle('fontSize' ,14);
+				uname.setStyle('fontFamily' ,'Times New Roman');
+				uname.setStyle('color' ,'#25bbdb');
+				//uname.setStyle('paddingTop' ,5);
 				
-				span2.text = msg;
-				span2.fontStyle = FontStyle.ITALIC;
-				span2.fontSize = 14;
-				span2.fontFamily = "Times New Roman";
+				uname.width = txt_history.width*0.1;
+				//lb1.fontFamily = "Times New Roman";
+				//lb1.color = "#25bbdb";
+				//lb1.textAlign = flashx.textLayout.formats.TextAlign.LEFT;
+				//lb1.columnCount = 1;
 				
+				tf.text = msg;
+				tf.setStyle('fontSize' ,14);
+				tf.setStyle('fontStyle' ,FontStyle.ITALIC);
+				tf.setStyle('fontFamily' ,'Times New Roman');
+				tf.width = txt_history.width*0.85;
 				
-				para.addChild(span1); 
-				para.addChild(span2);
-				txt_history.textFlow.addChild(para);
+
+				//lbl2.setStyle('color' ,'#25bbdb');
+				
+				var grow:GridRow = new GridRow();
+				var gitem1:GridItem = new GridItem();
+				//var gitem2:GridItem = new GridItem();
+				gitem1.addChild(uname); 
+				gitem1.addChild(tf);
+				
+				//grow.width = grow.parent.width;
+				gitem1.width = txt_history.width;
+				gitem1.horizontalScrollPolicy = 'off';
+				//gitem2.width = gitem2.parent.width*0.9;
+				grow.addChild(gitem1);
+				//grow.addChild(gitem2);
+				txt_history.addChild(grow);
+				
 				
 				//txt_history.validateProperties();
 				txt_history.validateNow();
-				txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum;
+				txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 			}
 			/***************************************************************************/
 			private var vi:Video;
@@ -621,7 +655,7 @@
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 	
-	<!--<logger:LoggerModule id="logger" height="75"/>-->
+	<!--<logger:LoggerModule id="logger" height="75" visible="false"/>-->
 	
 	<s:VGroup width="720">
 		<s:Group width="720" height="31" >
@@ -629,7 +663,7 @@
 			<mx:Image source="{imgLogo}" width="233" height="31"/>
 			<!--<mx:Image source="{imgClose}" width="100%" height="100%" horizontalAlign="right"
 					  click="closeIE()"  />-->
-			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="13" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="689"/> 
+			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="14" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="689" labelPlacement="left" borderColor="#FFFFFF" themeColor="#FFFFFF"/> 
 		</s:Group>
 		
 		<s:Group width="100%">
@@ -650,15 +684,21 @@
 			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
 					
 				<s:VGroup width="100%" height="100%">
-					<s:HGroup>
+					<s:HGroup verticalAlign="bottom">
 						<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
-						<s:Label id="topicTitle" verticalAlign="bottom" styleName="topicTitle" height="15"/>
+						<s:Label text="Topic: " fontFamily="Arial" fontSize="12" color="#000000" verticalAlign="bottom" />
+						<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom"/>
 					</s:HGroup>
-					<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
+					<!--<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
 						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true" fontFamily="Times New Roman"  fontSize="14" horizontalCenter="0" verticalCenter="0"/>
 						
 						<mx:Canvas width="100%" height="202" cornerRadius="8" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
+					</mx:Canvas>-->
+					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="100%">
+						<mx:Grid width="100%" height="200" id="txt_history" enabled="true" fontFamily="Times New Roman"  fontSize="14" horizontalCenter="0" verticalCenter="0"/>
+						
 					</mx:Canvas>
+					
 				</s:VGroup>
 				
 				
@@ -669,7 +709,7 @@
 					<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other members Video On|Off" 
 								 change=" doDisplay();" />
 					
-					<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+					<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" />
 					
 					<!--<s:HSlider id="spVol" 						   
 							   minimum="0.0"
@@ -687,11 +727,11 @@
 							   liveDragging="true"
 							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
 				</s:HGroup>
-				<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
-					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="none" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
+				<!--<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
+					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="solid" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
 					<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
-				</mx:Canvas>
-				
+				</mx:Canvas>-->
+				<mx:TextInput id="txt_msg" width="100%" height="25"  enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#CCCCCC" borderStyle="solid" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
 				
 			</s:VGroup>
 			<s:VolumeBar id="spVol" 
@@ -716,30 +756,28 @@
 			
 		</s:Group>
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser"/>
+			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser" color="#000000"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
-				
-				<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" styleName="topicTitle"  horizontalCenter="0" fontFamily="Times New Roman">
-					<mx:columns>
-						<mx:DataGridColumn headerText="Icon" width="48" >
-							<mx:itemRenderer >
-								<fx:Component>
-									<mx:Image source="{data.icon}" height="48" width="48" />
-								</fx:Component>
-							</mx:itemRenderer>
-						</mx:DataGridColumn>
-						<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
-							<mx:itemRenderer>
-								<fx:Component>
-									<mx:Label text="{data.name}" height="48" paddingTop="12"/>
-								</fx:Component>
-							</mx:itemRenderer>
-						</mx:DataGridColumn>
-					</mx:columns>		
-				</mx:DataGrid>
-				<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="4" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
-			</mx:Canvas>
+			<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" fontFamily="Times New Roman" borderColor="#B6B6B6" headerHeight="0" styleName="topicTitle">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Icon" width="48" >
+						<mx:itemRenderer >
+							<fx:Component>
+								<mx:Image source="{data.icon}" height="48" width="48" />
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+					<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
+						<mx:itemRenderer>
+							<fx:Component>
+								<mx:Label text="{data.name}" height="48" paddingTop="12"/>
+							</fx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+				</mx:columns>		
+			</mx:DataGrid>
+			<!--<mx:Canvas height="270" width="180" cornerRadius="12" borderStyle="solid" borderThickness="4" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>-->
+			
 			
 			
 		</s:VGroup>
@@ -748,8 +786,8 @@
 		<s:layout>
 			<s:BasicLayout/>
 		</s:layout>
-		<s:Label text="Warning:" color="#25bbdb"/>
+		<s:Label text="Warning:" color="#000000" fontFamily="Arial" fontSize="11"/>
 		<s:Label width="650"
-				 text="                  All content on this site is informational and is not substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health."/>
+				 text="                  All content on this site is informational and is not substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494"/>
 	</s:Group>	
 </s:Application>

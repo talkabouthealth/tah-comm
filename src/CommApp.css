@@ -6,13 +6,18 @@
 .topicTitle
 {
 	color: #1D68A2;
-	font-weight: bold;
+	font-weight: normal;
+	fontFamily: Arial;
+	fontSize: 12;
+	verticalAlign: bottom;
 }
 	
 .welcomeUser
 {
 	color: #1D68A2;
 	font-family: arial;
+	fontSize: 12;
+	fontWeight: bold;
 }
 mx|Canvas.canvas1
 {
