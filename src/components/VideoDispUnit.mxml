@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:VGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="160" height="135" paddingBottom="0"
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="160" height="135"
 		 
-		 alpha="1.0" horizontalAlign="center">
+		 alpha="1.0" horizontalAlign="center" paddingTop="0">
 	<s:Group>
 		<s:layout>
 			<s:BasicLayout/>
 		</s:layout>
-		<mx:VideoDisplay id="vd" width="160" height="120" cornerRadius="20" horizontalCenter="0" verticalCenter="0" backgroundAlpha="0.43" backgroundColor="#DEA4DB" borderStyle="solid" borderColor="#FFFFFF" borderThickness="4"/>
-		<mx:Canvas horizontalCenter="0" verticalCenter="0" width="160" height="120" borderColor="#CAE3ED" borderStyle="solid" borderThickness="6" backgroundAlpha="0.0"/>
-		<mx:Canvas cornerRadius="15" width="160" height="120" borderStyle="solid" borderThickness="6" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderColor="#FFFFFF" backgroundAlpha="0.0" horizontalCenter="0" verticalCenter="0"/>
-
+		<mx:Canvas horizontalCenter="0" width="160" height="135" borderColor="#CAE3ED" borderStyle="solid" borderThickness="6" backgroundAlpha="0.0" top="0"/>
+		<mx:Canvas cornerRadius="15" width="160" height="135" borderStyle="solid" borderThickness="6" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderColor="#FFFFFF" backgroundAlpha="1.0" horizontalCenter="0" top="0" backgroundColor="#FFFFFF"/>
+		<mx:VideoDisplay id="vd" width="140" height="105" cornerRadius="0" horizontalCenter="0" backgroundAlpha="0.43" backgroundColor="#DEA4DB" borderStyle="solid" borderColor="#FFFFFF" borderThickness="0" top="8"/>
+		<mx:Canvas cornerRadius="15" width="160" height="135" borderStyle="solid" borderThickness="6" horizontalScrollPolicy="off" verticalScrollPolicy="off" borderColor="#FFFFFF" backgroundAlpha="1.0" horizontalCenter="0" top="0" />
+		<s:Label id="userName" horizontalCenter="0" verticalAlign="middle" textAlign="center" color="#1D68A2" bottom="6" fontSize="12" fontFamily="Arial"/>
 	</s:Group>
 	
 	
 	<!--<mx:VideoDisplay id="vd" width="160" height="120" />-->
 	
-	<s:Label id="userName" horizontalCenter="0" verticalAlign="bottom" textAlign="center" color="#1D68A2"/>
+	
 		
 </s:VGroup>

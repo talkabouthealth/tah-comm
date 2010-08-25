@@ -34,11 +34,13 @@
 			import mx.containers.GridItem;
 			import mx.containers.GridRow;
 			import mx.containers.VBox;
+			import mx.controls.Alert;
 			import mx.controls.Image;
 			import mx.controls.Text;
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
 			import mx.core.mx_internal;
+			import mx.preloaders.Preloader;
 			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
 			
@@ -101,8 +103,8 @@
 					talkerUnitListAC = new Array();
 					
 					vi = new Video();
-					vi.width = 160;
-					vi.height = 120;
+					vi.width = 140;
+					vi.height = 105;
 					vi.smoothing = true;
 					
 					othervideoSwitch.selected = true;
@@ -170,33 +172,38 @@
 				if(firstUser){
 					if( talkerListAC.length==1){
 						//i am the first login user
-						//var para:ParagraphElement = new ParagraphElement();
-						var lb:spark.components.Label = new spark.components.Label();
-						lb.text =  "    Searching other users to join the conversations. This should only take a minute.";
-						lb.setStyle('color','#f790b9');
-						lb.setStyle('fontWeight',FontWeight.BOLD);
-						//para.addChild(span);
-						//txt_history.textFlow.addChild(para);
-						 
-						//para = new ParagraphElement();
-						//span = new SpanElement();
-						//span.text = " ";
-						//para.addChild(span);
+						var notice:Text = new Text();
+						notice.text =  "    Searching other users to join the conversations. This should only take a minute.";
+						//lb.setStyle('color','#f790b9');
+						notice.setStyle('color','#000000');
+						notice.setStyle('fontWeight',FontWeight.BOLD);
+						notice.setStyle('fontSize' ,12);
+						notice.setStyle('fontStyle' ,FontStyle.ITALIC);
+						notice.setStyle('fontFamily' ,'Arial');
+						
 						var grow:GridRow = new GridRow();
 						var gitem:GridItem = new GridItem();
-						gitem.addChild(lb);
+						gitem.addChild(notice);
+						
+						
+						///////////////////////
 						grow.addChild(gitem);
-						grow.setStyle("paddingTop", '10');
-						
+						grow.width = txt_history.width;
+						grow.setStyle('paddingTop',10);
+						grow.setStyle('paddingBottom',1);
+						grow.horizontalScrollPolicy = 'off'
+						//if(txt_history.numChildren%2==0)  grow.setStyle('backgroundColor','#e8f9fe');
+						grow.setStyle('backgroundColor','#e8f9fe');
+						////////////////////////////////
 						txt_history.addChild(grow);
-						//txt_history.textFlow.addChild(para); 
 						
-						//txt_history.validateProperties();
-						
-						/* 
-						txt_history.validateNow();
-						txt_history.scroller.verticalScrollBar.value = txt_history.scroller.verticalScrollBar.maximum;
-						 */
+						alrtTimer = new Timer(60000,1);
+						alrtTimer.addEventListener(TimerEvent.TIMER_COMPLETE,ontimecheck);
+						alrtTimer.reset();
+						//logger.addLoggingMessage("Timer reseted");
+						alrtTimer.start();
+						//logger.addLoggingMessage("Timer started");
+						//logger.addLoggingMessage("firstUser: "+ firstUser);
 					}else{
 						firstUser = false;
 					}
@@ -243,7 +250,7 @@
 			this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));
 			}*/
 			
-			protected function enter_txtevent(event:Event):void
+			protected function enter_txtevent():void
 			{
 				if(txt_msg.text!=""){
 					try{
@@ -252,18 +259,20 @@
 //						logger.addLoggingMessage(e.getStackTrace());
 					}
 					txt_msg.text = "";
+					
+					txt_msg.setSelection(0,0);
 				}
 				
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
 				//var para:ParagraphElement = new ParagraphElement(); 
 				var uname:Text = new Text(); 
-				var tf:Text = new Text();
+				var txt:Text = new Text();
 				//var lbl2:spark.components.Label = new spark.components.Label(); 
 				uname.text = "  " + fromUser + " :  "; 
 				//span1.fontStyle = FontStyle.BOLD;
 				uname.setStyle('fontSize' ,14);
-				uname.setStyle('fontFamily' ,'Times New Roman');
+				uname.setStyle('fontFamily' ,'Arial');
 				uname.setStyle('color' ,'#25bbdb');
 				//uname.setStyle('paddingTop' ,5);
 				
@@ -273,11 +282,11 @@
 				//lb1.textAlign = flashx.textLayout.formats.TextAlign.LEFT;
 				//lb1.columnCount = 1;
 				
-				tf.text = msg;
-				tf.setStyle('fontSize' ,14);
-				tf.setStyle('fontStyle' ,FontStyle.ITALIC);
-				tf.setStyle('fontFamily' ,'Times New Roman');
-				tf.width = txt_history.width*0.85;
+				txt.text = msg;
+				txt.setStyle('fontSize' ,14);
+				txt.setStyle('fontStyle' ,FontStyle.ITALIC);
+				txt.setStyle('fontFamily' ,'Arial');
+				txt.width = txt_history.width*0.85;
 				
 
 				//lbl2.setStyle('color' ,'#25bbdb');
@@ -286,13 +295,19 @@
 				var gitem1:GridItem = new GridItem();
 				//var gitem2:GridItem = new GridItem();
 				gitem1.addChild(uname); 
-				gitem1.addChild(tf);
+				gitem1.addChild(txt);
 				
-				//grow.width = grow.parent.width;
-				gitem1.width = txt_history.width;
 				gitem1.horizontalScrollPolicy = 'off';
 				//gitem2.width = gitem2.parent.width*0.9;
+				
+				///////////////////////
 				grow.addChild(gitem1);
+				grow.width = txt_history.width;
+				grow.setStyle('paddingTop',1);
+				grow.setStyle('paddingBottom',1);
+				grow.horizontalScrollPolicy = 'off'
+				//if(txt_history.numChildren%2==0)  grow.setStyle('backgroundColor','#e8f9fe');
+				////////////////////////////////
 				//grow.addChild(gitem2);
 				txt_history.addChild(grow);
 				
@@ -470,8 +485,8 @@
 							inStream.push(newInStream);
 							
 							var newVid:Video = new Video();
-							newVid.width = 160;
-							newVid.height = 120;
+							newVid.width = 140;
+							newVid.height = 105;
 							newVid.smoothing = true;
 							newVid.attachNetStream(newInStream);
 							
@@ -629,7 +644,7 @@
 			}
 			
 			[Bindable]
-			private var txt_msgToast:String = "Enter your message here";
+			private var txt_msgToast:String = "Enter your message here, press Ctrl+Enter to change line";
 			private function txt_msgFocusOut():void{
 				if(txt_msg.text == ""){
 					txt_msg.text = txt_msgToast;
@@ -643,6 +658,62 @@
 				}
 				txt_msg.setStyle("color","#0B333C"); //black blue 
 			}
+			
+			/////////////////////////////////////////////////////////////////////////
+			//     set a Timer to tell first comer that seaching for peers failed
+			/////////////////////////////////////////////////////////////////////////
+			private var alrtTimer:Timer;
+			private function ontimecheck(e:TimerEvent):void
+			{
+				//logger.addLoggingMessage("Timer triggered!");
+				//logger.addLoggingMessage("firstUser: "+ firstUser);
+				if(firstUser)
+				{
+					var msg:Text = new Text();
+					msg.text = "    We can not find any peers like you. Blablabla...";
+					msg.setStyle('fontSize' ,14);
+					msg.setStyle('fontStyle' ,FontStyle.ITALIC);
+					msg.setStyle('fontFamily' ,'Arial');
+					
+					//logger.addLoggingMessage("firstUser: "+ firstUser);
+					var grow:GridRow = new GridRow();
+					var gitem:GridItem = new GridItem();
+					gitem.addChild(msg);
+					
+					///////////////////////
+					grow.addChild(gitem);
+					grow.width = txt_history.width;
+					grow.horizontalScrollPolicy = 'off';
+					grow.setStyle('paddingTop',1);
+					grow.setStyle('paddingBottom',1);
+					//if(txt_history.numChildren%2==0)  grow.setStyle('backgroundColor','#e8f9fe');
+					grow.setStyle('backgroundColor','#e8f9fe');
+					////////////////////////////////
+					txt_history.addChild(grow);
+					
+				}
+				
+			}
+
+			protected function txt_msg_keyDownHandler(event:KeyboardEvent):void
+			{
+				if((event.ctrlKey == true)&&(event.charCode==13)) 
+				{ 
+					callLater(function():void{
+						var msg:String = txt_msg.text;
+						var part1:String = msg.substring(0, txt_msg.selectionBeginIndex);
+						var part2:String = msg.substring(txt_msg.selectionEndIndex, 0x7fffffff);
+						var selIndex:int = txt_msg.selectionBeginIndex + 1;   
+						txt_msg.text = part1 + "\n" + part2;   
+						txt_msg.setSelection(selIndex,selIndex);
+					});
+				}else if((event.ctrlKey == false)&&(event.charCode==13)) 
+				{
+					event.preventDefault();
+					callLater(enter_txtevent,null); 
+				}
+			}
+
 		]]>
 	</fx:Script>
 	
@@ -655,7 +726,7 @@
 		<s:VerticalLayout paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5"/>
 	</s:layout>
 	
-	<!--<logger:LoggerModule id="logger" height="75" visible="false"/>-->
+	<!--<logger:LoggerModule id="logger" height="75" />-->
 	
 	<s:VGroup width="720">
 		<s:Group width="720" height="31" >
@@ -683,55 +754,33 @@
 			</s:layout>
 			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
 					
-				<s:VGroup width="100%" height="100%">
-					<s:HGroup verticalAlign="bottom">
-						<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
-						<s:Label text="Topic: " fontFamily="Arial" fontSize="12" color="#000000" verticalAlign="bottom" />
-						<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom"/>
-					</s:HGroup>
-					<!--<mx:Canvas width="100%" height="204" cornerRadius="8" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7">
-						<s:TextArea width="99.6%" height="200" id="txt_history" editable="false" enabled="true" fontFamily="Times New Roman"  fontSize="14" horizontalCenter="0" verticalCenter="0"/>
-						
-						<mx:Canvas width="100%" height="202" cornerRadius="8" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
-					</mx:Canvas>-->
-					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="100%">
-						<mx:Grid width="100%" height="200" id="txt_history" enabled="true" fontFamily="Times New Roman"  fontSize="14" horizontalCenter="0" verticalCenter="0"/>
+				<s:HGroup verticalAlign="bottom">
+					<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
+					<s:Label text="Topic: " fontFamily="Arial" fontSize="12" color="#000000" verticalAlign="bottom" />
+					<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom" color="#000000"/>
+				</s:HGroup>
+				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
+					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="100%" horizontalScrollPolicy="off">
+						<mx:Grid width="100%" height="200" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" horizontalCenter="0" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"/>
 						
 					</mx:Canvas>
 					
-				</s:VGroup>
-				
-				
-				<s:HGroup id="cntrl_Group">
-					<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On|Off" 
-								 change="if(myvideoSwitch.selected == true) videoStart();
-								 else videoStop();" />
-					<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other members Video On|Off" 
-								 change=" doDisplay();" />
+					<s:HGroup id="cntrl_Group">
+						<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On|Off" 
+									 change="if(myvideoSwitch.selected == true) videoStart();
+									 else videoStop();" />
+						<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other members Video On|Off" 
+									 change=" doDisplay();" />
+						
+						<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" />
+						
+						<mx:Label text=":Mic" paddingTop="4" paddingLeft="80" paddingRight="20" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+										
+					</s:HGroup>
 					
-					<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" />
+					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="italic" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7" bottom="10" />
 					
-					<!--<s:HSlider id="spVol" 						   
-							   minimum="0.0"
-							   maximum="1.0"
-							   value="1.0"
-							   snapInterval="0.01"
-							   liveDragging="true"
-							   thumbRelease="spVolHandler()"/>-->
-					<mx:Label text=":Mic" paddingTop="4" paddingLeft="80" paddingRight="20" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
-					<!--<s:HSlider id="micVol"
-							   minimum="0"
-							   maximum="100"
-							   value="80"
-							   snapInterval="1"
-							   liveDragging="true"
-							   thumbRelease="if(mic!=null)mic.gain = micVol.value"/>-->					
-				</s:HGroup>
-				<!--<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="1" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0">
-					<mx:TextInput width="100%" height="25" id="txt_msg" enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#FFFFFF" borderStyle="solid" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
-					<mx:Canvas width="100%" height="29" cornerRadius="6" borderStyle="solid" borderThickness="3" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderColor="#90CDF7" horizontalCenter="0" verticalCenter="0"/>
-				</mx:Canvas>-->
-				<mx:TextInput id="txt_msg" width="100%" height="25"  enter="enter_txtevent(event)"  horizontalCenter="0" verticalCenter="2" fontFamily="Times New Roman" fontStyle="italic" fontSize="12" cornerRadius="6" borderColor="#CCCCCC" borderStyle="solid" textIndent="10" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#94CBD7"/>
+				</mx:VBox>
 				
 			</s:VGroup>
 			<s:VolumeBar id="spVol" 
@@ -740,8 +789,8 @@
 					   value="0.5"
 					   snapInterval="0.01"
 					   liveDragging="true"
-					   x="{cntrl_Group.x+othervideoSwitch.x+235}"
-					   y="{cntrl_Group.y+othervideoSwitch.y}"
+					   x="{text_VBox.x+cntrl_Group.x+othervideoSwitch.x+233}"
+					   y="{text_VBox.y+cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="spVolHandler()"/>
 			<s:VolumeBar id="micVol" 
 					   minimum="0"
@@ -749,8 +798,8 @@
 					   value="50"
 					   snapInterval="1"
 					   liveDragging="true"
-					   x="{cntrl_Group.x+othervideoSwitch.x+275}"
-					   y="{cntrl_Group.y+othervideoSwitch.y}"
+					   x="{text_VBox.x+cntrl_Group.x+othervideoSwitch.x+273}"
+					   y="{text_VBox.y+cntrl_Group.y+othervideoSwitch.y}"
 					   thumbRelease="if(mic!=null)mic.gain = micVol.value" />
 			
 			
@@ -758,19 +807,19 @@
 		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
 			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser" color="#000000"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:DataGrid height="265" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="0" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" fontFamily="Times New Roman" borderColor="#B6B6B6" headerHeight="0" styleName="topicTitle">
+			<mx:DataGrid height="292" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalCenter="10" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" fontFamily="Arial" borderColor="#B6B6B6" headerHeight="0" fontSize="12" styleName="topicTitle" alternatingItemColors="[#E8F9FE, #FFFFFF]">
 				<mx:columns>
 					<mx:DataGridColumn headerText="Icon" width="48" >
 						<mx:itemRenderer >
 							<fx:Component>
-								<mx:Image source="{data.icon}" height="48" width="48" />
+								<mx:Image source="{data.icon}" height="48" width="48" verticalCenter="0" horizontalCenter="0" />
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
 					<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
 						<mx:itemRenderer>
 							<fx:Component>
-								<mx:Label text="{data.name}" height="48" paddingTop="12"/>
+								<mx:Label text="{data.name}" height="48" paddingTop="12" fontSize="14"/>
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>

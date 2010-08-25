@@ -25,3 +25,9 @@ mx|Canvas.canvas1
 	borderStyle: solid;
 	borderThickness: 1;
 }
+global
+{
+	borderStyle: solid;
+	fontFamily: Arial;
+	fontSize: 12;
+}
