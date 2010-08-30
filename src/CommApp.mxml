@@ -142,6 +142,7 @@
 					ncSuccess = false;
 					// connection failed
 //					logger.addLoggingMessage(event.info.code);
+					Alert.show(event.info.code+' Do you want to connect again?','Connection error',(Alert.YES | Alert.NO),null,null,null,null,null);
 				}
 			}
 			
