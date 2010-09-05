@@ -174,7 +174,7 @@
 					if( talkerListAC.length==1){
 						//i am the first login user
 						var notice:Text = new Text();
-						notice.text =  "    Searching other users to join the conversations. This should only take a minute.";
+						notice.text =  "    Searching for other users to join the conversations. This should only take a minute.";
 						//lb.setStyle('color','#f790b9');
 						notice.setStyle('color','#000000');
 						notice.setStyle('fontWeight',FontWeight.BOLD);
@@ -671,7 +671,7 @@
 				if(firstUser)
 				{
 					var msg:Text = new Text();
-					msg.text = "    We can not find any peers like you. Blablabla...";
+					msg.text = "    I am sorry, no one is available to talk.  Please try again at a later time.";
 					msg.setStyle('fontSize' ,14);
 					msg.setStyle('fontStyle' ,FontStyle.ITALIC);
 					msg.setStyle('fontFamily' ,'Arial');
