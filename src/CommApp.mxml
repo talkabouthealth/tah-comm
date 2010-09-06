@@ -270,24 +270,22 @@
 				var uname:Text = new Text(); 
 				var txt:Text = new Text();
 				//var lbl2:spark.components.Label = new spark.components.Label(); 
-				uname.text = "  " + fromUser + " :  "; 
+				uname.text = fromUser + ":"; 
 				//span1.fontStyle = FontStyle.BOLD;
+				//uname.setStyle('paddingLeft',100);
+				//uname.setStyle('paddingTop' ,0);
 				uname.setStyle('fontSize' ,14);
 				uname.setStyle('fontFamily' ,'Arial');
 				uname.setStyle('color' ,'#25bbdb');
 				//uname.setStyle('paddingTop' ,5);
 				
-				uname.width = txt_history.width*0.1;
-				//lb1.fontFamily = "Times New Roman";
-				//lb1.color = "#25bbdb";
-				//lb1.textAlign = flashx.textLayout.formats.TextAlign.LEFT;
-				//lb1.columnCount = 1;
+				uname.width = (txt_history.width-6)*0.15;
+
 				
 				txt.text = msg;
 				txt.setStyle('fontSize' ,14);
-				txt.setStyle('fontStyle' ,FontStyle.ITALIC);
 				txt.setStyle('fontFamily' ,'Arial');
-				txt.width = txt_history.width*0.85;
+				txt.width = (txt_history.width-6)*0.85;
 				
 
 				//lbl2.setStyle('color' ,'#25bbdb');
@@ -295,17 +293,22 @@
 				var grow:GridRow = new GridRow();
 				var gitem1:GridItem = new GridItem();
 				//var gitem2:GridItem = new GridItem();
-				gitem1.addChild(uname); 
+				gitem1.addChild(uname);
 				gitem1.addChild(txt);
+				//gitem2.addChild(txt);
 				
 				gitem1.horizontalScrollPolicy = 'off';
+				//gitem2.horizontalScrollPolicy = 'off';
 				//gitem2.width = gitem2.parent.width*0.9;
 				
 				///////////////////////
 				grow.addChild(gitem1);
-				grow.width = txt_history.width;
+				//grow.addChild(gitem2);
+				grow.width = txt_history.width-5;
 				grow.setStyle('paddingTop',1);
-				grow.setStyle('paddingBottom',1);
+				//grow.setStyle('paddingBottom',1);
+				//grow.setStyle('left',5);
+				
 				grow.horizontalScrollPolicy = 'off'
 				//if(txt_history.numChildren%2==0)  grow.setStyle('backgroundColor','#e8f9fe');
 				////////////////////////////////
@@ -762,7 +765,7 @@
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
 					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="100%" horizontalScrollPolicy="off">
-						<mx:Grid width="100%" height="200" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" horizontalCenter="0" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"/>
+						<mx:Grid width="100%" height="200" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off" left="5"/>
 						
 					</mx:Canvas>
 					
