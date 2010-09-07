@@ -179,7 +179,7 @@
 						notice.setStyle('color','#000000');
 						notice.setStyle('fontWeight',FontWeight.BOLD);
 						notice.setStyle('fontSize' ,12);
-						notice.setStyle('fontStyle' ,FontStyle.ITALIC);
+						//notice.setStyle('fontStyle' ,FontStyle.ITALIC);
 						notice.setStyle('fontFamily' ,'Arial');
 						
 						var grow:GridRow = new GridRow();
@@ -675,9 +675,10 @@
 				{
 					var msg:Text = new Text();
 					msg.text = "    I am sorry, no one is available to talk.  Please try again at a later time.";
-					msg.setStyle('fontSize' ,14);
-					msg.setStyle('fontStyle' ,FontStyle.ITALIC);
+					msg.setStyle('fontSize' ,12);
+					//msg.setStyle('fontStyle' ,FontStyle.ITALIC);
 					msg.setStyle('fontFamily' ,'Arial');
+					msg..setStyle('fontWeight',FontWeight.BOLD);
 					
 					//logger.addLoggingMessage("firstUser: "+ firstUser);
 					var grow:GridRow = new GridRow();
@@ -782,7 +783,7 @@
 										
 					</s:HGroup>
 					
-					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="italic" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#CCCCCC" bottom="10" />
+					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="normal" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#CCCCCC" bottom="10" />
 					
 				</mx:VBox>
 				
