@@ -765,8 +765,8 @@
 					<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom" color="#000000"/>
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
-					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="100%" horizontalScrollPolicy="off">
-						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off" left="5"/>
+					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" >
+						<mx:Grid width="100%" height="100%" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off" />
 						
 					</mx:Canvas>
 					
