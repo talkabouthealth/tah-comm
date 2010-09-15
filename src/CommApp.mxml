@@ -109,6 +109,8 @@
 					
 					othervideoSwitch.selected = true;
 					doDisplay();
+					nc.call("send_txthistory",null,this.topicid);
+					
 				}catch(e:Error){
 //					logger.addLoggingMessage(e.getStackTrace());
 				}
@@ -197,6 +199,8 @@
 						grow.setStyle('backgroundColor','#e8f9fe');
 						////////////////////////////////
 						txt_history.addChild(grow);
+						txt_history.validateNow();
+						txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 						
 						alrtTimer = new Timer(60000,1);
 						alrtTimer.addEventListener(TimerEvent.TIMER_COMPLETE,ontimecheck);
@@ -664,7 +668,7 @@
 			}
 			
 			/////////////////////////////////////////////////////////////////////////
-			//     set a Timer to tell first comer that seaching for peers failed
+			//     set a Timer to tell first comer that searching for peers failed
 			/////////////////////////////////////////////////////////////////////////
 			private var alrtTimer:Timer;
 			private function ontimecheck(e:TimerEvent):void
@@ -695,6 +699,8 @@
 					grow.setStyle('backgroundColor','#e8f9fe');
 					////////////////////////////////
 					txt_history.addChild(grow);
+					txt_history.validateNow();
+					txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 					
 				}
 				
@@ -765,8 +771,8 @@
 					<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom" color="#000000"/>
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
-					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" >
-						<mx:Grid width="100%" height="100%" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off" />
+					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" horizontalCenter="0" verticalGap="0" horizontalScrollPolicy="off" />
 						
 					</mx:Canvas>
 					
