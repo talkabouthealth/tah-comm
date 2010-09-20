@@ -16,13 +16,11 @@
 		<![CDATA[
 			import com.tah.comm.common.events.CommAppEvent;
 			
-			import components.MyVideo;
 			import components.VideoDispUnit;
 			
 			import flash.events.NetStatusEvent;
 			import flash.net.SharedObject;
 			import flash.text.engine.FontWeight;
-			import flash.utils.flash_proxy;
 			
 			import flashx.textLayout.container.ContainerController;
 			import flashx.textLayout.elements.ParagraphElement;
@@ -30,8 +28,6 @@
 			import flashx.textLayout.elements.TextFlow;
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			import flashx.textLayout.formats.TextAlign;
-			
-			import handler.txt.MessageContent;
 			
 			import mx.collections.ArrayCollection;
 			import mx.containers.Canvas;
@@ -44,7 +40,6 @@
 			import mx.controls.VSlider;
 			import mx.controls.VideoDisplay;
 			import mx.core.mx_internal;
-			import mx.events.CloseEvent;
 			import mx.preloaders.Preloader;
 			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
@@ -52,8 +47,6 @@
 			import spark.components.Group;
 			import spark.components.Panel;
 			import spark.utils.TextFlowUtil;
-			
-			import handler.txt.*;
 			
 			[Bindable] public var talkerListAC:Array;
 			
@@ -70,7 +63,6 @@
 			public var topic:String;
 			public var clientid:String;
 			public var nc:NetConnection;
-			public var ncDest:String = "rtmp://localhost:1935/tah-commapp-server/";
 			
 			private function init():void
 			{
@@ -95,27 +87,30 @@
 					nc.addEventListener( NetStatusEvent.NET_STATUS , netStatus );
 					
 					// connect to red5, passing false as parameter
-					nc.connect( ncDest + topicid, userid, username, topicid, topic );
-					
-					// set initial appearence
+					nc.connect( "rtmp://localhost:1935/tah-commapp-server/" + topicid, userid, username, topicid, topic );
 					topicTitle.text = topic;
 					welcomeUser.text = "Welcome " + username;
 					
-					// set the video List
+					//set volume and mic slider
+					//micVolslider = new VSlider();
+					//micVolslider.x = micVol.x;
+					//micVolslider.y = micVol.x;
+					//micVolslider.visible = true;
+					
+					//set the video List
 					videoListAC = new Array();
 					
-					// set the talkerUnitListAC is used to contain the online talkers' names and image icons
 					talkerUnitListAC = new Array();
 					
-					// the local video displaying local camera
-					vi = new MyVideo();
+					vi = new Video();
+					vi.width = 140;
+					vi.height = 105;
+					vi.smoothing = true;
 					
-					// the CheckBox of "Other Members Video On|Off" should be initially turned off;
 					othervideoSwitch.selected = true;
 					doDisplay();
+					nc.call("send_txthistory",null,this.topicid);
 					
-					/* get the history of this topic*/
-					nc.call("send_txthistory", null, this.topicid);
 				}catch(e:Error){
 //					logger.addLoggingMessage(e.getStackTrace());
 				}
@@ -127,9 +122,6 @@
 				if( event.info.code == "NetConnection.Connect.Success" ) {
 					ncSuccess = true;
 //					logger.addLoggingMessage("NC Success");
-					
-					/* synchronize SharedObject of talker list */
-					
 					talkerListSO = SharedObject.getRemote("talkerListSO-" + topicid, nc.uri, false);
 					talkerListSO.connect(nc);
 					talkerListSO.addEventListener(SyncEvent.SYNC, talkerListSync);
@@ -140,9 +132,6 @@
 					 * *Target: new SharedObject of video list
 					 * *Added by: Situ
 					 * ***************************************/
-					
-					/* synchronize SharedObject of video list */
-					
 					videoListSO = SharedObject.getRemote("videoListSO-" + topicid,nc.uri,false);
 					videoListSO.connect(nc);
 					videoListSO.addEventListener(SyncEvent.SYNC, videoListSync);
@@ -155,19 +144,7 @@
 					ncSuccess = false;
 					// connection failed
 //					logger.addLoggingMessage(event.info.code);
-					Alert.show(event.info.code+' Do you want to connect again?','Connection error',(Alert.YES | Alert.NO),null,alert_handler,null,null,null);
-				}
-			}
-			
-			private function alert_handler(event:CloseEvent):void
-			{
-				if(event.detail == Alert.YES)
-				{
-					// connect to red5, passing false as parameter
-					nc.connect( ncDest + topicid, userid, username, topicid, topic );
-					
-					// the CheckBox of "Other Members Video On|Off" should be initially turned off;
-					othervideoSwitch.selected = true;
+					Alert.show(event.info.code+' Do you want to connect again?','Connection error',(Alert.YES | Alert.NO),null,null,null,null,null);
 				}
 			}
 			
@@ -199,7 +176,7 @@
 					if( talkerListAC.length==1){
 						//i am the first login user
 						var notice:Text = new Text();
-						notice.text =  MessageContent.FIRST_LOGIN_NOTIFY;
+						notice.text =  "    Searching for other users to join the conversations. This should only take a minute.";
 						//lb.setStyle('color','#f790b9');
 						notice.setStyle('color','#000000');
 						notice.setStyle('fontWeight',FontWeight.BOLD);
@@ -222,6 +199,8 @@
 						grow.setStyle('backgroundColor','#e8f9fe');
 						////////////////////////////////
 						txt_history.addChild(grow);
+						txt_history.validateNow();
+						txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 						
 						alrtTimer = new Timer(60000,1);
 						alrtTimer.addEventListener(TimerEvent.TIMER_COMPLETE,ontimecheck);
@@ -231,7 +210,6 @@
 						//logger.addLoggingMessage("Timer started");
 						//logger.addLoggingMessage("firstUser: "+ firstUser);
 					}else{
-						//I am not the first commer now
 						firstUser = false;
 					}
 				}				
@@ -245,6 +223,7 @@
 			public function videoListSync(event:SyncEvent):void
 			{
 //				logger.addLoggingMessage("++++Video List Sync");
+				//logger.addLoggingMessage(videoListSO.toString());
 				
 				var tmpArray:Array;
 				var listName:String = "videoListAC";
@@ -255,14 +234,26 @@
 				for (var i :int= 0; i < (videoListSO.data[ listName ]).length; i++ ) {
 					tmpArray.push((videoListSO.data[ listName ])[i]);
 				}
-
+//				logger.addLoggingMessage("vid syc step 2 ...");
 				videoListAC = null;
 				videoListAC = tmpArray;	
-
+				if(videoListAC == null) {
+//					logger.addLoggingMessage("videoListAC is null");
+				}else {
+//					logger.addLoggingMessage("The length of videoListAC is: " + videoListAC.length);
+				} 
+				
+//				logger.addLoggingMessage("Video List: ");
+				for(var i:int =0 ; i<videoListAC.length ;i++){
+//					logger.addLoggingMessage(i+": "+videoListAC[i]);
+				}
 				doDisplay();
 			}
 			
-		
+			/*protected function btn_startup_clickHandler(event:MouseEvent):void
+			{
+			this.dispatchEvent(new CommAppEvent(CommAppEvent.STARTUP));
+			}*/
 			
 			protected function enter_txtevent():void
 			{
@@ -334,7 +325,7 @@
 				txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 			}
 			/***************************************************************************/
-			private var vi:MyVideo;
+			private var vi:Video;
 			private var vidListAC:Array;      //Array<Video>
 			private var snd:Sound;
 			private var cam:Camera;
@@ -501,11 +492,10 @@
 							
 							inStream.push(newInStream);
 							
-							/* var newVid:Video = new Video();
+							var newVid:Video = new Video();
 							newVid.width = 140;
 							newVid.height = 105;
-							newVid.smoothing = true; */
-							var newVid:MyVideo = new MyVideo();
+							newVid.smoothing = true;
 							newVid.attachNetStream(newInStream);
 							
 							vidListAC.push(newVid);		
@@ -662,7 +652,7 @@
 			}
 			
 			[Bindable]
-			private var txt_msgToast:String = MessageContent.TXT_MSG_TOAST;
+			private var txt_msgToast:String = "Enter your message here, press Ctrl+Enter to change line";
 			private function txt_msgFocusOut():void{
 				if(txt_msg.text == ""){
 					txt_msg.text = txt_msgToast;
@@ -678,7 +668,7 @@
 			}
 			
 			/////////////////////////////////////////////////////////////////////////
-			//     set a Timer to tell first comer that seaching for peers failed
+			//     set a Timer to tell first comer that searching for peers failed
 			/////////////////////////////////////////////////////////////////////////
 			private var alrtTimer:Timer;
 			private function ontimecheck(e:TimerEvent):void
@@ -688,7 +678,7 @@
 				if(firstUser)
 				{
 					var msg:Text = new Text();
-					msg.text = MessageContent.APPOLOGY;
+					msg.text = "    I am sorry, no one is available to talk.  Please try again at a later time.";
 					msg.setStyle('fontSize' ,12);
 					//msg.setStyle('fontStyle' ,FontStyle.ITALIC);
 					msg.setStyle('fontFamily' ,'Arial');
@@ -709,6 +699,8 @@
 					grow.setStyle('backgroundColor','#e8f9fe');
 					////////////////////////////////
 					txt_history.addChild(grow);
+					txt_history.validateNow();
+					txt_history.verticalScrollPosition = txt_history.verticalScrollBar.maxHeight;
 					
 				}
 				
@@ -774,12 +766,13 @@
 			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
 					
 				<s:HGroup verticalAlign="bottom">
+					<!--<mx:Image id="logo" source="@Embed(source='assets/tahlogo.gif')" width="140" height="20"/>-->
 					<s:Label text="Topic: " fontFamily="Arial" fontSize="12" color="#000000" verticalAlign="bottom" />
 					<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom" color="#000000"/>
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
 					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" verticalScrollPolicy="off">
-						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"  horizontalCenter="0"/>
+						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" horizontalCenter="0" verticalGap="0" horizontalScrollPolicy="off" />
 						
 					</mx:Canvas>
 					
