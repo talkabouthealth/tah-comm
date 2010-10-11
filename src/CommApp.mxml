@@ -70,7 +70,7 @@
 			public var topic:String;
 			public var clientid:String;
 			public var nc:NetConnection;
-			public var ncDest:String = "rtmp://localhost:1935/tah-commapp-server/";
+			public var ncDest:String = "rtmp://talkabouthealth.com:1935/tah-commapp-server/";
 			
 			private function init():void
 			{
