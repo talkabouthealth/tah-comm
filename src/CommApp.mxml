@@ -110,7 +110,7 @@
 					// the local video displaying local camera
 					vi = new MyVideo();
 					
-					// the CheckBox of "Other Members Video On|Off" should be initially turned off;
+					// the CheckBox of "Other Members Video On" should be initially turned off;
 					othervideoSwitch.selected = true;
 					doDisplay();
 					
@@ -166,7 +166,7 @@
 					// connect to red5, passing false as parameter
 					nc.connect( ncDest + topicid, userid, username, topicid, topic );
 					
-					// the CheckBox of "Other Members Video On|Off" should be initially turned off;
+					// the CheckBox of "Other Members Video On" should be initially turned off;
 					othervideoSwitch.selected = true;
 				}
 			}
@@ -667,7 +667,7 @@
 				if(txt_msg.text == ""){
 					txt_msg.text = txt_msgToast;
 				}
-				txt_msg.setStyle("color","#cccccc"); //gray
+				txt_msg.setStyle("color","#000000"); 
 			}
 			
 			private function txt_msgFocusIn():void{
@@ -784,10 +784,10 @@
 					</mx:Canvas>
 					
 					<s:HGroup id="cntrl_Group">
-						<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On|Off" 
+						<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On" 
 									 change="if(myvideoSwitch.selected == true) videoStart();
 									 else videoStop();" />
-						<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other members Video On|Off" 
+						<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other Members Video On" 
 									 change=" doDisplay();" />
 						
 						<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" />
@@ -796,7 +796,7 @@
 										
 					</s:HGroup>
 					
-					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="normal" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#CCCCCC" bottom="10" />
+					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="normal" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#000000" bottom="10" />
 					
 				</mx:VBox>
 				
@@ -855,6 +855,6 @@
 		</s:layout>
 		<s:Label text="Warning:" color="#000000" fontFamily="Arial" fontSize="11"/>
 		<s:Label width="650"
-				 text="                  All content on this site is informational and is not substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494"/>
+				 text="                  All content on this site is informational and is not a substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494"/>
 	</s:Group>	
 </s:Application>
