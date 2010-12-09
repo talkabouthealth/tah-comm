@@ -10,6 +10,7 @@
 	fontFamily: Arial;
 	fontSize: 12;
 	verticalAlign: bottom;
+	text-align:left;
 }
 	
 .welcomeUser
@@ -21,7 +22,7 @@
 }
 mx|Canvas.canvas1
 {
-	backgroundColor: #CAE3ED;
+	backgroundColor: #FFFFFF;
 	borderStyle: solid;
 	borderThickness: 1;
 }
@@ -31,3 +32,16 @@ global
 	fontFamily: Arial;
 	fontSize: 12;
 }
+.chat_un
+{
+	/*text-indent:10;*/
+	font-size:14;
+	font-family: Arial;
+	color : #25bbdb;
+	
+}
+.chat_msg
+{
+	
+}
+

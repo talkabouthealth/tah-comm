@@ -5,7 +5,7 @@
 			   xmlns:view="com.tah.comm.modules.media.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="730"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="750"
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
 			   xmlns:core="com.tah.comm.modules.core.*" 
 			   xmlns:nc="flash.net.NetConnection"
@@ -31,6 +31,7 @@
 			import flashx.textLayout.factory.TextFlowTextLineFactory;
 			import flashx.textLayout.formats.TextAlign;
 			
+			import handler.txt.*;
 			import handler.txt.MessageContent;
 			
 			import mx.collections.ArrayCollection;
@@ -53,8 +54,6 @@
 			import spark.components.Panel;
 			import spark.utils.TextFlowUtil;
 			
-			import handler.txt.*;
-			
 			[Bindable] public var talkerListAC:Array;
 			
 			private var videoListAC:Array;
@@ -71,6 +70,7 @@
 			public var clientid:String;
 			public var nc:NetConnection;
 			public var ncDest:String = "rtmp://talkabouthealth.com:1935/tah-commapp-server/";
+			//public var ncDest:String = "rtmp://127.0.0.1:1935/tah-commapp-server/";
 			
 			private function init():void
 			{
@@ -280,34 +280,42 @@
 			}
 			public function receivePublicMsg(fromUser:String, msg:String):void {
 				//var para:ParagraphElement = new ParagraphElement(); 
-				var uname:Text = new Text(); 
+				/*var uname:Text = new Text(); 
+			
 				var txt:Text = new Text();
 				//var lbl2:spark.components.Label = new spark.components.Label(); 
 				uname.text = fromUser + ":"; 
 				//span1.fontStyle = FontStyle.BOLD;
-				//uname.setStyle('paddingLeft',100);
+				uname.setStyle('paddingLeft',5);
 				//uname.setStyle('paddingTop' ,0);
 				uname.setStyle('fontSize' ,14);
 				uname.setStyle('fontFamily' ,'Arial');
 				uname.setStyle('color' ,'#25bbdb');
 				//uname.setStyle('paddingTop' ,5);
 				
-				uname.width = (txt_history.width-6)*0.15;
+				//uname.width = (txt_history.width-10)*0.20;
 
 				
 				txt.text = msg;
 				txt.setStyle('fontSize' ,14);
 				txt.setStyle('fontFamily' ,'Arial');
-				txt.width = (txt_history.width-6)*0.85;
+				//txt.width = (txt_history.width-10)*0.80;*/
+				
 				
 
 				//lbl2.setStyle('color' ,'#25bbdb');
 				
+				var linemsg:Text = new Text();
+				
+				linemsg.htmlText = "<font color='#25bbdb' font-size='14'>"+fromUser+" : </font><font font-size='14' color='#00000'>"+msg+"</font>";
+				linemsg.setStyle('paddingLeft',5);
+				linemsg.setStyle('paddingRight',5);
+				linemsg.width = txt_history.width-10;
 				var grow:GridRow = new GridRow();
 				var gitem1:GridItem = new GridItem();
 				//var gitem2:GridItem = new GridItem();
-				gitem1.addChild(uname);
-				gitem1.addChild(txt);
+				gitem1.addChild(linemsg);
+				//gitem1.addChild(txt);
 				//gitem2.addChild(txt);
 				
 				gitem1.horizontalScrollPolicy = 'off';
@@ -336,6 +344,7 @@
 			/***************************************************************************/
 			private var vi:MyVideo;
 			private var vidListAC:Array;      //Array<Video>
+			private var nameListAc:Array;
 			private var snd:Sound;
 			private var cam:Camera;
 			private var mic:Microphone;
@@ -478,6 +487,7 @@
 					}
 				}
 				vidListAC = new Array();
+				nameListAc = new Array();
 				
 				dispRowGroupAC = new Array();
 				
@@ -487,6 +497,7 @@
 //				logger.addLoggingMessage("row group removed");
 				
 				vidListAC.push(vi);
+				nameListAc.push(this.username);
 				if(othervideoSwitch.selected){
 					//Get video array of peers
 					for(var i:int=0; i<videoListAC.length;i++){
@@ -510,6 +521,7 @@
 							
 							vidListAC.push(newVid);		
 							
+							nameListAc.push((talkerListSO.data[ "talkerListAC" ])[i][1]);
 						}
 					}
 //					logger.addLoggingMessage("video array done!");
@@ -563,7 +575,12 @@
 					}catch(e:Error){
 //						logger.addLoggingMessage(e.toString());
 					}
-					tempUnit.userName.text = "username"+(i+1);
+					//tempUnit.userName.text = "username"+(i+1);
+					//for(var j:uint; j<talkerListAC.length; j++){
+						//if(videoListAC[i] == ((talkerListSO.data[ "talkerListAC" ])[j])[0])
+							tempUnit.userName.text = nameListAc[i];//"username"+(i+1);
+					//}
+					
 					dispUnitListAC.push(tempUnit);
 				}
 				//Assign VidDisplay list to rowGroup and push rowGroup into dispRowGroupAC
@@ -641,6 +658,7 @@
 				for(var i:int=0; i<talkerListAC.length;i++){
 					//imageListAC.push(icon);
 //					logger.addLoggingMessage("talkerListAC["+i+"]: "+talkerListAC[i]);
+					//talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://127.0.0.1:9000/image/"+talkerListAC[i]} );
 					talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://www.talkabouthealth.com:9000/image/"+talkerListAC[i]} );
 				}
 				//logger.addLoggingMessage("imageListAC length: "+imageListAC.length);
@@ -747,13 +765,13 @@
 	
 	<!--<logger:LoggerModule id="logger" height="75" />-->
 	
-	<s:VGroup width="720">
-		<s:Group width="720" height="31" >
+	<s:VGroup width="100%">
+		<s:Group width="100%" height="31" >
 			
 			<mx:Image source="{imgLogo}" width="233" height="31"/>
 			<!--<mx:Image source="{imgClose}" width="100%" height="100%" horizontalAlign="right"
 					  click="closeIE()"  />-->
-			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="14" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="689" labelPlacement="left" borderColor="#FFFFFF" themeColor="#FFFFFF"/> 
+			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="14" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="707" labelPlacement="left" borderColor="#FFFFFF" themeColor="#FFFFFF"/> 
 		</s:Group>
 		
 		<s:Group width="100%">
@@ -761,17 +779,17 @@
 				<s:BasicLayout/>
 			</s:layout>
 			<mx:Canvas width="100%" height="100%" styleName="canvas1"/>
-			<s:VGroup id="videoGroup"  top="0"  left="0"/>
+			<s:HGroup id="videoGroup"  top="0"  left="0" gap="50"/>
 		</s:Group>
 		
 	</s:VGroup>
 	<s:HGroup width="100%" >
 		<!--<s:Button label="StartUp" id="btn_startup" click="btn_startup_clickHandler(event)"/>-->
-		<s:Group width="100%" height="100%">
+		<s:Group width="75%" height="100%">
 			<s:layout>
 				<s:BasicLayout/>
 			</s:layout>
-			<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
+			<s:VGroup paddingLeft="0" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%" x="0" y="0">
 					
 				<s:HGroup verticalAlign="bottom">
 					<s:Label text="Topic: " fontFamily="Arial" fontSize="12" color="#000000" verticalAlign="bottom" />
@@ -779,20 +797,20 @@
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
 					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" verticalScrollPolicy="off">
-						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"  horizontalCenter="0"/>
+						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"  horizontalCenter="0" styleName="chatarea"/>
 						
 					</mx:Canvas>
 					
-					<s:HGroup id="cntrl_Group">
-						<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="15" label="Your Video On" 
+					<s:HGroup id="cntrl_Group" width="100%" paddingRight="5">
+						<mx:CheckBox id="myvideoSwitch"  paddingTop="4" paddingLeft="10" label="Your Video On" 
 									 change="if(myvideoSwitch.selected == true) videoStart();
 									 else videoStop();" />
 						<mx:CheckBox id="othervideoSwitch"  paddingTop="4" label="Other Members Video On" 
 									 change=" doDisplay();" />
 						
-						<mx:Label text="Vol:" paddingTop="4" paddingLeft="7" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" />
+						<mx:Label text="Vol:" paddingTop="4" paddingLeft="0" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" textAlign="right" width="90" id="volLabel"/>
 						
-						<mx:Label text=":Mic" paddingTop="4" paddingLeft="80" paddingRight="20" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14"/>
+						<mx:Label text=":Mic" paddingTop="4" paddingLeft="0" paddingRight="5" fontWeight="bold" fontFamily="Arial" fontStyle="italic" fontSize="14" textAlign="right" width="147" id="micLabel"/>
 										
 					</s:HGroup>
 					
@@ -807,37 +825,41 @@
 					   value="0.5"
 					   snapInterval="0.01"
 					   liveDragging="true"
-					   x="{text_VBox.x+cntrl_Group.x+othervideoSwitch.x+233}"
+					   x="{text_VBox.x+cntrl_Group.x+volLabel.x+volLabel.width +5}"
 					   y="{text_VBox.y+cntrl_Group.y+othervideoSwitch.y}"
+					   skinClass="com.tah.comm.TahVolumeSkin"
 					   thumbRelease="spVolHandler()"/>
 			<s:VolumeBar id="micVol" 
 					   minimum="0"
 					   maximum="100"
-					   value="50"
+					   value="0"
 					   snapInterval="1"
 					   liveDragging="true"
-					   x="{text_VBox.x+cntrl_Group.x+othervideoSwitch.x+273}"
+					   x="{text_VBox.x+cntrl_Group.x+micLabel.x+70}"
 					   y="{text_VBox.y+cntrl_Group.y+othervideoSwitch.y}"
-					   thumbRelease="if(mic!=null)mic.gain = micVol.value" />
+					   thumbRelease="if(mic!=null)mic.gain = micVol.value"   skinClass="com.tah.comm.MicSkin"/>
 			
 			
 		</s:Group>
-		<s:VGroup paddingLeft="5" paddingRight="5" paddingTop="5" paddingBottom="5" width="100%" height="100%">
-			<s:Label id="welcomeUser" height="15"   styleName="welcomeUser" color="#000000"/>
+		<s:Group  width="25%" height="100%">
+			<s:layout>
+				<s:VerticalLayout paddingTop="5"/>
+			</s:layout>
+			<s:Label paddingLeft="5" paddingRight="0" paddingTop="5" paddingBottom="5" id="welcomeUser" height="15"   styleName="welcomeUser" color="#000000"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:DataGrid height="288" width="178" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" verticalCenter="0" fontFamily="Arial" borderColor="#B6B6B6" headerHeight="0" fontSize="12" styleName="topicTitle" alternatingItemColors="[#E8F9FE, #FFFFFF]">
+			<mx:DataGrid paddingLeft="5" paddingRight="0" paddingTop="0" paddingBottom="5" height="288" width="100%" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" verticalCenter="0" fontFamily="Arial" borderColor="#B6B6B6" headerHeight="0" fontSize="12" styleName="topicTitle" alternatingItemColors="[#E8F9FE, #FFFFFF]">
 				<mx:columns>
-					<mx:DataGridColumn headerText="Icon" width="48" >
+					<mx:DataGridColumn  paddingLeft="2"  headerText="Icon" width="48" >
 						<mx:itemRenderer>
-							<fx:Component>
-								<mx:Image source="{data.icon}" height="48" width="48" />
+							<fx:Component>	
+								<mx:Image source="{data.icon}"  height="48" width="48" smoothBitmapContent="true" />
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
-					<mx:DataGridColumn headerText="Name" width="130" textAlign="center">
+					<mx:DataGridColumn headerText="Name" width="130" textAlign="left">
 						<mx:itemRenderer>
 							<fx:Component>
-								<mx:Label text="{data.name}" height="48" paddingTop="12" fontSize="14"/>
+								<mx:Label text="{data.name}" height="48" paddingLeft="2" paddingTop="12" fontSize="14"/>
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
@@ -847,14 +869,14 @@
 			
 			
 			
-		</s:VGroup>
+		</s:Group>
 	</s:HGroup>
 	<s:Group>
 		<s:layout>
 			<s:BasicLayout/>
 		</s:layout>
 		<s:Label text="Warning:" color="#000000" fontFamily="Arial" fontSize="11"/>
-		<s:Label width="650"
-				 text="                  All content on this site is informational and is not a substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494"/>
+		<s:Label width="740"
+				 text="                  All content on this site is informational and is not a substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494" left="0" top="0"/>
 	</s:Group>	
 </s:Application>

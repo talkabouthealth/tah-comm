@@ -4,7 +4,7 @@ package components
 	
 	public class MyVideo extends Video
 	{
-		public function MyVideo(width:int=140, height:int=105)
+		public function MyVideo(width:int=160, height:int=120)
 		{
 			super(width, height);
 			this.smoothing = true;
