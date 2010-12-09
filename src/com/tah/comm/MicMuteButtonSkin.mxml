@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+
+    ADOBE SYSTEMS INCORPORATED
+    Copyright 2008 Adobe Systems Incorporated
+    All Rights Reserved.
+
+    NOTICE: Adobe permits you to use, modify, and distribute this file
+    in accordance with the terms of the license agreement accompanying it.
+
+-->
+
+<!--- The default skin class for the mute button of a Spark VideoPlayer component  
+      in the normal skin state. The normal skin state means the component is not in 
+      one of the <code>fullScreen</code> skin states.  
+
+      @see spark.components.VideoPlayer
+        
+      @langversion 3.0
+      @playerversion Flash 10
+      @playerversion AIR 1.5
+      @productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" 
+   xmlns:fb="http://ns.adobe.com/flashbuilder/2009" creationComplete="init()"
+   alpha.disabled="0.5">
+
+    <!-- host component -->
+    <fx:Metadata>
+        /** 
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.mediaClasses.MuteButton")]
+    </fx:Metadata>
+    
+    <fx:Script fb:purpose="styling">
+        <![CDATA[
+            /* Define the skin elements that should not be colorized. */
+            //static private const exclusions:Array = ["volumeSymbol"];
+            
+            /**
+             * @private
+             */
+            //override public function get colorizeExclusions():Array {return exclusions;}
+            
+            /* Define the symbol fill items that should be colored by the "symbolColor" style. */
+            static private const symbols:Array = ["micbody","michead", "micfoot", "cross1", "cross2", "cross3"];
+            
+            /**
+             * @private
+             */
+            override public function get symbolItems():Array {return symbols};
+            
+            /**
+             * @private
+             */
+            override protected function initializationComplete():void
+            {
+                useChromeColor = true;
+                super.initializationComplete();
+            }
+        ]]>
+    </fx:Script>
+    
+    <fx:Script>
+        <![CDATA[
+            import mx.events.FlexEvent;
+            
+            import spark.components.mediaClasses.VolumeBar;
+           
+            private function init():void
+            {
+                // this is essentially just binding code.  Anytime the volume changes, 
+                // let us know.
+                volume = hostComponent.muted ? 0 : hostComponent.volume;
+                hostComponent.addEventListener(FlexEvent.VALUE_COMMIT, valueCommitHandler);
+                hostComponent.addEventListener(FlexEvent.MUTED_CHANGE, valueCommitHandler);
+            }
+            
+            private function valueCommitHandler(event:Event):void
+            {
+                volume = hostComponent.muted ? 0 : hostComponent.volume;
+            }
+            
+            private var _volume:Number = 1;
+
+            /**
+            *  The volume of the video player, specified as a value between 0 and 1.
+            */
+            public function get volume():Number
+            {
+                return _volume;
+            }
+            
+            public function set volume(value:Number):void
+            {
+                if (value == _volume)
+                    return;
+                
+                _volume = value;
+                if(_volume == 0)
+					cross1.alpha = cross2.alpha = cross3.alpha = 1;
+				else
+					cross1.alpha = cross2.alpha = cross3.alpha = 0;
+            
+               
+            }
+            
+            
+        ]]>
+    </fx:Script>
+    
+    
+    <!-- states -->
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over"/>
+        <s:State name="down" />
+        <s:State name="disabled" />
+    </s:states>
+        
+    <!-- layer 1: fill -->
+    
+    
+    <!-- layer 5: border - put on top of the fill so it doesn't disappear when scale is less than 1 -->
+    <s:Rect left="0" right="0" top="0" bottom="0" width="38" height="24" alpha="0">
+        <s:stroke>
+            <s:SolidColorStroke color="0x131313" />
+        </s:stroke>
+    </s:Rect>
+	<s:Rect left="0" right="0" top="0" bottom="0" width="38" height="24" alpha="0">
+		<s:fill>
+			<s:SolidColor color="0x131313" alpha="0"/>
+		</s:fill>
+	</s:Rect>
+    <!--- Defines the volume symbol. -->
+    <s:Group horizontalCenter="0" verticalCenter="0" id="volumeSymbol" >
+    
+        <!-- big trapezoid in center -->
+		
+		
+		
+		
+		
+		
+		<s:Group id="mic" x="9" y="2">
+			<s:Ellipse height="8" width="8" x="0" y="0">
+				<s:fill>
+					<s:SolidColor id="michead" color="0x00000" color.over="0x333333" color.down="0x666666"/>
+				</s:fill>
+			</s:Ellipse>
+			<s:Path data="M 2.529 9.479 L 0.41 9.479 L 0 0 L 2.94 0 L 2.529 9.479 Z" winding="nonZero" x="2.877" y="9.374">
+				<s:fill>
+					<s:SolidColor id="micbody" color="0x00000" color.over="0x333333" color.down="0x666666"/>
+				</s:fill>
+			</s:Path>
+			<s:Path data="M 0.5 0.5 C 0.5 0.5 0.539 3.121 2.305 2.836" winding="nonZero" x="3.805" y="19.498">
+					<s:stroke>
+					<s:SolidColorStroke id="micfoot" color="0x00000" color.over="0x333333" color.down="0x666666" caps="none" joints="miter" miterLimit="10" weight="1"/>
+				</s:stroke>
+			</s:Path>
+		</s:Group>
+
+			
+		
+		
+		<s:Group id="cross" x="3" y="4">
+			<s:Path data="M 17.5 0 L 17.5 0 L 17.51 0.01 L 0.012 17.509 L 0 17.498 L 0 17.498 L 0.704 18.201 L 18.201 0.703 L 17.5 0 Z" winding="nonZero" x="0.988" y="0.903">
+				<s:fill>
+					<s:SolidColor id="cross1"/>
+				</s:fill>
+			</s:Path>
+			<s:Path data="M 18.202 0.703 L 18.192 0.692 L 17.5 0 L 0 17.498 L 0.692 18.19 L 0.704 18.201 L 18.202 0.703 Z" winding="nonZero" x="0.296" y="0.211">
+				<s:fill>
+					<s:SolidColor  id="cross2" color="#FFFFFF"/>
+				</s:fill>
+			</s:Path>
+			<s:Rect height="0.994715" rotation="315.003" width="24.7474" x="1.696" y="19.108">
+				<s:fill>
+					<s:SolidColor  id="cross3" color="#FFFFFF"/>
+				</s:fill>
+			</s:Rect>
+		</s:Group>
+    </s:Group>
+</s:SparkSkin>
