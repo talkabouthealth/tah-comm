@@ -69,6 +69,7 @@
 			public var topic:String;
 			public var clientid:String;
 			public var nc:NetConnection;
+			//public var ncDest:String = "rtmp://localhost:1935/tah-commapp-server/";
 			public var ncDest:String = "rtmp://talkabouthealth.com:1935/tah-commapp-server/";
 			//public var ncDest:String = "rtmp://127.0.0.1:1935/tah-commapp-server/";
 			
@@ -659,7 +660,7 @@
 					//imageListAC.push(icon);
 //					logger.addLoggingMessage("talkerListAC["+i+"]: "+talkerListAC[i]);
 					//talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://127.0.0.1:9000/image/"+talkerListAC[i]} );
-					talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://www.talkabouthealth.com:9000/image/"+talkerListAC[i]} );
+					talkerUnitListAC.push( {name:talkerListAC[i],icon:"http://talkabouthealth.com/image/"+talkerListAC[i]} );
 				}
 				//logger.addLoggingMessage("imageListAC length: "+imageListAC.length);
 				//talkerUnitListAC.name = talkerListAC;
