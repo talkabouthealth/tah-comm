@@ -5,12 +5,12 @@
 			   xmlns:view="com.tah.comm.modules.media.view.*"
 			   xmlns:logger="com.tah.comm.modules.logger.*" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="750"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="800"
 			   xmlns:textchat="com.tah.comm.modules.textchat.*"
 			   xmlns:core="com.tah.comm.modules.core.*" 
 			   xmlns:nc="flash.net.NetConnection"
 			   
-			   creationComplete="init()" height="565">
+			   creationComplete="init()" height="600">
 	<fx:Style source="CommApp.css"/>
 	<fx:Script>
 		<![CDATA[
@@ -49,6 +49,8 @@
 			import mx.preloaders.Preloader;
 			import mx.states.AddChild;
 			import mx.utils.ObjectUtil;
+			import mx.utils.StringUtil;
+			import mx.validators.Validator;
 			
 			import spark.components.Group;
 			import spark.components.Panel;
@@ -69,7 +71,6 @@
 			public var topic:String;
 			public var clientid:String;
 			public var nc:NetConnection;
-			//public var ncDest:String = "rtmp://localhost:1935/tah-commapp-server/";
 			public var ncDest:String = "rtmp://talkabouthealth.com:1935/tah-commapp-server/";
 			//public var ncDest:String = "rtmp://127.0.0.1:1935/tah-commapp-server/";
 			
@@ -267,7 +268,8 @@
 			
 			protected function enter_txtevent():void
 			{
-				if(txt_msg.text!=""){
+				txt_msg.text = StringUtil.trim(txt_msg.text);
+				if(txt_msg.text.length>0 ){
 					try{
 						nc.call("send_msgtoroom", null, this.userid, this.username, this.topicid, txt_msg.text);
 					}catch(e:Error){
@@ -522,7 +524,8 @@
 							
 							vidListAC.push(newVid);		
 							
-							nameListAc.push((talkerListSO.data[ "talkerListAC" ])[i][1]);
+							nameListAc.push(talkerListAC[i]);
+							//nameListAc.push((talkerListSO.data[ "talkerListAC" ])[i][1]);
 						}
 					}
 //					logger.addLoggingMessage("video array done!");
@@ -580,6 +583,7 @@
 					//for(var j:uint; j<talkerListAC.length; j++){
 						//if(videoListAC[i] == ((talkerListSO.data[ "talkerListAC" ])[j])[0])
 							tempUnit.userName.text = nameListAc[i];//"username"+(i+1);
+							//tempUnit.userName.text = talkerListAC[i];
 					//}
 					
 					dispUnitListAC.push(tempUnit);
@@ -731,6 +735,7 @@
 					
 				}
 				
+				
 			}
 
 			protected function txt_msg_keyDownHandler(event:KeyboardEvent):void
@@ -758,6 +763,7 @@
 	<fx:Declarations>
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 		<comm:CommAppContext contextView="{this}" />
+		<!--<mx:StringValidator source="{txt_msg}" property="text" required="true" minLength="1" />-->
 	</fx:Declarations>
 	
 	<s:layout>
@@ -772,7 +778,7 @@
 			<mx:Image source="{imgLogo}" width="233" height="31"/>
 			<!--<mx:Image source="{imgClose}" width="100%" height="100%" horizontalAlign="right"
 					  click="closeIE()"  />-->
-			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="14" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="0" x="707" labelPlacement="left" borderColor="#FFFFFF" themeColor="#FFFFFF"/> 
+			<mx:Button icon="{imgClose}" click="closeIE()" width="31" height="31" alpha="1.0" fillColors="[#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF]"  cornerRadius="14" fillAlphas="[1.0, 1.0, 1.0, 1.0]" y="-4" x="763" labelPlacement="left" borderColor="#FFFFFF" themeColor="#FFFFFF"/> 
 		</s:Group>
 		
 		<s:Group width="100%">
@@ -797,8 +803,8 @@
 					<s:Label id="topicTitle" styleName="topicTitle" height="15" verticalAlign="bottom" color="#000000"/>
 				</s:HGroup>
 				<mx:VBox id="text_VBox" width="100%" height="100%" verticalScrollPolicy="off" horizontalScrollPolicy="off" borderStyle="solid" horizontalAlign="center" paddingBottom="9" verticalGap="0">
-					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="194" horizontalScrollPolicy="off" verticalScrollPolicy="off">
-						<mx:Grid width="100%" height="194" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"  horizontalCenter="0" styleName="chatarea"/>
+					<mx:Canvas borderColor="#B6B6B6" borderStyle="solid" width="100%" height="214" horizontalScrollPolicy="off" verticalScrollPolicy="off">
+						<mx:Grid width="100%" height="214" id="txt_history" enabled="true" fontFamily="Arial"  fontSize="14" verticalCenter="0" verticalGap="0" horizontalScrollPolicy="off"  horizontalCenter="0" styleName="chatarea"/>
 						
 					</mx:Canvas>
 					
@@ -815,7 +821,7 @@
 										
 					</s:HGroup>
 					
-					<mx:TextArea id="txt_msg" width="97%" height="50"  keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="normal" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#000000" bottom="10" />
+					<mx:TextArea id="txt_msg" width="97%" height="70"   keyDown="txt_msg_keyDownHandler(event)" horizontalCenter="0" verticalCenter="2" fontFamily="Arial" fontStyle="normal" fontSize="12"  borderColor="#CCCCCC" borderStyle="solid" textIndent="1" fontWeight="normal" text="{txt_msgToast}" focusOut="txt_msgFocusOut();" focusIn="txt_msgFocusIn()" color="#000000" bottom="10" />
 					
 				</mx:VBox>
 				
@@ -848,12 +854,12 @@
 			</s:layout>
 			<s:Label paddingLeft="5" paddingRight="0" paddingTop="5" paddingBottom="5" id="welcomeUser" height="15"   styleName="welcomeUser" color="#000000"/>
 			<!--<mx:Image source="photo/1.png"/>-->
-			<mx:DataGrid paddingLeft="5" paddingRight="0" paddingTop="0" paddingBottom="5" height="288" width="100%" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" verticalCenter="0" fontFamily="Arial" borderColor="#B6B6B6" headerHeight="0" fontSize="12" styleName="topicTitle" alternatingItemColors="[#E8F9FE, #FFFFFF]">
+			<mx:DataGrid paddingLeft="5" paddingRight="0" paddingTop="0" paddingBottom="5" height="338" width="100%" dataProvider="{talkerUnitListAC}" rowHeight="48" resizableColumns="false" verticalGridLines="false" dragEnabled="false" draggableColumns="false" horizontalCenter="0" verticalCenter="0" fontFamily="Arial" borderColor="#B6B6B6" headerHeight="0" fontSize="12" styleName="topicTitle" alternatingItemColors="[#E8F9FE, #FFFFFF]">
 				<mx:columns>
 					<mx:DataGridColumn  paddingLeft="2"  headerText="Icon" width="48" >
 						<mx:itemRenderer>
 							<fx:Component>	
-								<mx:Image source="{data.icon}"  height="48" width="48" smoothBitmapContent="true" />
+								<mx:Image source="{data.icon}" height="48" width="48" smoothBitmapContent="true" />
 							</fx:Component>
 						</mx:itemRenderer>
 					</mx:DataGridColumn>
@@ -877,7 +883,7 @@
 			<s:BasicLayout/>
 		</s:layout>
 		<s:Label text="Warning:" color="#000000" fontFamily="Arial" fontSize="11"/>
-		<s:Label width="740"
+		<s:Label width="789"
 				 text="                  All content on this site is informational and is not a substitute for professional medical advice. Always seek the advice of your physician or other qualified health provider with questions regarding your health." fontFamily="Arial" color="#949494" left="0" top="0"/>
 	</s:Group>	
 </s:Application>
